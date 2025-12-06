@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contact — Velvet Charms</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="brand">Contact</h1>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <h2>Contact</h2>
+    <form id="contact-form">
+      <label>Name<input type="text" name="name" required></label>
+      <label>Email (optional)<input type="email" name="email"></label>
+      <label>Message<textarea name="message" rows="5" required></textarea></label>
+      <label>Attach one file (image/pdf) <input type="file" name="attachment" accept=".png,.jpg,.jpeg,.pdf"></label>
+      <div><button type="submit" class="btn">Send</button></div>
+      <p id="contact-status" style="margin-top:10px;color:var(--muted)"></p>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>© Velvet Charms — handmade with care</p>
+  </footer>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const status = document.getElementById('contact-status');
+      status.textContent = 'Sending…';
+      const form = e.target;
+      const fd = new FormData();
+      fd.append('name', form.name.value);
+      fd.append('email', form.email.value || '');
+      fd.append('message', form.message.value);
+      if (form.attachment.files[0]) fd.append('attachment', form.attachment.files[0]);
+
+      // If you have server api/upload.js you can POST the file; otherwise we POST JSON to /api/contact.js
+      try {
+        // Try multipart to /api/upload (if exists)
+        const r = await fetch('/api/contact.js', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({ name: form.name.value, email: form.email.value, message: form.message.value })
+        });
+        const j = await r.json();
+        if (r.ok) {
+          status.textContent = 'Message sent. Thank you!';
+          form.reset();
+        } else {
+          status.textContent = 'Failed to send: ' + (j.error || 'unknown');
+        }
+      } catch (err) {
+        status.textContent = 'Error: ' + err.toString();
+      }
+    });
+  </script>
+</body>
+</html>
