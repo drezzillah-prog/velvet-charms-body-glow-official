@@ -2,10 +2,14 @@
   "version": 2,
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
+    { "src": "about.html", "use": "@vercel/static" },
     { "src": "catalogue.html", "use": "@vercel/static" },
     { "src": "product.html", "use": "@vercel/static" },
-    { "src": "about.html", "use": "@vercel/static" },
-    { "src": "contact.html", "use": "@vercel/static" }
+    { "src": "contact.html", "use": "@vercel/static" },
+    { "src": "style.css", "use": "@vercel/static" },
+    { "src": "script.js", "use": "@vercel/static" },
+    { "src": "*.json", "use": "@vercel/static" },
+    { "src": "*.{png,jpg,jpeg,webp}", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/$1" }
