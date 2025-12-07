@@ -7,14 +7,14 @@
       "subcategories": [
         {
           "id": "spiritual",
-          "name": "Spiritual Candles",
+          "name": "Spiritual Candle",
           "products": [
             {
               "id": "spirit_full_200",
               "name": "Custom Spiritual Candle — Full-body 3D Relief (200ml)",
               "price": 90,
               "paymentLink": "https://www.paypal.com/ncp/payment/2EP29S7758654",
-              "description": "Full-body sculpted spiritual candle with optional divine symbols. Choose between myrrh, sage, frankincense, sandalwood, or unscented.",
+              "description": "Full-body sculpted spiritual candle with optional divine symbols.",
               "images": ["ethereal_candle_7.jpg"],
               "options": {
                 "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
@@ -64,7 +64,7 @@
               "name": "Divination Candle — Painted Symbols (200ml)",
               "price": 50,
               "paymentLink": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88",
-              "description": "Altar candle painted with runes, moons, stars, or sacred icons.",
+              "description": "Altar candle painted with sacred icons.",
               "images": ["divination candle.jpg"],
               "options": {
                 "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
@@ -92,10 +92,24 @@
               "name": "Wax Candle — Small (150ml)",
               "price": 20,
               "paymentLink": "https://www.paypal.com/ncp/payment/4XGJ5SMVP574W",
-              "description": "Classic wax candle. Choose aroma and intensity.",
+              "description": "Classic wax candle.",
               "images": ["wax_candle_small.png"],
               "options": {
-                "scent": ["Orange", "Lemon", "Lavender", "Vanilla", "Jasmine", "Lemongrass", "Coconut", "Cinnamon", "Pine", "Sandalwood", "Coffee", "Sweet Almond", "Unscented"],
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
                 "intensity": ["Soft", "Medium", "Strong"]
               }
             },
@@ -107,7 +121,21 @@
               "description": "Medium-size decorative wax candle.",
               "images": ["wax_candle_medium.jpg"],
               "options": {
-                "scent": ["Orange", "Lemon", "Lavender", "Vanilla", "Jasmine", "Lemongrass", "Coconut", "Cinnamon", "Pine", "Sandalwood", "Coffee", "Sweet Almond", "Unscented"],
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
                 "intensity": ["Soft", "Medium", "Strong"]
               }
             },
@@ -116,10 +144,24 @@
               "name": "Wax Candle — Large (400ml)",
               "price": 33,
               "paymentLink": "https://www.paypal.com/ncp/payment/XFL9ZGYBJEHXW",
-              "description": "Large wax candle with customizable aroma and intensity.",
+              "description": "Large wax candle.",
               "images": ["wax_candle_large.png"],
               "options": {
-                "scent": ["Orange", "Lemon", "Lavender", "Vanilla", "Jasmine", "Lemongrass", "Coconut", "Cinnamon", "Pine", "Sandalwood", "Coffee", "Sweet Almond", "Unscented"],
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
                 "intensity": ["Soft", "Medium", "Strong"]
               }
             }
@@ -137,7 +179,21 @@
               "description": "Translucent decorative jelly candle.",
               "images": ["jelly candles small.jpg"],
               "options": {
-                "scent": ["Orange", "Lemon", "Lavender", "Vanilla", "Jasmine", "Lemongrass", "Coconut", "Cinnamon", "Pine", "Sandalwood", "Coffee", "Sweet Almond", "Unscented"],
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
                 "intensity": ["Soft", "Medium", "Strong"]
               }
             },
@@ -146,10 +202,24 @@
               "name": "Jelly Candle — Large (350ml)",
               "price": 40,
               "paymentLink": "https://www.paypal.com/ncp/payment/2MXLKBF8CPBZ2",
-              "description": "Large translucent jelly candle with customizable color and scent.",
+              "description": "Large translucent jelly candle.",
               "images": ["Jelly_candle large.jpg"],
               "options": {
-                "scent": ["Orange", "Lemon", "Lavender", "Vanilla", "Jasmine", "Lemongrass", "Coconut", "Cinnamon", "Pine", "Sandalwood", "Coffee", "Sweet Almond", "Unscented"],
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
                 "intensity": ["Soft", "Medium", "Strong"]
               }
             }
@@ -164,10 +234,24 @@
               "name": "Sand Candle — Small (150ml)",
               "price": 20,
               "paymentLink": "https://www.paypal.com/ncp/payment/AQZ2VDQVYEEGW",
-              "description": "Rustic sand-texture candle, customizable scent & intensity.",
+              "description": "Rustic sand-texture candle.",
               "images": ["sand_candles_small.png"],
               "options": {
-                "scent": ["Orange", "Lemon", "Lavender", "Vanilla", "Jasmine", "Lemongrass", "Coconut", "Cinnamon", "Pine", "Sandalwood", "Coffee", "Sweet Almond", "Unscented"],
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
                 "intensity": ["Soft", "Medium", "Strong"]
               }
             },
@@ -179,7 +263,21 @@
               "description": "Medium-size rustic sand candle.",
               "images": ["sand_candles_medium.png"],
               "options": {
-                "scent": ["Orange", "Lemon", "Lavender", "Vanilla", "Jasmine", "Lemongrass", "Coconut", "Cinnamon", "Pine", "Sandalwood", "Coffee", "Sweet Almond", "Unscented"],
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
                 "intensity": ["Soft", "Medium", "Strong"]
               }
             },
@@ -191,7 +289,21 @@
               "description": "Large rustic sand candle.",
               "images": ["sand candles large.jpg"],
               "options": {
-                "scent": ["Orange", "Lemon", "Lavender", "Vanilla", "Jasmine", "Lemongrass", "Coconut", "Cinnamon", "Pine", "Sandalwood", "Coffee", "Sweet Almond", "Unscented"],
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
                 "intensity": ["Soft", "Medium", "Strong"]
               }
             }
@@ -213,10 +325,19 @@
               "name": "Natural Face Cream (50ml)",
               "price": 28,
               "paymentLink": "https://www.paypal.com/ncp/payment/T9M3LBJ75FAVN",
-              "description": "Gentle moisturizing face cream with shea butter and almond oil.",
+              "description": "Gentle moisturizing face cream.",
               "images": ["Natural Face Cream.png"],
               "options": {
-                "scent": ["Lavender", "Vanilla", "Citrus", "Jasmine", "Coconut", "Rose", "Sandalwood", "Unscented"]
+                "scent": [
+                  "Lavender",
+                  "Vanilla",
+                  "Citrus",
+                  "Jasmine",
+                  "Coconut",
+                  "Rose",
+                  "Sandalwood",
+                  "Unscented"
+                ]
               }
             }
           ]
@@ -226,31 +347,49 @@
           "name": "Body Butter",
           "products": [
             {
-              "id": "body_butter",
+              "id": "body_butter_100",
               "name": "Body Butter (100ml)",
               "price": 35,
               "paymentLink": "https://www.paypal.com/ncp/payment/Y2AVDHZN9JCCQ",
-              "description": "Deeply hydrating and rich body butter for all skin types.",
+              "description": "Deeply hydrating and rich body butter.",
               "images": ["Body Butter.png"],
               "options": {
-                "scent": ["Lavender", "Vanilla", "Citrus", "Jasmine", "Coconut", "Rose", "Sandalwood", "Unscented"]
+                "scent": [
+                  "Lavender",
+                  "Vanilla",
+                  "Citrus",
+                  "Jasmine",
+                  "Coconut",
+                  "Rose",
+                  "Sandalwood",
+                  "Unscented"
+                ]
               }
             }
           ]
         },
         {
           "id": "hand_foot",
-          "name": "Hand & Foot",
+          "name": "Hand & Foot Cream",
           "products": [
             {
-              "id": "hand_foot",
+              "id": "hand_foot_cream",
               "name": "Hand & Foot Cream (50ml)",
               "price": 22,
               "paymentLink": "https://www.paypal.com/ncp/payment/XVQW4M785U6A4",
               "description": "Non-greasy cream formulated for daily hydration.",
               "images": ["Hand & Foot Cream.png"],
               "options": {
-                "scent": ["Lavender", "Vanilla", "Citrus", "Jasmine", "Coconut", "Rose", "Sandalwood", "Unscented"]
+                "scent": [
+                  "Lavender",
+                  "Vanilla",
+                  "Citrus",
+                  "Jasmine",
+                  "Coconut",
+                  "Rose",
+                  "Sandalwood",
+                  "Unscented"
+                ]
               }
             }
           ]
@@ -285,7 +424,7 @@
           "name": "Natural Herbal Soap (100g)",
           "price": 12,
           "paymentLink": "https://www.paypal.com/ncp/payment/SYA68V9BU9TRN",
-          "description": "Natural herbal soap with chamomile, calendula, or mint.",
+          "description": "Natural herbal soap with chamomile or calendula.",
           "images": [
             "Natural Herbal Soap.png",
             "Natural Herbal Soap1.png",
@@ -321,7 +460,7 @@
           "name": "Fruit-Shaped Scented Soap (100g)",
           "price": 20,
           "paymentLink": "https://www.paypal.com/ncp/payment/C5ME744UZX58U",
-          "description": "Handmade fruit-shaped soap — realistic and beautifully scented.",
+          "description": "Handmade fruit-shaped soap.",
           "images": [
             "Fruit Soap.png",
             "Fruit Soap2.png",
@@ -338,7 +477,7 @@
           "name": "Gift Herbal / Exfoliating Soap Set (3 pcs)",
           "price": 30,
           "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
-          "description": "A special selection of three herbal or exfoliating soaps.",
+          "description": "A special selection of herbal & exfoliating soaps.",
           "images": [
             "Gift Herbal Exfoliating Soap Set (3 pcs) 1.png",
             "Gift Herbal Exfoliating Soap Set (3 pcs) 2.png",
@@ -351,7 +490,7 @@
           "name": "Gift Fruit / Flower Soap Set (3 pcs)",
           "price": 54,
           "paymentLink": "https://www.paypal.com/ncp/payment/6QVGP97CQRGN2",
-          "description": "Three handcrafted scented soaps — mix of fruit or flower designs.",
+          "description": "Three handcrafted scented soaps.",
           "images": ["Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"]
         },
         {
@@ -378,10 +517,15 @@
           "name": "Solid Perfume (50ml)",
           "price": 28,
           "paymentLink": "https://www.paypal.com/ncp/payment/BXDY354K5949A",
-          "description": "Alcohol-free solid perfume with long-lasting natural aromas.",
+          "description": "Alcohol-free solid perfume.",
           "images": ["Solid Perfume.png"],
           "options": {
-            "scent": ["Vanilla Orchid", "Amber Wood", "Sandalwood Rose", "White Musk"]
+            "scent": [
+              "Vanilla Orchid",
+              "Amber Wood",
+              "Sandalwood Rose",
+              "White Musk"
+            ]
           }
         },
         {
@@ -389,10 +533,15 @@
           "name": "Perfume Roll-On (10ml)",
           "price": 22,
           "paymentLink": "https://www.paypal.com/ncp/payment/9SGLCBQ76USZL",
-          "description": "Essential oil roll-on perfume made in small batches.",
-          "images": ["Perfume Roll-On.jpg"],
+          "description": "Essential oil roll-on perfume.",
+          "images": ["Oil Perfume Roll-On.jpg"],
           "options": {
-            "scent": ["Citrus Bloom", "Lavender Mist", "Cedar & Amber", "Floral Spice"]
+            "scent": [
+              "Citrus Bloom",
+              "Lavender Mist",
+              "Cedar & Amber",
+              "Floral Spice"
+            ]
           }
         }
       ]
@@ -411,7 +560,7 @@
               "name": "Hand-Knitted Beanie — Small",
               "price": 35,
               "paymentLink": "https://www.paypal.com/ncp/payment/S4KAZSV8WN5MG",
-              "description": "Hand-knitted warm beanie. Color-customizable.",
+              "description": "Hand-knitted warm beanie.",
               "images": ["Hand-Knitted Beanie - Small.png"]
             },
             {
@@ -419,7 +568,7 @@
               "name": "Hand-Knitted Beanie — Medium",
               "price": 38,
               "paymentLink": "https://www.paypal.com/ncp/payment/Q944A2C9DTQJW",
-              "description": "Most popular size. Soft merino or acrylic yarn.",
+              "description": "Most popular size.",
               "images": ["Hand-Knitted Beanie - Medium.png"]
             },
             {
@@ -440,7 +589,6 @@
             }
           ]
         },
-
         {
           "id": "scarves",
           "name": "Hand-Knitted Scarves",
@@ -450,12 +598,11 @@
               "name": "Hand-Knitted Scarf — One Size",
               "price": 55,
               "paymentLink": "https://www.paypal.com/ncp/payment/BLYUGH43XL4RS",
-              "description": "Cozy knitted scarf (approx. 150×25 cm).",
+              "description": "Cozy knitted scarf.",
               "images": ["Hand-Knitted Scarf - One size (150x25 cm avg.).png"]
             }
           ]
         },
-
         {
           "id": "mittens",
           "name": "Hand-Knitted Mittens",
@@ -494,7 +641,6 @@
             }
           ]
         },
-
         {
           "id": "knitted_set",
           "name": "Matching Winter Set",
@@ -504,12 +650,11 @@
               "name": "Matching Winter Set — Beanie + Scarf + Mittens",
               "price": 110,
               "paymentLink": "https://www.paypal.com/ncp/payment/VWTNNVT586JBN",
-              "description": "Warm handcrafted winter set — 15% bundle discount.",
+              "description": "Warm handcrafted winter set.",
               "images": ["Matching Winter Set — Beanie + Scarf + Mittens.png"]
             }
           ]
         },
-
         {
           "id": "braided_blankets",
           "name": "Braided Blankets",
@@ -519,7 +664,7 @@
               "name": "Braided Blanket — Small (80×100 cm)",
               "price": 85,
               "paymentLink": "https://www.paypal.com/ncp/payment/3TB59Q7RG2SLE",
-              "description": "Small braided throw — perfect for babies or couch armrests.",
+              "description": "Small braided throw.",
               "images": ["Braided Blanket (Small).png"]
             },
             {
@@ -540,7 +685,6 @@
             }
           ]
         },
-
         {
           "id": "felted_animals",
           "name": "Felted Animals",
@@ -558,7 +702,7 @@
               "name": "Felted Animal — Medium (~10–12 cm)",
               "price": 50,
               "paymentLink": "https://www.paypal.com/ncp/payment/RT3Y5Z86NTA2J",
-              "description": "Medium-sized felted animal figurine.",
+              "description": "Medium-sized felted animal.",
               "images": ["Felted Animal (Medium).png"]
             },
             {
@@ -568,97 +712,23 @@
               "paymentLink": "https://www.paypal.com/ncp/payment/TW7Q43A8X5ZKG",
               "description": "Custom animal family felted set.",
               "images": ["Felted Animal Family Set 4.png"]
-            },
+            }
+          ]
+        },
+        {
+          "id": "pet_wear",
+          "name": "Pet Wear",
+          "products": [
             {
               "id": "pet_beanie",
-              "name": "Pet Wear — Beanie / Shirt / Scarf",
+              "name": "Pet Beanie / Shirt / Scarf",
               "price": 18,
               "paymentLink": "https://www.paypal.com/ncp/payment/7CFTKTXGLVZZY",
-              "description": "Handmade pet wear — customizable colors and styles.",
-              "images": []
-            }
-          ]
-        }
-      ]
-    },
-
-    {
-      "id": "hair_accessories",
-      "name": "Hair Accessories",
-      "subcategories": [
-        {
-          "id": "hair_clips",
-          "name": "Hair Clips",
-          "products": [
-            {
-              "id": "hair_clip",
-              "name": "Decorative Hair Clips",
-              "price": 18,
-              "paymentLink": "https://www.paypal.com/ncp/payment/69NVMF2YG7VX4",
-              "description": "Handmade decorative hair clips crafted from resin, glass, or wool — elegant and lightweight.",
+              "description": "Handmade warm accessories for pets.",
               "images": [
-                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81983.png",
-                "hair_clip_8.png",
-                "hair_clip_1.png",
-                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90289.png",
-                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90286.png",
-                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90291.png",
-                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90293.png"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "hair_pins",
-          "name": "Hair Pins",
-          "products": [
-            {
-              "id": "hair_pins",
-              "name": "Decorative Hair Pins",
-              "price": 22,
-              "paymentLink": "https://www.paypal.com/ncp/payment/X5YVRQYLU2MW6",
-              "description": "Elegant handcrafted hair pins — perfect for daily wear or special occasions.",
-              "images": [
-                "hair_pin_3.png",
-                "hair_pin_1.png",
-                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81988.png"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "hair_combs",
-          "name": "Hair Combs",
-          "products": [
-            {
-              "id": "hair_combs_set",
-              "name": "Decorative Hair Combs",
-              "price": 25,
-              "paymentLink": "https://www.paypal.com/ncp/payment/LVNL7VJRTEKDQ",
-              "description": "Handmade decorative combs crafted with resin, pearlescent touches, or mixed media.",
-              "images": [
-                "hair_comb_1.png",
-                "hair_comb_2.png",
-                "hair_comb_2 (1).png",
-                "hair_comb_2 (2).png",
-                "hair_comb_2 (3).png"
-              ]
-            }
-          ]
-        },
-        {
-          "id": "hair_custom_set",
-          "name": "Custom Hair Set",
-          "products": [
-            {
-              "id": "hair_custom",
-              "name": "Custom Hair Set — Any 3 Matching Pieces",
-              "price": 50,
-              "paymentLink": "https://www.paypal.com/ncp/payment/N4HZS34XPX3ZS",
-              "description": "Personalized matching hair accessory set — choose color theme and style.",
-              "images": [
-                "Custom Hair Set.png",
-                "Custom Hair Set.jpeg"
+                "Pet Beanie - shirt small.png",
+                "Pet Beanie - shirt small 2.png",
+                "Pet Beanie - shirt small2.png"
               ]
             }
           ]
