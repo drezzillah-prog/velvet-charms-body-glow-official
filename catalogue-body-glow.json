@@ -491,7 +491,7 @@
           "price": 54,
           "paymentLink": "https://www.paypal.com/ncp/payment/6QVGP97CQRGN2",
           "description": "Three handcrafted scented soaps.",
-          "images": ["Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"]
+          "images": ["gift_fruit_flower_set.png"]
         },
         {
           "id": "soap_gift_set_new",
