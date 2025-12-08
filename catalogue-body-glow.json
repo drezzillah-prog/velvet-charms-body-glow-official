@@ -651,7 +651,9 @@
               "price": 110,
               "paymentLink": "https://www.paypal.com/ncp/payment/VWTNNVT586JBN",
               "description": "Warm handcrafted winter set.",
-              "images": ["Matching Winter Set — Beanie + Scarf + Mittens.png"]
+              "images": [
+  "matching_winter_set_1.png",
+  "matching_winter_set_2.png"]
             }
           ]
         },
