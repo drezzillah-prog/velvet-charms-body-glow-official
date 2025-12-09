@@ -126,3 +126,23 @@ select,input[type="text"],textarea{width:100%;padding:8px;border-radius:6px;bord
 
 /* accessibility focus */
 a:focus,button:focus,input:focus,select:focus,textarea:focus{outline:2px dashed rgba(255,255,255,0.12);outline-offset:3px}
+/* ===== Velvet Charms: cart & wishlist styles (paste at end of style.css) ===== */
+.vc-header-actions{ gap:10px; margin-left:auto; display:flex; align-items:center; }
+.vc-header-actions button{ background:transparent; border:none; color:inherit; cursor:pointer; font-size:16px; padding:6px 8px; border-radius:6px;}
+.vc-cart-drawer{ position:fixed; inset:0; pointer-events:none; z-index:10000; transition:opacity .15s ease;}
+.vc-cart-drawer.vc-open{ pointer-events:auto; }
+.vc-cart-drawer__backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.5); opacity:0; transition:opacity .2s; }
+.vc-cart-drawer.vc-open .vc-cart-drawer__backdrop{ opacity:1; }
+.vc-cart-drawer__panel{ position:fixed; right:0; top:0; height:100%; width:360px; background:#061013; color:#fff; transform:translateX(100%); transition:transform .22s ease; box-shadow:-10px 0 30px rgba(0,0,0,.6); padding:18px; overflow:auto; }
+.vc-cart-drawer.vc-open .vc-cart-drawer__panel{ transform:translateX(0); }
+.vc-cart-row{ display:flex; gap:10px; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.04); }
+.vc-cart-row__left img{ width:64px; height:64px; object-fit:cover; border-radius:6px; }
+.vc-cart-row__actions button{ margin:4px 4px 0 0; padding:6px 8px; border-radius:6px; cursor:pointer; }
+.vc-product-controls{ margin-top:14px; display:flex; gap:12px; align-items:center; }
+.vc-product-controls .small{ padding:8px 10px; border-radius:8px; cursor:pointer; }
+.vc-mini-controls{ margin-top:8px; display:flex; gap:6px; }
+.vc-mini-controls button{ padding:6px 8px; border-radius:6px; cursor:pointer; }
+.vc-wishlist-root{ padding:18px; }
+.vc-wish-card{ display:flex; gap:12px; align-items:center; border-bottom:1px solid rgba(0,0,0,.06); padding:12px 0; }
+.vc-wish-card__img img{ width:96px; height:96px; object-fit:cover; border-radius:8px; }
+.vc-empty{ color: rgba(255,255,255,.7); }
