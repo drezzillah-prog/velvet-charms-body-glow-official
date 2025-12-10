@@ -146,3 +146,14 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{outline:2px dashed 
 .vc-wish-card{ display:flex; gap:12px; align-items:center; border-bottom:1px solid rgba(0,0,0,.06); padding:12px 0; }
 .vc-wish-card__img img{ width:96px; height:96px; object-fit:cover; border-radius:8px; }
 .vc-empty{ color: rgba(255,255,255,.7); }
+.sister-link {
+  font-size: 0.9em;
+  margin-left: 10px;
+  opacity: 0.85;
+  transition: opacity .2s ease;
+}
+
+.sister-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
