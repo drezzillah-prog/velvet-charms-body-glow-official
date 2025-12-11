@@ -1,0 +1,10 @@
+{
+  "name": "velvet-charms-site",
+  "version": "1.0.0",
+  "private": true,
+  "engines": { "node": "18.x" },
+  "dependencies": {
+    "node-fetch": "^2.6.7",
+    "formidable": "^2.1.1"
+  }
+}
