@@ -4,7 +4,7 @@
 */
 
 (() => {
-  const CATALOG_FILES = ['/catalogue-body-glow.json','/catalogue-art-gifts.json'];
+  const CATALOG_FILES = ['/catalogue-body-glow.json','/catalogue-art-gifts.json','/catalogue.json'];
 
   /* ---------- Utilities ---------- */
   function qs(sel,parent=document){return parent.querySelector(sel);}
@@ -38,10 +38,7 @@
     results.forEach(json=>{
       if(!json || !json.categories) return;
       json.categories.forEach(cat=>{
-        // products might be in cat.products or nested in subcategories
-        if(cat.products) {
-          cat.products.forEach(p => catalogue[p.id] = p);
-        }
+        if(cat.products) cat.products.forEach(p => catalogue[p.id] = p);
         if(cat.subcategories) {
           cat.subcategories.forEach(sc=>{
             if(sc.products) sc.products.forEach(p=>catalogue[p.id] = p);
@@ -56,41 +53,39 @@
 
   /* ---------- DOM: header icons, cart drawer ---------- */
   function injectHeaderUI(){
-    // find a nav or header area to append icons
     const header = qs('nav') || qs('header') || document.body;
     if(!header) return;
-    // wrapper so it doesn't break layout
+    // avoid injecting twice
+    if(header.querySelector('.vc-header-actions')) return;
     const wrapper = $('div',{class:'vc-header-actions'}, header);
     wrapper.style.display = 'flex';
     wrapper.style.alignItems = 'center';
     wrapper.style.gap = '10px';
-    // wishlist icon
     const wishBtn = $('button',{class:'vc-wish-btn','aria-label':'Wishlist'},wrapper);
     wishBtn.innerHTML = '❤ <span class="vc-count"></span>';
-    wishBtn.addEventListener('click', ()=> {
-      window.location.href = '/wishlist.html';
-    });
-    // cart icon
+    wishBtn.addEventListener('click', ()=> { window.location.href = '/wishlist.html'; });
     const cartBtn = $('button',{class:'vc-cart-btn','aria-label':'Cart'},wrapper);
     cartBtn.innerHTML = '🛒 <span class="vc-count"></span>';
     cartBtn.addEventListener('click', ()=> toggleCartDrawer(true));
     updateHeaderCounts();
-    // ensure wrapper doesn't show if header is tiny — we keep it minimalistic
   }
 
   function updateHeaderCounts(){
     const cart = loadCart();
     const qty = Object.values(cart).reduce((s,i)=>s + (i.qty||0),0);
     const wish = loadWish().length;
-    qsa('.vc-header-actions .vc-count').forEach(span => span.textContent = qty? qty : (span.parentElement.classList.contains('vc-wish-btn')? wish : qty));
-    // set accessible titles
+    // set counts correctly per-button
+    qsa('.vc-header-actions .vc-count').forEach(span => {
+      const parent = span.parentElement;
+      if (parent && parent.classList.contains('vc-cart-btn')) span.textContent = qty;
+      else span.textContent = wish;
+    });
     qsa('.vc-header-actions button').forEach(b=>{
       if(b.classList.contains('vc-cart-btn')) b.title = `Cart — ${qty} item(s)`;
       if(b.classList.contains('vc-wish-btn')) b.title = `Wishlist — ${wish} item(s)`;
     });
   }
 
-  // drawer DOM
   let drawerEl = null;
   function createCartDrawer(){
     if(drawerEl) return;
@@ -170,7 +165,6 @@
         delete cart[id]; saveCart(cart); renderCartItems(); updateHeaderCounts();
       });
       qs('.vc-checkout-item',row).addEventListener('click', ()=> {
-        // open product payment link if available
         const link = (prod.paymentLink || item.paymentLink);
         if(link) window.open(link, '_blank');
         else alert('No direct PayPal payment link for this product.');
@@ -180,65 +174,41 @@
     updateHeaderCounts();
   }
 
-  /* ---------- NEW checkoutAll: POST cart to /api/create-order ---------- */
+  // New: CheckoutAll posts the cart to /api/create-order to build a PayPal order server-side.
   async function checkoutAll(){
-    const cartObj = loadCart();
-    const ids = Object.keys(cartObj);
-    if(ids.length === 0) return alert('Cart empty');
-
-    // build items array for API
-    const items = ids.map(id => {
-      const it = cartObj[id];
-      return {
-        id: id,
-        name: it.name || (catalogue[id] && catalogue[id].name) || id,
-        price: (it.price !== undefined ? Number(it.price) : (catalogue[id] && Number(catalogue[id].price)) ) || 0,
-        qty: it.qty || 1
-      };
-    });
-
-    try {
-      const res = await fetch('/api/create-order', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({ cart: { items, shipping: 0 } })
-      });
-      const data = await res.json();
-      if(res.ok && data && data.approveUrl){
-        window.open(data.approveUrl, '_blank');
-        return;
-      }
-      // fallback: if API created an order id but no approveUrl, notify
-      if(data && data.orderID){
-        alert('Order created (ID: ' + data.orderID + '). Open PayPal to approve.');
-        return;
-      }
-      // final fallback: open first product payment link (legacy)
-      const first = items[0];
-      const productObj = catalogue[first.id] || first;
-      if(productObj && productObj.paymentLink) {
-        window.open(productObj.paymentLink, '_blank');
-      } else {
-        alert('Could not create PayPal order. Please try again later.');
-      }
-    } catch(e) {
-      console.error('checkoutAll error', e);
-      alert('Checkout failed — please try again.');
-    }
-  }
-
-  function checkoutAll_old(){
-    // legacy fallback - not used (kept for reference)
     const cart = loadCart();
     const ids = Object.keys(cart);
     if(ids.length === 0) return alert('Cart empty');
+
+    // Build cart payload
+    const items = ids.map(id => {
+      const it = cart[id];
+      return { id, name: it.name || id, price: Number(it.price || 0).toFixed(2), qty: it.qty || 1 };
+    });
+
+    // Try server-side order creation
+    try {
+      const r = await fetch('/api/create-order', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ cart: { items } })
+      });
+      const j = await r.json();
+      if (r.ok && j.approveUrl) {
+        window.open(j.approveUrl, '_blank');
+        return;
+      } else {
+        console.warn('create-order response missing approveUrl', j);
+      }
+    } catch (e) {
+      console.warn('create-order failed', e);
+    }
+
+    // Fallback: open each product.paymentLink
     ids.forEach(id=>{
       const prod = catalogue[id] || cart[id];
-      if(prod && prod.paymentLink){
-        window.open(prod.paymentLink, '_blank');
-      } else {
-        console.warn('Missing paymentLink for', id);
-      }
+      if(prod && prod.paymentLink) window.open(prod.paymentLink, '_blank');
+      else console.warn('Missing paymentLink for', id);
     });
   }
 
@@ -246,7 +216,7 @@
   function addToCart(productId, productObj, qty=1){
     const cart = loadCart();
     if(!cart[productId]){
-      cart[productId] = { id: productId, name: productObj.name || productId, price: productObj.price || productObj.price || 0, paymentLink: productObj.paymentLink || '' , qty:0};
+      cart[productId] = { id: productId, name: productObj.name || productId, price: productObj.price || 0, paymentLink: productObj.paymentLink || '' , qty:0};
     }
     cart[productId].qty = (cart[productId].qty || 0) + qty;
     saveCart(cart);
@@ -265,18 +235,15 @@
   function toggleWishlist(productId){
     const w = loadWish();
     const i = w.indexOf(productId);
-    if(i === -1) { w.push(productId); saveWish(w); return true; }
-    w.splice(i,1); saveWish(w); return false;
+    if(i === -1) { w.push(productId); saveWish(w); updateHeaderCounts(); return true; }
+    w.splice(i,1); saveWish(w); updateHeaderCounts(); return false;
   }
 
   /* ---------- Insert buttons into catalogue and product page ---------- */
   function insertButtonsOnProductPage(productId, productObj){
-    // look for a container where to insert add-to-cart and wishlist.
-    // Common product templates have ".product-actions" or ".product-details". We'll try both then fallback to top of main.
     const selectors = ['.product-actions', '.product-details', '.product-meta', '#product-info', '.product-card', 'main', 'body'];
     let container = selectors.map(s=>qs(s)).find(x=>x!==null);
     if(!container) container = document.body;
-    // create controls (avoid duplicating if present)
     if(container.querySelector('.vc-product-controls')) return;
     const controls = $('div',{class:'vc-product-controls'}, container);
     controls.innerHTML = `
@@ -296,19 +263,14 @@
     });
   }
 
-  // For catalogue page: find links like product.html?id=ID and insert small buttons next to them
   function insertButtonsOnCatalogue(){
-    // look for anchors linking to product.html
     const anchors = Array.from(document.querySelectorAll('a[href*="product.html"]'));
     anchors.forEach(a=>{
-      // parse id param if present
       try {
         const url = new URL(a.href, location.href);
         const pid = url.searchParams.get('id');
         if(!pid) return;
-        // attempt to find a card container to attach to: nearest .card, .product-card, .product, li, article, div.item
         const card = a.closest('.product-card, .card, .product, article, li, div.item, div.product-card') || a.parentElement;
-        // prevent duplicate
         if(card && card.querySelector('.vc-mini-controls')) return;
         const cont = card || a;
         const btnWrap = $('div',{class:'vc-mini-controls'}, cont);
@@ -338,7 +300,6 @@
 
   /* ---------- Wishlist page renderer ---------- */
   function createWishlistPage(){
-    // If this is wishlist.html render list
     if(!location.pathname.endsWith('/wishlist.html') && !location.pathname.endsWith('wishlist.html')) return;
     (async ()=>{
       await ensureCataloguesLoaded();
@@ -376,7 +337,7 @@
   function getProductIdFromUrl(){
     try{
       const url = new URL(location.href);
-      const id = url.searchParams.get('id'); 
+      const id = url.searchParams.get('id');
       return id;
     }catch(e){ return null; }
   }
@@ -392,16 +353,12 @@
     await ensureCataloguesLoaded();
     injectHeaderUI();
     createCartDrawer();
-    // Insert buttons on catalogue pages (best-effort)
     insertButtonsOnCatalogue();
-    // If product page, insert add-to-cart using id param
     const pid = getProductIdFromUrl();
     if(pid){
       const prod = catalogue[pid] || { id: pid, name: pid, price: 0, images: [], paymentLink: ''};
       insertButtonsOnProductPage(pid, prod);
     }
-    // If there are static product cards already rendered, try to add wishlist & add buttons that match data-product-id attributes
-    // Example: <div data-product-id="beanie_small">...
     qsa('[data-product-id]').forEach(el=>{
       const id = el.getAttribute('data-product-id');
       if(!id) return;
@@ -415,23 +372,17 @@
       add.addEventListener('click', ()=> { addToCart(id, catalogue[id]||{} ,1); add.textContent='✓'; setTimeout(()=>add.textContent='Add',800);});
     });
 
-    // render wishlist page if present
     createWishlistPage();
-
-    // Update counts on load
     updateHeaderCounts();
   }
 
-  /* ---------- Run ---------- */
-  // wait for DOM
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 
-  /* ---------- CSS injection fallback if user forgot to paste CSS snippet ---------- */
+  /* ---------- CSS injection fallback ---------- */
   const INJECTED_CSS_ID = 'vc-features-css';
   if(!document.getElementById(INJECTED_CSS_ID)){
     const css = `
-      /* Minimal styles for cart & wishlist UI */
       .vc-header-actions{ gap:10px; margin-left: auto; display:flex; align-items:center; }
       .vc-header-actions button{ background:transparent; border:none; color:inherit; cursor:pointer; font-size:16px; padding:6px 8px; border-radius:6px;}
       .vc-cart-drawer{ position:fixed; inset:0; pointer-events:none; z-index:10000; transition:opacity .15s ease;}
