@@ -9,15 +9,9 @@ module.exports = async (req, res) => {
 
   try {
     const data = req.body;
-    if (!data) {
-      return res.status(400).json({ error: 'Missing body' });
-    }
+    if (!data) return res.status(400).json({ error: 'Missing body' });
 
-    const record = {
-      time: new Date().toISOString(),
-      ...data
-    };
-
+    const record = { time: new Date().toISOString(), ...data };
     const dbPath = '/tmp/contacts.json';
     let arr = [];
     if (fs.existsSync(dbPath)) {
