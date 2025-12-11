@@ -8,3 +8,14 @@
     "formidable": "^2.1.1"
   }
 }
+{
+  "name": "velvet-charms-site",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "dependencies": {
+    "formidable": "^3.0.0"
+  }
+}
