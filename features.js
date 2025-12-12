@@ -181,33 +181,65 @@
     const ids = Object.keys(cart);
     if(ids.length === 0) return alert('Cart empty');
 
-    // Build cart payload
+    // Build cart payload (normalize values)
     const items = ids.map(id => {
       const it = cart[id];
-      return { id, name: it.name || id, price: Number(it.price || 0).toFixed(2), qty: it.qty || 1 };
+      // ensure price is a number string with two decimals; qty as integer
+      const priceNum = Number(it.price || (catalogue[id] && catalogue[id].price) || 0);
+      const qtyNum = Number(it.qty || 1);
+      return { id, name: it.name || (catalogue[id] && catalogue[id].name) || id, price: priceNum.toFixed(2), qty: qtyNum };
     });
 
-    // Try server-side order creation
+    // Sanity compute total client-side for debugging
+    const clientTotal = items.reduce((s,it) => s + (Number(it.price) * Number(it.qty)), 0);
+    console.log('[vc-features] checkoutAll payload', { items, clientTotal });
+
+    // POST to server-side create-order endpoint using absolute origin to avoid wrong-host HTML responses
+    const endpoint = `${location.origin}/api/create-order`;
     try {
-      const r = await fetch('/api/create-order', {
+      const resp = await fetch(endpoint, {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({ cart: { items } })
       });
-      const j = await r.json();
-      if (r.ok && j.approveUrl) {
-        window.open(j.approveUrl, '_blank');
+
+      // read text first - server may return HTML error (404 page) — handle gracefully
+      const text = await resp.text();
+      let json = null;
+      try { json = text ? JSON.parse(text) : null; } catch(e) {
+        console.warn('create-order returned non-JSON response', text);
+      }
+
+      if (!resp.ok) {
+        console.error('create-order failed', resp.status, text, json);
+        alert('Failed to call server to create order (check console).');
+        // fallback to open product.paymentLink if available
+        fallbackOpenPaymentLinks(ids);
+        return;
+      }
+
+      if (json && json.approveUrl) {
+        // success: open PayPal approval URL in a new tab
+        window.open(json.approveUrl, '_blank');
         return;
       } else {
-        console.warn('create-order response missing approveUrl', j);
+        console.warn('create-order response missing approveUrl', json || text);
+        alert('Server created order but approve link missing (check console). Falling back to individual item links.');
+        fallbackOpenPaymentLinks(ids);
+        return;
       }
-    } catch (e) {
-      console.warn('create-order failed', e);
+    } catch (err) {
+      console.error('create-order request error', err);
+      alert('Failed to call server to create order (check console).');
+      // fallback
+      fallbackOpenPaymentLinks(ids);
     }
+  }
 
-    // Fallback: open each product.paymentLink
+  // fallback helper
+  function fallbackOpenPaymentLinks(ids){
     ids.forEach(id=>{
-      const prod = catalogue[id] || cart[id];
+      const prod = catalogue[id] || loadCart()[id];
       if(prod && prod.paymentLink) window.open(prod.paymentLink, '_blank');
       else console.warn('Missing paymentLink for', id);
     });
@@ -325,7 +357,7 @@
             </div>
           </div>
         `;
-        qs('.vc-wish-add',card).addEventListener('click', ()=> { addToCart(id, prod, 1); alert('Added to cart'); });
+        qs('.vc-wish-add',card).addEventListener('click', () => { addToCart(id, prod, 1); alert('Added to cart'); });
         qs('.vc-wish-remove',card).addEventListener('click', ()=> {
           const arr = loadWish().filter(x=>x!==id); saveWish(arr); card.remove(); updateHeaderCounts();
         });
