@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     }
 
     const CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
-    const SECRET = process.env.PAYPAL_CLIENT_SECRET;
+    const SECRET = process.env.PAYPAL_SECRET;   // ✅ FIXED
     const ENV = process.env.PAYPAL_ENV || "sandbox";
 
     const BASE = ENV === "live" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
@@ -83,7 +83,9 @@ module.exports = async (req, res) => {
 
     const rawText = await orderRes.text();
     let orderData;
-    try { orderData = JSON.parse(rawText); } catch(e) {
+    try { 
+      orderData = JSON.parse(rawText); 
+    } catch(e) {
       console.error('[create-order] failed to parse order response text:', rawText);
       return res.status(500).json({ error: "Invalid response from PayPal", details: rawText });
     }
