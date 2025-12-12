@@ -1,3 +1,4 @@
+// FORCE REBUILD 2025-12-12
 module.exports = async (req, res) => {
   try {
     if (req.method !== "POST") {
