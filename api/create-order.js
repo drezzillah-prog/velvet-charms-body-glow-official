@@ -1,4 +1,4 @@
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   try {
     if (req.method !== "POST") {
       return res.status(405).json({ error: "Method not allowed" });
@@ -14,6 +14,12 @@ module.exports = async (req, res) => {
     const SECRET = process.env.PAYPAL_SECRET;
     const MODE = process.env.PAYPAL_MODE || "live";
 
+    if (!CLIENT_ID || !SECRET) {
+      return res.status(500).json({
+        error: "Missing PayPal credentials",
+      });
+    }
+
     const BASE =
       MODE === "live"
         ? "https://api-m.paypal.com"
@@ -25,16 +31,17 @@ module.exports = async (req, res) => {
     const tokenRes = await fetch(`${BASE}/v1/oauth2/token`, {
       method: "POST",
       headers: {
-        "Authorization": `Basic ${auth}`,
+        Authorization: `Basic ${auth}`,
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: "grant_type=client_credentials",
     });
 
     const tokenData = await tokenRes.json();
-    if (!tokenData || !tokenData.access_token) {
+
+    if (!tokenData?.access_token) {
       return res.status(500).json({
-        error: "PayPal authentication failed",
+        error: "PayPal auth failed",
         details: tokenData,
       });
     }
@@ -52,8 +59,7 @@ module.exports = async (req, res) => {
     }));
 
     const total = items.reduce(
-      (s, it) =>
-        s + Number(it.unit_amount.value) * Number(it.quantity),
+      (sum, i) => sum + Number(i.unit_amount.value) * Number(i.quantity),
       0
     );
 
@@ -77,10 +83,8 @@ module.exports = async (req, res) => {
       application_context: {
         brand_name: "Velvet Charms",
         user_action: "PAY_NOW",
-        return_url:
-          "https://velvet-charms-body-glow-official.vercel.app/return",
-        cancel_url:
-          "https://velvet-charms-body-glow-official.vercel.app/cancel",
+        return_url: "https://velvet-charms-body-glow-official.vercel.app/return",
+        cancel_url: "https://velvet-charms-body-glow-official.vercel.app/cancel",
       },
     };
 
@@ -94,14 +98,15 @@ module.exports = async (req, res) => {
       body: JSON.stringify(orderBody),
     });
 
-    const rawText = await orderRes.text();
+    const raw = await orderRes.text();
     let orderData;
+
     try {
-      orderData = JSON.parse(rawText);
-    } catch (e) {
+      orderData = JSON.parse(raw);
+    } catch {
       return res.status(500).json({
-        error: "Invalid JSON from PayPal",
-        details: rawText,
+        error: "Invalid PayPal response",
+        details: raw,
       });
     }
 
@@ -120,9 +125,10 @@ module.exports = async (req, res) => {
       approveUrl,
     });
   } catch (err) {
+    console.error("CREATE ORDER ERROR:", err);
     return res.status(500).json({
       error: "Server error",
       details: String(err),
     });
   }
-};
+}
