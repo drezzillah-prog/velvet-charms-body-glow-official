@@ -23,8 +23,8 @@
   function money(n){ return (Number(n)||0).toFixed(2) + ' USD'; }
 
   /* ---------- LocalStorage keys ---------- */
-  const CART_KEY = 'velvetcharms_cart_v1';
-  const WISH_KEY = 'velvetcharms_wishlist_v1';
+  const CART_KEY = 'velvetcharms_bodyglow_cart_v1';
+const WISH_KEY = 'velvetcharms_bodyglow_wishlist_v1';
 
   function loadCart(){ try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; } catch(e){return {};} }
   function saveCart(c){ localStorage.setItem(CART_KEY, JSON.stringify(c)); }
