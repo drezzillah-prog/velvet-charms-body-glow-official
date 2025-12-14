@@ -1,10 +1,12 @@
 /* features.js — Velvet Charms Body Glow
-   Cart + PayPal Orders API (MULTI-ITEM)
+   Cart + PayPal Orders API (MULTI-ITEM) — FIXED
 */
 
 (function () {
 
   const CART_KEY = "velvet_cart_body_glow";
+
+  /* ================= CART STORAGE ================= */
 
   function loadCart() {
     try {
@@ -18,12 +20,15 @@
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
   }
 
+  /* ================= ADD TO CART ================= */
+
   function addToCart(product, qty = 1, options = {}) {
     const cart = loadCart();
 
     const existing = cart.items.find(
-      i => i.id === product.id &&
-           JSON.stringify(i.options) === JSON.stringify(options)
+      i =>
+        i.id === product.id &&
+        JSON.stringify(i.options) === JSON.stringify(options)
     );
 
     if (existing) {
@@ -42,6 +47,8 @@
     alert("Added to cart");
   }
 
+  /* ================= CHECKOUT (THE FIX IS HERE) ================= */
+
   async function checkoutAll() {
     const cart = loadCart();
 
@@ -54,7 +61,10 @@
       const res = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: cart.items })
+
+        // 🔥 THIS IS THE CRITICAL FIX
+        // API expects { cart: { items: [...] } }
+        body: JSON.stringify({ cart })
       });
 
       const data = await res.json();
@@ -65,6 +75,7 @@
         return;
       }
 
+      // Redirect to PayPal approval page (FULL CART)
       window.location.href = data.approveUrl;
 
     } catch (err) {
@@ -73,11 +84,15 @@
     }
   }
 
+  /* ================= EVENTS ================= */
+
   document.addEventListener("DOMContentLoaded", () => {
 
+    // Add to cart buttons
     document.querySelectorAll("[data-add-to-cart]").forEach(btn => {
       btn.addEventListener("click", () => {
         const id = btn.dataset.addToCart;
+
         const product = window.VELVET_CATALOGUE?.categories
           ?.flatMap(c => c.products || [])
           ?.find(p => p.id === id);
@@ -91,6 +106,7 @@
       });
     });
 
+    // Checkout all button
     const checkoutBtn = document.querySelector("[data-checkout-all]");
     if (checkoutBtn) {
       checkoutBtn.addEventListener("click", checkoutAll);
