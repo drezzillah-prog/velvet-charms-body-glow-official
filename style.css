@@ -157,3 +157,9 @@ a:focus,button:focus,input:focus,select:focus,textarea:focus{outline:2px dashed 
   opacity: 1;
   text-decoration: underline;
 }
+/* TEMPORARY: disable combined checkout */
+.checkout-all,
+#checkout-all,
+button[data-checkout-all] {
+  display: none !important;
+}
