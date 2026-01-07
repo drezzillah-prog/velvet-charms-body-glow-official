@@ -1,244 +1,105 @@
-/* =========================================================
-   Velvet Charms — Permanent Elegant Theme
-   Satin waves • Indigo • Mauve • Deep blue
-   ========================================================= */
-
 :root{
   --bg-main: #07121A;
-  --bg-deep: #0B1A22;
-
-  --accent-gold: #B86B1A;
-  --accent-cream: #FFD9A6;
-
+  --bg-secondary: #0B1A22;
+  --accent: #B86B1A;
+  --accent-soft: #FFD9A6;
   --text-main: #F3F4F6;
   --text-muted: #CFE6E8;
-
-  --card-bg: rgba(255,255,255,0.06);
-  --glass: rgba(255,255,255,0.035);
-  --surface: rgba(255,255,255,0.04);
-
-  --btn-bg: #B86B1A;
-  --btn-text: #ffffff;
-
+  --card-bg: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.02);
   --max-w: 1100px;
 }
 
-/* ===== Reset ===== */
-*{ box-sizing:border-box }
-html,body{ height:100% }
+*{box-sizing:border-box}
+html,body{height:100%}
 
 body{
   margin:0;
   font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
   color:var(--text-main);
-  background: radial-gradient(
-      1200px 600px at 10% 10%,
-      rgba(130,80,160,0.18),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 90% 30%,
-      rgba(90,120,180,0.18),
-      transparent 65%
-    ),
-    linear-gradient(180deg, var(--bg-main), var(--bg-deep));
-  overflow-x:hidden;
+  background:
+    radial-gradient(1200px 600px at 10% 10%, #1a2b3a 0%, transparent 60%),
+    radial-gradient(1000px 500px at 90% 30%, #2a1f3a 0%, transparent 55%),
+    linear-gradient(180deg, var(--bg-main), var(--bg-secondary));
   line-height:1.5;
 }
 
-/* ===== Satin waves overlay ===== */
-body::before{
-  content:"";
-  position:fixed;
-  inset:-20%;
-  z-index:0;
-  pointer-events:none;
-  background:
-    radial-gradient(60% 40% at 30% 30%, rgba(170,120,200,.18), transparent 70%),
-    radial-gradient(55% 45% at 70% 40%, rgba(90,130,200,.18), transparent 70%),
-    radial-gradient(50% 35% at 50% 70%, rgba(120,80,160,.16), transparent 75%);
-  filter: blur(40px);
-  transform: translateZ(0);
-}
-
-/* subtle movement ONLY on desktop */
-@media (min-width: 900px){
-  body::before{
-    animation: satinDrift 60s linear infinite alternate;
-  }
-}
-
-@keyframes satinDrift{
-  from{ transform: translate(-2%, -1%) }
-  to{ transform: translate(2%, 1%) }
-}
-
-/* ===== Layout ===== */
+/* HEADER */
 .site-header{
-  position:relative;
-  z-index:3;
-  background: linear-gradient(90deg, rgba(0,0,0,.35), rgba(0,0,0,.15));
-  border-bottom:1px solid rgba(255,255,255,.05);
+  background: rgba(0,0,0,0.35);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-
 .header-inner{
   max-width:var(--max-w);
   margin:0 auto;
   padding:14px;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:20px;
+  align-items:center;
 }
-
-.brand{
-  margin:0;
-  font-size:20px;
-  color:#fff;
-}
-
+.brand{color:#fff;margin:0}
 .nav a{
   color:var(--text-muted);
   text-decoration:none;
   margin-left:12px;
-  font-size:14px;
 }
 
-.nav a:hover{
-  color:var(--accent-cream);
-}
-
+/* MAIN */
 .main{
   max-width:var(--max-w);
   margin:30px auto;
-  padding:0 14px;
-  position:relative;
-  z-index:2;
+  padding:0 16px;
 }
-
-/* ===== Hero ===== */
 .hero{
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
   padding:32px;
-  border-radius:16px;
-  background: linear-gradient(
-    180deg,
-    rgba(255,255,255,.05),
-    rgba(255,255,255,.02)
-  );
-  box-shadow:0 12px 40px rgba(0,0,0,.4);
-}
-
-.lead{
-  color:var(--text-muted);
-  margin-top:10px;
-}
-
-/* ===== Buttons ===== */
-.btn{
-  display:inline-block;
-  background:var(--btn-bg);
-  color:var(--btn-text);
-  padding:12px 16px;
-  border-radius:12px;
-  text-decoration:none;
-  font-weight:600;
-}
-
-.btn:hover{
-  filter:brightness(1.08);
-}
-
-.btn.large{
-  padding:14px 22px;
-}
-
-/* ===== Catalogue ===== */
-.catalogue-root{
-  margin-top:24px;
-}
-
-.cat-card{
-  margin-bottom:30px;
-  padding:16px;
   border-radius:14px;
-  background:var(--card-bg);
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
+  box-shadow:0 10px 30px rgba(0,0,0,0.45);
 }
+.lead{color:var(--text-muted)}
 
-.cat-card h3{
-  margin:0 0 10px 0;
+.btn{
+  background: linear-gradient(180deg, var(--accent), #9e5314);
   color:#fff;
+  padding:10px 16px;
+  border-radius:10px;
+  text-decoration:none;
+  display:inline-block;
 }
+.btn:hover{filter:brightness(1.05)}
 
+.catalogue-root{margin-top:20px}
+.cat-card{
+  background:var(--card-bg);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:26px;
+}
 .products-grid{
   display:grid;
-  grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
-  gap:16px;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:14px;
 }
-
 .product-card{
   background:var(--glass);
-  padding:14px;
-  border-radius:14px;
+  padding:12px;
+  border-radius:12px;
   display:flex;
   flex-direction:column;
 }
+.product-card h5{margin:8px 0;color:#fff}
+.price{color:var(--accent-soft);font-weight:600}
 
-.product-card .thumb{
-  height:150px;
-  background:rgba(255,255,255,.04);
-  border-radius:10px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.product-card img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.product-card h5{
-  margin:10px 0 6px;
-  color:#fff;
-}
-
-.price{
-  font-weight:700;
-  color:var(--accent-cream);
-}
-
-/* ===== Footer ===== */
+/* FOOTER */
 .site-footer{
-  position:relative;
-  z-index:2;
   text-align:center;
-  padding:26px 14px;
+  padding:20px;
   color:var(--text-muted);
+  opacity:0.85;
 }
 
-/* ===== Order note ===== */
-.order-note{
-  background:rgba(255,255,255,.08);
-  border-radius:14px;
-  padding:18px;
-  margin-top:20px;
-  color:#1a1a1a;
-  font-size:14px;
-}
-
-/* ===== Accessibility ===== */
-a:focus,
-button:focus{
-  outline:2px dashed rgba(255,255,255,.25);
-  outline-offset:3px;
-}
-
-/* ===== TEMP: hide combined checkout ===== */
+/* TEMPORARY SAFETY */
 .checkout-all,
-#checkout-all,
 button[data-checkout-all]{
   display:none !important;
 }
