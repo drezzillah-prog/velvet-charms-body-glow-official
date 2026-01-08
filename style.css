@@ -1,3 +1,11 @@
+/* =========================================
+   FONTS — Elegant, timeless, premium
+========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
+
+/* =========================================
+   ROOT VARIABLES
+========================================= */
 :root{
   --bg-main: #07121A;
   --bg-secondary: #0B1A22;
@@ -10,25 +18,44 @@
   --max-w: 1100px;
 }
 
+/* =========================================
+   GLOBAL RESET
+========================================= */
 *{box-sizing:border-box}
 html,body{height:100%}
 
+/* =========================================
+   BODY
+========================================= */
 body{
   margin:0;
-  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  font-family: 'Inter', system-ui,-apple-system,Segoe UI,Roboto,Arial;
   color:var(--text-main);
   background:
     radial-gradient(1200px 600px at 10% 10%, #1a2b3a 0%, transparent 60%),
     radial-gradient(1000px 500px at 90% 30%, #2a1f3a 0%, transparent 55%),
     linear-gradient(180deg, var(--bg-main), var(--bg-secondary));
-  line-height:1.5;
+  line-height:1.6;
 }
 
-/* HEADER */
+/* =========================================
+   TYPOGRAPHY
+========================================= */
+h1, h2, h3, h4, .brand{
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 0.02em;
+}
+
+.lead{color:var(--text-muted)}
+
+/* =========================================
+   HEADER
+========================================= */
 .site-header{
   background: rgba(0,0,0,0.35);
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
+
 .header-inner{
   max-width:var(--max-w);
   margin:0 auto;
@@ -37,27 +64,44 @@ body{
   justify-content:space-between;
   align-items:center;
 }
-.brand{color:#fff;margin:0}
+
+.brand{
+  color:#fff;
+  margin:0;
+}
+
 .nav a{
   color:var(--text-muted);
   text-decoration:none;
   margin-left:12px;
 }
 
-/* MAIN */
+.nav a:hover{
+  color:var(--accent-soft);
+}
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
 .main{
   max-width:var(--max-w);
   margin:30px auto;
   padding:0 16px;
 }
+
+/* =========================================
+   HERO
+========================================= */
 .hero{
   background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
   padding:32px;
   border-radius:14px;
   box-shadow:0 10px 30px rgba(0,0,0,0.45);
 }
-.lead{color:var(--text-muted)}
 
+/* =========================================
+   BUTTONS
+========================================= */
 .btn{
   background: linear-gradient(180deg, var(--accent), #9e5314);
   color:#fff;
@@ -65,21 +109,31 @@ body{
   border-radius:10px;
   text-decoration:none;
   display:inline-block;
+  font-weight:500;
 }
-.btn:hover{filter:brightness(1.05)}
 
+.btn:hover{
+  filter:brightness(1.05);
+}
+
+/* =========================================
+   CATALOGUE
+========================================= */
 .catalogue-root{margin-top:20px}
+
 .cat-card{
   background:var(--card-bg);
   border-radius:12px;
   padding:16px;
   margin-bottom:26px;
 }
+
 .products-grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
   gap:14px;
 }
+
 .product-card{
   background:var(--glass);
   padding:12px;
@@ -87,10 +141,60 @@ body{
   display:flex;
   flex-direction:column;
 }
-.product-card h5{margin:8px 0;color:#fff}
-.price{color:var(--accent-soft);font-weight:600}
 
-/* FOOTER */
+.product-card h5{
+  margin:8px 0;
+  color:#fff;
+}
+
+.price{
+  color:var(--accent-soft);
+  font-weight:600;
+}
+
+/* =========================================
+   ABOUT / CUSTOM PROCESS (NEW)
+========================================= */
+.about-section{
+  max-width:780px;
+  margin:0 auto 3rem auto;
+}
+
+.about-section.highlight{
+  background:rgba(255,255,255,0.04);
+  padding:2rem;
+  border-radius:14px;
+}
+
+.custom-process{
+  background:rgba(255,255,255,0.03);
+  padding:2.5rem;
+  border-radius:16px;
+}
+
+.process-steps{
+  padding-left:1.2rem;
+}
+
+.process-steps li{
+  margin-bottom:1.2rem;
+}
+
+.fine-note{
+  margin-top:2rem;
+  font-size:0.95rem;
+  color:var(--text-muted);
+}
+
+.signature{
+  margin-top:1.5rem;
+  font-weight:500;
+  color:var(--accent-soft);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
 .site-footer{
   text-align:center;
   padding:20px;
@@ -98,7 +202,9 @@ body{
   opacity:0.85;
 }
 
-/* TEMPORARY SAFETY */
+/* =========================================
+   SAFETY — DISABLE COMBINED CHECKOUT
+========================================= */
 .checkout-all,
 button[data-checkout-all]{
   display:none !important;
