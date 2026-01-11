@@ -1,11 +1,5 @@
-/* =========================================
-   FONTS — Elegant, timeless, premium
-========================================= */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
 
-/* =========================================
-   ROOT VARIABLES
-========================================= */
 :root{
   --bg-main: #07121A;
   --bg-secondary: #0B1A22;
@@ -15,68 +9,32 @@
   --text-muted: #CFE6E8;
   --card-bg: rgba(255,255,255,0.04);
   --glass: rgba(255,255,255,0.02);
+  --surface: rgba(255,255,255,0.03);
   --max-w: 1100px;
 }
 
-/* =========================================
-   GLOBAL RESET
-========================================= */
-*{
-  box-sizing:border-box;
-}
+*{ box-sizing:border-box }
+html,body{ height:100% }
 
-html, body{
-  height:100%;
-  margin:0;
-}
-
-/* =========================================
-   BODY
-========================================= */
 body{
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  margin:0;
+  font-family:'Inter', system-ui,-apple-system,Segoe UI,Roboto,Arial;
   color:var(--text-main);
   background:
-    radial-gradient(1200px 600px at 10% 10%, #1a2b3a 0%, transparent 60%),
-    radial-gradient(1000px 500px at 90% 30%, #2a1f3a 0%, transparent 55%),
+    radial-gradient(1200px 600px at 15% 10%, #1a2b3a 0%, transparent 60%),
+    radial-gradient(1000px 500px at 85% 35%, #2a1f3a 0%, transparent 55%),
     linear-gradient(180deg, var(--bg-main), var(--bg-secondary));
-  line-height:1.65;
+  line-height:1.6;
 }
 
-/* =========================================
-   TYPOGRAPHY
-========================================= */
-h1, h2, h3, h4, h5, .brand{
-  font-family: 'Playfair Display', serif;
-  letter-spacing: 0.02em;
-  margin-top:0;
+h1,h2,h3,h4,.brand{
+  font-family:'Playfair Display', serif;
+  letter-spacing:0.02em;
 }
 
-p, li, span, label, input, textarea, button, a{
-  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial;
-}
-
-h2{
-  font-size:2.2rem;
-  margin-bottom:1rem;
-}
-
-h3{
-  font-size:1.4rem;
-  margin-bottom:0.8rem;
-}
-
-.lead{
-  color:var(--text-muted);
-  font-size:1.05rem;
-}
-
-/* =========================================
-   HEADER
-========================================= */
 .site-header{
-  background: rgba(0,0,0,0.35);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background:rgba(0,0,0,.35);
+  border-bottom:1px solid rgba(255,255,255,.05);
 }
 
 .header-inner{
@@ -88,70 +46,39 @@ h3{
   align-items:center;
 }
 
-.brand{
-  color:#fff;
-  margin:0;
-}
-
 .nav a{
   color:var(--text-muted);
   text-decoration:none;
-  margin-left:14px;
-  transition: color 0.2s ease;
+  margin-left:12px;
 }
 
-.nav a:hover{
-  color:var(--accent-soft);
-}
+.nav a:hover{ color:var(--accent-soft); }
 
-/* =========================================
-   MAIN LAYOUT
-========================================= */
 .main{
   max-width:var(--max-w);
   margin:30px auto;
   padding:0 16px;
 }
 
-/* =========================================
-   HERO
-========================================= */
 .hero{
-  background: linear-gradient(
-    180deg,
-    rgba(255,255,255,0.04),
-    rgba(255,255,255,0.01)
-  );
   padding:32px;
   border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.45);
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
 }
 
-/* =========================================
-   BUTTONS
-========================================= */
 .btn{
-  background: linear-gradient(180deg, var(--accent), #9e5314);
+  background:linear-gradient(180deg, var(--accent), #9e5314);
   color:#fff;
   padding:10px 16px;
   border-radius:10px;
   text-decoration:none;
-  display:inline-block;
   font-weight:500;
-  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-.btn:hover{
-  filter:brightness(1.05);
-  transform:translateY(-1px);
-}
+.btn:hover{ filter:brightness(1.05); }
 
-/* =========================================
-   CATALOGUE
-========================================= */
-.catalogue-root{
-  margin-top:20px;
-}
+.catalogue-root{ margin-top:20px }
 
 .cat-card{
   background:var(--card-bg);
@@ -174,72 +101,34 @@ h3{
   flex-direction:column;
 }
 
-.product-card h5{
-  margin:8px 0;
-  color:#fff;
-}
-
 .price{
   color:var(--accent-soft);
   font-weight:600;
 }
 
-/* =========================================
-   ABOUT / CUSTOM PROCESS
-========================================= */
 .about-section{
   max-width:780px;
-  margin:0 auto 3rem auto;
-}
-
-.about-section.highlight{
-  background:rgba(255,255,255,0.04);
-  padding:2rem;
-  border-radius:14px;
+  margin:0 auto 3rem;
 }
 
 .custom-process{
-  background:rgba(255,255,255,0.03);
+  background:var(--surface);
   padding:2.5rem;
   border-radius:16px;
 }
 
-.process-steps{
-  padding-left:1.2rem;
-  margin-top:1.5rem;
-}
-
-.process-steps li{
-  margin-bottom:1.2rem;
-  line-height:1.6;
-}
-
-.fine-note{
-  margin-top:2rem;
-  font-size:0.95rem;
-  color:var(--text-muted);
-}
-
 .signature{
   margin-top:1.5rem;
-  font-weight:500;
   color:var(--accent-soft);
-  font-style:italic;
 }
 
-/* =========================================
-   FOOTER
-========================================= */
 .site-footer{
   text-align:center;
   padding:20px;
   color:var(--text-muted);
-  opacity:0.85;
 }
 
-/* =========================================
-   SAFETY — DISABLE COMBINED CHECKOUT
-========================================= */
+/* HARD SAFETY: disable combined checkout forever */
 .checkout-all,
 button[data-checkout-all]{
   display:none !important;
