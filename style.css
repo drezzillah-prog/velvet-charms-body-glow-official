@@ -1,9 +1,8 @@
-/* FONT TEST — REMOVE AFTER CONFIRMATION */
-body {
-  font-family: "Times New Roman", serif !important;
-}
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap');
 
+/* =========================================
+   ROOT VARIABLES
+========================================= */
 :root{
   --bg-main: #07121A;
   --bg-secondary: #0B1A22;
@@ -17,9 +16,15 @@ body {
   --max-w: 1100px;
 }
 
+/* =========================================
+   RESET
+========================================= */
 *{ box-sizing:border-box }
 html,body{ height:100% }
 
+/* =========================================
+   GLOBAL TYPOGRAPHY (THIS IS THE FIX)
+========================================= */
 body{
   margin:0;
   font-family:'Inter', system-ui,-apple-system,Segoe UI,Roboto,Arial;
@@ -28,14 +33,21 @@ body{
     radial-gradient(1200px 600px at 15% 10%, #1a2b3a 0%, transparent 60%),
     radial-gradient(1000px 500px at 85% 35%, #2a1f3a 0%, transparent 55%),
     linear-gradient(180deg, var(--bg-main), var(--bg-secondary));
-  line-height:1.6;
+  line-height:1.7;
 }
 
 h1,h2,h3,h4,.brand{
   font-family:'Playfair Display', serif;
-  letter-spacing:0.02em;
+  letter-spacing:0.4px;
+  color:#fff;
 }
 
+p{ margin:0.6em 0 }
+.lead{ color:var(--text-muted); font-size:1.05rem }
+
+/* =========================================
+   HEADER
+========================================= */
 .site-header{
   background:rgba(0,0,0,.35);
   border-bottom:1px solid rgba(255,255,255,.05);
@@ -50,27 +62,41 @@ h1,h2,h3,h4,.brand{
   align-items:center;
 }
 
+.brand{ margin:0; font-size:20px }
+
 .nav a{
   color:var(--text-muted);
   text-decoration:none;
   margin-left:12px;
+  font-size:14px;
 }
 
 .nav a:hover{ color:var(--accent-soft); }
 
+/* =========================================
+   MAIN LAYOUT
+========================================= */
 .main{
   max-width:var(--max-w);
-  margin:30px auto;
+  margin:32px auto;
   padding:0 16px;
 }
 
+/* =========================================
+   HERO (HOME)
+========================================= */
 .hero{
-  padding:32px;
-  border-radius:14px;
+  padding:36px;
+  border-radius:16px;
   background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
-  box-shadow:0 10px 30px rgba(0,0,0,.45);
+  box-shadow:0 12px 30px rgba(0,0,0,.45);
 }
 
+.hero h2{ font-size:1.9rem }
+
+/* =========================================
+   BUTTONS
+========================================= */
 .btn{
   background:linear-gradient(180deg, var(--accent), #9e5314);
   color:#fff;
@@ -78,31 +104,41 @@ h1,h2,h3,h4,.brand{
   border-radius:10px;
   text-decoration:none;
   font-weight:500;
+  display:inline-block;
 }
 
+.btn.large{ padding:14px 22px; font-size:0.95rem }
 .btn:hover{ filter:brightness(1.05); }
 
-.catalogue-root{ margin-top:20px }
+/* =========================================
+   CATALOGUE
+========================================= */
+.catalogue-root{ margin-top:24px }
 
 .cat-card{
   background:var(--card-bg);
-  border-radius:12px;
-  padding:16px;
-  margin-bottom:26px;
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:28px;
 }
 
 .products-grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:14px;
+  gap:16px;
 }
 
 .product-card{
   background:var(--glass);
-  padding:12px;
+  padding:14px;
   border-radius:12px;
   display:flex;
   flex-direction:column;
+}
+
+.product-card h5{
+  margin:10px 0 6px;
+  font-size:0.95rem;
 }
 
 .price{
@@ -110,53 +146,68 @@ h1,h2,h3,h4,.brand{
   font-weight:600;
 }
 
-.about-section{
-  max-width:780px;
-  margin:0 auto 3rem;
-}
-
+/* =========================================
+   ABOUT / CUSTOM PROCESS
+========================================= */
+.about-section,
 .custom-process{
+  max-width:760px;
+  margin:0 auto 48px;
+  padding:28px 30px;
   background:var(--surface);
-  padding:2.5rem;
   border-radius:16px;
 }
 
-.signature{
-  margin-top:1.5rem;
-  color:var(--accent-soft);
+.about-section h2{
+  font-size:1.6rem;
+  margin-bottom:12px;
 }
 
-.site-footer{
-  text-align:center;
-  padding:20px;
+.custom-process h3{
+  font-size:1.3rem;
+  margin-top:0;
+}
+
+.custom-process h4{
+  margin-top:26px;
+  font-size:1.05rem;
+}
+
+.process-steps{
+  margin-top:16px;
+  padding-left:18px;
+}
+
+.process-steps li{
+  margin-bottom:14px;
+}
+
+.fine-note{
+  margin-top:22px;
+  font-size:0.9rem;
   color:var(--text-muted);
 }
 
-/* HARD SAFETY: disable combined checkout forever */
+.signature{
+  margin-top:32px;
+  font-style:italic;
+  color:var(--accent-soft);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+.site-footer{
+  text-align:center;
+  padding:24px;
+  color:var(--text-muted);
+  opacity:0.85;
+}
+
+/* =========================================
+   HARD SAFETY — NO COMBINED CHECKOUT
+========================================= */
 .checkout-all,
 button[data-checkout-all]{
   display:none !important;
-}
-.about-section,
-.custom-process {
-  max-width: 760px;
-  margin: 0 auto 48px;
-  padding: 24px 28px;
-  background: rgba(255,255,255,0.02);
-  border-radius: 14px;
-}
-
-.custom-process h4 {
-  margin-top: 24px;
-}
-
-.process-steps {
-  margin-top: 16px;
-  padding-left: 18px;
-}
-
-.signature {
-  margin-top: 32px;
-  font-style: italic;
-  opacity: 0.85;
 }
