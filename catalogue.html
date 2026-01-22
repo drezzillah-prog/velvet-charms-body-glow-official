@@ -1,12 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Catalogue — Velvet Charms</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Catalogue — Velvet Charms</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <header class="site-header">
@@ -17,27 +16,21 @@
       <a href="catalogue.html">Catalogue</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
+      <a href="https://velvet-charms-art-gifts-official.vercel.app" class="sister-link">
+        Visit Art & Gifts
+      </a>
     </nav>
   </div>
 </header>
 
 <main class="main">
   <h2>Catalogue</h2>
-  <p>You can order any product exactly as shown — or personalize it to make it uniquely yours.</p>
+  <p class="lead">
+    You can order any product exactly as shown — or personalize it to make it uniquely yours.
+  </p>
 
-  <div id="catalogue-root" class="catalogue-root loading">Loading catalogue…</div>
-
-  <section style="margin-top:40px">
-    <h3>How Custom Orders Work</h3>
-    <ol>
-      <li>Choose an item from our catalogue or upload your own photos, sketches, or ideas</li>
-      <li>Describe your vision — colors, size, materials, mood, and personal details</li>
-      <li>We send you concept images or a visual preview</li>
-      <li>You request adjustments until it feels just right</li>
-      <li>Once approved, we begin crafting your one-of-a-kind piece</li>
-    </ol>
-    <p><strong>💎 Every item is handmade with care — no mass production, ever.</strong></p>
-  </section>
+  <!-- 🔴 THIS DIV IS CRITICAL -->
+  <section id="product-grid" class="product-grid"></section>
 </main>
 
 <footer class="site-footer">
@@ -46,5 +39,6 @@
 
 <script src="script.js"></script>
 <script src="features.js"></script>
+
 </body>
 </html>
