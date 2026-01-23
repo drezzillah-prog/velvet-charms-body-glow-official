@@ -11,63 +11,66 @@
   }
 
   function buildCatalogue(data) {
-    const root = document.getElementById("catalogue-root");
-    if (!root) return;
-    root.innerHTML = "";
+  const root = document.getElementById("catalogue-root");
+  if (!root) return;
+  root.innerHTML = "";
 
-    data.categories.forEach(cat => {
-      const section = document.createElement("section");
-      section.className = "cat-card";
+  data.categories.forEach(category => {
+    // Category title
+    const catTitle = document.createElement("h2");
+    catTitle.textContent = category.name;
+    root.appendChild(catTitle);
 
-      const h3 = document.createElement("h3");
-      h3.textContent = cat.name;
-      section.appendChild(h3);
+    // CASE 1: category has subcategories
+    if (Array.isArray(category.subcategories)) {
+      category.subcategories.forEach(sub => {
+        const subTitle = document.createElement("h3");
+        subTitle.textContent = sub.name;
+        root.appendChild(subTitle);
 
-      const grid = document.createElement("div");
-      grid.className = "products-grid";
+        if (Array.isArray(sub.products)) {
+          const grid = document.createElement("div");
+          grid.className = "product-grid";
 
-      cat.products.forEach(p => {
-        const card = document.createElement("article");
-        card.className = "product-card";
+          sub.products.forEach(product => {
+            grid.appendChild(buildProductCard(product));
+          });
 
-        if (p.images?.length) {
-          const img = document.createElement("img");
-          img.src = p.images[0];
-          img.alt = p.name;
-          img.loading = "lazy";
-          card.appendChild(img);
+          root.appendChild(grid);
         }
+      });
+    }
 
-        const name = document.createElement("h5");
-        name.textContent = p.name;
-        card.appendChild(name);
+    // CASE 2: category has products directly
+    if (Array.isArray(category.products)) {
+      const grid = document.createElement("div");
+      grid.className = "product-grid";
 
-        const price = document.createElement("div");
-        price.className = "price";
-        price.textContent = `${p.price} USD`;
-        card.appendChild(price);
-
-        const btn = document.createElement("a");
-        btn.className = "btn small";
-        btn.textContent = "View details";
-        btn.href = `product.html?id=${p.id}`;
-        card.appendChild(btn);
-
-        grid.appendChild(card);
+      category.products.forEach(product => {
+        grid.appendChild(buildProductCard(product));
       });
 
-      section.appendChild(grid);
-      root.appendChild(section);
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", async () => {
-    try {
-      const data = await loadCatalogue();
-      buildCatalogue(data);
-    } catch (e) {
-      console.error(e);
+      root.appendChild(grid);
     }
   });
+}
 
-})();
+function buildProductCard(product) {
+  const card = document.createElement("div");
+  card.className = "product-card";
+
+  const img = document.createElement("img");
+  img.src = `images/${product.images?.[0] || "placeholder.png"}`;
+  img.alt = product.name;
+  card.appendChild(img);
+
+  const name = document.createElement("h4");
+  name.textContent = product.name;
+  card.appendChild(name);
+
+  const price = document.createElement("p");
+  price.textContent = `${product.price} RON`;
+  card.appendChild(price);
+
+  return card;
+}
