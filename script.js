@@ -1,4 +1,4 @@
-/* script.js — Velvet Charms Body Glow (clean, non-seasonal) */
+/* script.js — Velvet Charms catalogue loader */
 
 (function () {
 
@@ -6,71 +6,87 @@
 
   async function loadCatalogue() {
     const res = await fetch(CATALOGUE_FILE, { cache: "no-store" });
-    if (!res.ok) throw new Error("Failed to load catalogue");
+    if (!res.ok) throw new Error("Failed to load catalogue JSON");
     return res.json();
   }
 
-  function buildCatalogue(data) {
-  const root = document.getElementById("catalogue-root");
-  if (!root) return;
-  root.innerHTML = "";
+  function buildProductCard(product) {
+    const card = document.createElement("article");
+    card.className = "product-card";
 
-  data.categories.forEach(category => {
-    // Category title
-    const catTitle = document.createElement("h2");
-    catTitle.textContent = category.name;
-    root.appendChild(catTitle);
-
-    // CASE 1: category has subcategories
-    if (Array.isArray(category.subcategories)) {
-      category.subcategories.forEach(sub => {
-        const subTitle = document.createElement("h3");
-        subTitle.textContent = sub.name;
-        root.appendChild(subTitle);
-
-        if (Array.isArray(sub.products)) {
-          const grid = document.createElement("div");
-          grid.className = "product-grid";
-
-          sub.products.forEach(product => {
-            grid.appendChild(buildProductCard(product));
-          });
-
-          root.appendChild(grid);
-        }
-      });
+    if (product.images && product.images.length > 0) {
+      const img = document.createElement("img");
+      img.src = product.images[0];
+      img.alt = product.name;
+      img.loading = "lazy";
+      card.appendChild(img);
     }
 
-    // CASE 2: category has products directly
-    if (Array.isArray(category.products)) {
-      const grid = document.createElement("div");
-      grid.className = "product-grid";
+    const name = document.createElement("h4");
+    name.textContent = product.name;
+    card.appendChild(name);
 
-      category.products.forEach(product => {
-        grid.appendChild(buildProductCard(product));
-      });
+    if (product.price) {
+      const price = document.createElement("div");
+      price.className = "price";
+      price.textContent = `${product.price} RON`;
+      card.appendChild(price);
+    }
 
-      root.appendChild(grid);
+    return card;
+  }
+
+  function buildCatalogue(data) {
+    const root = document.getElementById("catalogue-root");
+    if (!root) return;
+    root.innerHTML = "";
+
+    data.categories.forEach(category => {
+      const catTitle = document.createElement("h2");
+      catTitle.textContent = category.name;
+      root.appendChild(catTitle);
+
+      // Categories with subcategories
+      if (Array.isArray(category.subcategories)) {
+        category.subcategories.forEach(sub => {
+          const subTitle = document.createElement("h3");
+          subTitle.textContent = sub.name;
+          root.appendChild(subTitle);
+
+          if (Array.isArray(sub.products)) {
+            const grid = document.createElement("div");
+            grid.className = "products-grid";
+
+            sub.products.forEach(product => {
+              grid.appendChild(buildProductCard(product));
+            });
+
+            root.appendChild(grid);
+          }
+        });
+      }
+
+      // Categories with products directly
+      if (Array.isArray(category.products)) {
+        const grid = document.createElement("div");
+        grid.className = "products-grid";
+
+        category.products.forEach(product => {
+          grid.appendChild(buildProductCard(product));
+        });
+
+        root.appendChild(grid);
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    try {
+      const data = await loadCatalogue();
+      buildCatalogue(data);
+    } catch (err) {
+      console.error("Catalogue load error:", err);
     }
   });
-}
 
-function buildProductCard(product) {
-  const card = document.createElement("div");
-  card.className = "product-card";
-
-  const img = document.createElement("img");
-  img.src = `images/${product.images?.[0] || "placeholder.png"}`;
-  img.alt = product.name;
-  card.appendChild(img);
-
-  const name = document.createElement("h4");
-  name.textContent = product.name;
-  card.appendChild(name);
-
-  const price = document.createElement("p");
-  price.textContent = `${product.price} RON`;
-  card.appendChild(price);
-
-  return card;
-}
+})();
