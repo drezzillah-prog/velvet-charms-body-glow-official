@@ -29,7 +29,7 @@
     if (product.price) {
       const price = document.createElement("div");
       price.className = "price";
-      price.textContent = `${product.price} RON`;
+      price.textContent = `${product.price} EUR`;
       card.appendChild(price);
     }
 
