@@ -33,6 +33,20 @@
       card.appendChild(price);
     }
 
+    /* 🔹 REQUEST CUSTOMIZATION BUTTON */
+    const btn = document.createElement("a");
+    btn.className = "btn small";
+    btn.textContent = "Request customization";
+
+    const message =
+      `Hello! I’d like to request a customization for:\n\n` +
+      `Product: ${product.name}\n` +
+      `Product ID: ${product.id}\n\n` +
+      `My customization idea:`;
+
+    btn.href = `contact.html?message=${encodeURIComponent(message)}`;
+    card.appendChild(btn);
+
     return card;
   }
 
@@ -46,7 +60,6 @@
       catTitle.textContent = category.name;
       root.appendChild(catTitle);
 
-      // Categories with subcategories
       if (Array.isArray(category.subcategories)) {
         category.subcategories.forEach(sub => {
           const subTitle = document.createElement("h3");
@@ -66,7 +79,6 @@
         });
       }
 
-      // Categories with products directly
       if (Array.isArray(category.products)) {
         const grid = document.createElement("div");
         grid.className = "products-grid";
