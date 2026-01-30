@@ -69,5 +69,13 @@
     });
   </script>
   <script src="features.js"></script>
+  <script>
+  const params = new URLSearchParams(window.location.search);
+  const msg = params.get('message');
+  if (msg) {
+    const textarea = document.querySelector('textarea[name="message"]');
+    if (textarea) textarea.value = msg;
+  }
+</script>
 </body>
 </html>
