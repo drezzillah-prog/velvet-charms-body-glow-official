@@ -11,6 +11,7 @@
   }
 
   function buildProductCard(product) {
+
     const card = document.createElement("article");
     card.className = "product-card";
 
@@ -29,8 +30,23 @@
     if (product.price) {
       const price = document.createElement("div");
       price.className = "price";
-      price.textContent = `${product.price} EUR`;
+      price.textContent = `$${product.price}`; // ✅ USD
       card.appendChild(price);
+
+      /* 🔹 BUY NOW BUTTON */
+      const buyBtn = document.createElement("a");
+      buyBtn.className = "btn primary";
+      buyBtn.textContent = "Buy Now";
+
+      if (product.paymentLink) {
+        buyBtn.href = product.paymentLink;
+      } else {
+        buyBtn.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=rosalinda.mauve@gmail.com&item_name=${encodeURIComponent(product.name)}&amount=${product.price}&currency_code=USD`;
+      }
+
+      buyBtn.target = "_blank";
+      buyBtn.rel = "noopener noreferrer";
+      card.appendChild(buyBtn);
     }
 
     /* 🔹 REQUEST CUSTOMIZATION BUTTON */
