@@ -7,40 +7,61 @@
 }
 
 /* RESET */
-*{ box-sizing:border-box; }
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
   font-family:'Inter',sans-serif;
   color:var(--text-dark);
-  background:linear-gradient(135deg,#f9e4ea,#f2cfd8,#f7dbe2);
   min-height:100vh;
-  position:relative;
   overflow-x:hidden;
+  position:relative;
+
+  /* Satin silk layered background */
+  background:
+    radial-gradient(circle at 15% 25%, rgba(255,255,255,0.6) 0%, transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(255,255,255,0.35) 0%, transparent 50%),
+    radial-gradient(circle at 50% 85%, rgba(255,255,255,0.25) 0%, transparent 60%),
+    linear-gradient(
+      135deg,
+      #f8d4df 0%,
+      #f3b7ca 30%,
+      #eaa5c0 55%,
+      #f5c3d4 75%,
+      #f8dbe5 100%
+    );
 }
 
-/* SHIMMER */
+/* Moving satin reflection */
 body::before{
   content:"";
   position:fixed;
-  inset:0;
+  inset:-40%;
   background:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35), transparent 40%),
-    radial-gradient(circle at 80% 30%, rgba(255,255,255,0.25), transparent 40%),
-    radial-gradient(circle at 50% 80%, rgba(255,255,255,0.2), transparent 50%);
-  mix-blend-mode:soft-light;
-  animation:shimmerMove 12s infinite alternate ease-in-out;
+    linear-gradient(
+      120deg,
+      rgba(255,255,255,0.1) 0%,
+      rgba(255,255,255,0.35) 25%,
+      rgba(255,255,255,0.1) 50%,
+      rgba(255,255,255,0.35) 75%,
+      rgba(255,255,255,0.1) 100%
+    );
+  transform:rotate(15deg);
+  animation:satinFlow 20s linear infinite;
   pointer-events:none;
+  opacity:0.5;
 }
 
-@keyframes shimmerMove{
-  0%{transform:translateY(0px) scale(1);}
-  100%{transform:translateY(-20px) scale(1.05);}
+@keyframes satinFlow{
+  0%{transform:rotate(15deg) translateX(-40%);}
+  100%{transform:rotate(15deg) translateX(40%);}
 }
 
 /* HEADER */
 .site-header{
-  background:rgba(255,255,255,0.6);
+  background:rgba(255,255,255,0.65);
   backdrop-filter:blur(10px);
 }
 
@@ -126,10 +147,10 @@ body::before{
 }
 
 .content{
-  background:rgba(255,255,255,0.6);
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(10px);
   padding:30px;
   border-radius:20px;
-  backdrop-filter:blur(10px);
 }
 
 /* CATALOGUE HERO */
@@ -147,7 +168,7 @@ body::before{
 }
 
 .product-card{
-  background:rgba(255,255,255,0.75);
+  background:rgba(255,255,255,0.8);
   backdrop-filter:blur(10px);
   padding:20px;
   border-radius:20px;
