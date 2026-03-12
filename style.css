@@ -245,3 +245,28 @@ body::after{
   padding:30px;
   opacity:.8;
 }
+#catalogue-nav{
+position:sticky;
+top:0;
+background:white;
+border-bottom:1px solid #eee;
+z-index:1000;
+}
+
+.catalogue-nav-inner{
+display:flex;
+gap:20px;
+padding:12px 20px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.catalogue-nav-inner a{
+text-decoration:none;
+font-weight:600;
+color:#333;
+}
+
+.catalogue-nav-inner a:hover{
+color:#c78fb3;
+}
