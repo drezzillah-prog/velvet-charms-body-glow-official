@@ -118,3 +118,18 @@
   });
 
 })();
+function buildCatalogueNav(categories){
+
+const nav = document.getElementById("catalogue-nav");
+
+let html = `<div class="catalogue-nav-inner">`;
+
+categories.forEach(cat=>{
+html += `<a href="#${cat.id}">${cat.name}</a>`;
+});
+
+html += `</div>`;
+
+nav.innerHTML = html;
+
+}
