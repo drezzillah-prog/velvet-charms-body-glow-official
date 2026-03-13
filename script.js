@@ -28,12 +28,12 @@
     card.appendChild(name);
 
     if (product.price) {
+
       const price = document.createElement("div");
       price.className = "price";
-      price.textContent = `$${product.price}`; // ✅ USD
+      price.textContent = "$" + product.price;
       card.appendChild(price);
 
-      /* 🔹 BUY NOW BUTTON */
       const buyBtn = document.createElement("a");
       buyBtn.className = "btn primary";
       buyBtn.textContent = "Buy Now";
@@ -41,7 +41,12 @@
       if (product.paymentLink) {
         buyBtn.href = product.paymentLink;
       } else {
-        buyBtn.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=rosalinda.mauve@gmail.com&item_name=${encodeURIComponent(product.name)}&amount=${product.price}&currency_code=USD`;
+        buyBtn.href =
+          "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick" +
+          "&business=rosalinda.mauve@gmail.com" +
+          "&item_name=" + encodeURIComponent(product.name) +
+          "&amount=" + product.price +
+          "&currency_code=USD";
       }
 
       buyBtn.target = "_blank";
@@ -49,66 +54,104 @@
       card.appendChild(buyBtn);
     }
 
-    /* 🔹 REQUEST CUSTOMIZATION BUTTON */
-    const btn = document.createElement("a");
-    btn.className = "btn small";
-    btn.textContent = "Request customization";
+    const customBtn = document.createElement("a");
+    customBtn.className = "btn small";
+    customBtn.textContent = "Request customization";
 
     const message =
-      `Hello! I’d like to request a customization for:\n\n` +
-      `Product: ${product.name}\n` +
-      `Product ID: ${product.id}\n\n` +
-      `My customization idea:`;
+      "Hello! I’d like to request a customization for:\n\n" +
+      "Product: " + product.name + "\n" +
+      "Product ID: " + product.id + "\n\n" +
+      "My customization idea:";
 
-    btn.href = `contact.html?message=${encodeURIComponent(message)}`;
-    card.appendChild(btn);
+    customBtn.href = "contact.html?message=" + encodeURIComponent(message);
+    card.appendChild(customBtn);
 
     return card;
   }
 
+  function buildCatalogueNav(categories) {
+
+    const nav = document.getElementById("catalogue-nav");
+    if (!nav) return;
+
+    let html = '<div class="catalogue-nav-inner">';
+
+    categories.forEach(function(cat) {
+
+      const id = cat.name.replace(/\s+/g, "-").toLowerCase();
+
+      html += '<a href="#' + id + '">' + cat.name + '</a>';
+
+    });
+
+    html += "</div>";
+
+    nav.innerHTML = html;
+  }
+
   function buildCatalogue(data) {
+
     const root = document.getElementById("catalogue-root");
     if (!root) return;
+
     root.innerHTML = "";
 
-    data.categories.forEach(category => {
+    buildCatalogueNav(data.categories);
+
+    data.categories.forEach(function(category) {
+
+      const catId = category.name.replace(/\s+/g, "-").toLowerCase();
+
+      const section = document.createElement("section");
+      section.className = "catalogue-category";
+      section.id = catId;
+
       const catTitle = document.createElement("h2");
       catTitle.textContent = category.name;
-      root.appendChild(catTitle);
+      section.appendChild(catTitle);
 
       if (Array.isArray(category.subcategories)) {
-        category.subcategories.forEach(sub => {
+
+        category.subcategories.forEach(function(sub) {
+
           const subTitle = document.createElement("h3");
           subTitle.textContent = sub.name;
-          root.appendChild(subTitle);
+          section.appendChild(subTitle);
 
           if (Array.isArray(sub.products)) {
+
             const grid = document.createElement("div");
             grid.className = "products-grid";
 
-            sub.products.forEach(product => {
+            sub.products.forEach(function(product) {
               grid.appendChild(buildProductCard(product));
             });
 
-            root.appendChild(grid);
+            section.appendChild(grid);
           }
         });
       }
 
       if (Array.isArray(category.products)) {
+
         const grid = document.createElement("div");
         grid.className = "products-grid";
 
-        category.products.forEach(product => {
+        category.products.forEach(function(product) {
           grid.appendChild(buildProductCard(product));
         });
 
-        root.appendChild(grid);
+        section.appendChild(grid);
       }
+
+      root.appendChild(section);
+
     });
+
   }
 
-  document.addEventListener("DOMContentLoaded", async () => {
+  document.addEventListener("DOMContentLoaded", async function() {
     try {
       const data = await loadCatalogue();
       buildCatalogue(data);
@@ -118,18 +161,3 @@
   });
 
 })();
-function buildCatalogueNav(categories){
-
-const nav = document.getElementById("catalogue-nav");
-
-let html = `<div class="catalogue-nav-inner">`;
-
-categories.forEach(cat=>{
-html += `<a href="#${cat.id}">${cat.name}</a>`;
-});
-
-html += `</div>`;
-
-nav.innerHTML = html;
-
-}
