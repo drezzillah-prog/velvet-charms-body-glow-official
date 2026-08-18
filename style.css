@@ -393,6 +393,14 @@ color:#c78fb3;
   font-size:14px;
 }
 
+.cart-item-options{
+  margin:8px 0 12px;
+  padding-left:18px;
+  color:#66555e;
+  font-size:.85rem;
+  line-height:1.45;
+}
+
 .cart-quantity{
   display:flex;
   align-items:center;
@@ -455,4 +463,90 @@ color:#c78fb3;
   .cart-drawer{
     padding:18px;
   }
+}
+
+/* ================= CUSTOMIZATION DIALOG ================= */
+
+.custom-modal{
+  position:fixed;
+  inset:0;
+  z-index:2200;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(47,33,41,.58);
+}
+
+.custom-modal.is-open{
+  display:flex;
+}
+
+.custom-dialog{
+  width:min(560px,100%);
+  max-height:min(760px,92vh);
+  overflow-y:auto;
+  position:relative;
+  padding:30px;
+  border-radius:22px;
+  background:#fffafc;
+  box-shadow:0 24px 70px rgba(42,25,34,.35);
+}
+
+.custom-dialog h2{
+  margin:0 42px 8px 0;
+  font-family:'Playfair Display',serif;
+}
+
+.custom-intro{
+  margin:0 0 22px;
+  color:#75646d;
+}
+
+.custom-close{
+  position:absolute;
+  top:14px;
+  right:16px;
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:50%;
+  background:#f4e2e9;
+  color:var(--text-dark);
+  font-size:1.5rem;
+  cursor:pointer;
+}
+
+.custom-field{
+  display:grid;
+  gap:7px;
+  margin-bottom:16px;
+  text-align:left;
+  font-weight:600;
+  text-transform:capitalize;
+}
+
+.custom-field select,
+.custom-field textarea{
+  width:100%;
+  border:1px solid #ddc5cf;
+  border-radius:12px;
+  padding:11px 12px;
+  background:white;
+  color:var(--text-dark);
+  font:inherit;
+  font-weight:400;
+  text-transform:none;
+}
+
+.custom-field select:focus,
+.custom-field textarea:focus{
+  outline:2px solid rgba(199,164,76,.35);
+  border-color:var(--accent-gold);
+}
+
+.custom-submit{
+  width:100%;
+  border:0;
+  cursor:pointer;
 }
