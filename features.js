@@ -25,7 +25,8 @@
             name: String(item.name || ""),
             price: Number(item.price) || 0,
             qty: Math.max(1, Math.min(99, Number.parseInt(item.qty, 10) || 1)),
-            options: item.options && typeof item.options === "object" ? item.options : {}
+            options: item.options && typeof item.options === "object" ? item.options : {},
+            attachments: Array.isArray(item.attachments) ? item.attachments.slice(0, 5) : []
           }))
       };
     } catch {
@@ -71,12 +72,12 @@
       .map(([key, value]) => `${key.replaceAll("_", " ")}: ${value}`);
   }
 
-  function addToCart(product, qty = 1, options = {}) {
+  function addToCart(product, qty = 1, options = {}, attachments = []) {
     if (!product || !product.id || !Number.isFinite(Number(product.price))) return;
 
     const cart = loadCart();
     const existing = cart.items.find(
-      item => item.id === product.id && sameOptions(item.options, options)
+      item => item.id === product.id && sameOptions(item.options, options) && !attachments.length && !item.attachments?.length
     );
 
     if (existing) {
@@ -87,7 +88,8 @@
         name: product.name,
         price: Number(product.price),
         qty: Math.max(1, qty),
-        options
+        options,
+        attachments: attachments.slice(0, 5)
       });
     }
 
@@ -184,6 +186,13 @@
                 <span>Special instructions</span>
                 <textarea name="special_instructions" rows="4" maxlength="1000" placeholder="Colors, shapes, personal message, or any other details..."></textarea>
               </label>
+              <label class="custom-field custom-photo-field">
+                <span>Reference photos (up to 5)</span>
+                <input type="file" name="reference_photos" accept="image/jpeg,image/png,image/webp" capture="environment" multiple>
+                <small>JPG, PNG or WEBP. Large photos are optimized before upload.</small>
+              </label>
+              <div class="custom-photo-preview" data-custom-photo-preview></div>
+              <div class="custom-upload-status" data-custom-upload-status aria-live="polite"></div>
               <button class="btn custom-submit" type="submit">Add customized item to cart</button>
             </form>
           </div>
@@ -225,6 +234,9 @@
               <p class="cart-item-price">${money(item.price)} each</p>
               ${optionSummary(item.options).length
                 ? `<ul class="cart-item-options">${optionSummary(item.options).map(line => `<li>${escapeHtml(line)}</li>`).join("")}</ul>`
+                : ""}
+              ${item.attachments?.length
+                ? `<div class="cart-photo-strip">${item.attachments.map(photo => `<a href="${escapeHtml(photo.url)}" target="_blank" rel="noopener"><img src="${escapeHtml(photo.url)}" alt="Customization reference"></a>`).join("")}</div>`
                 : ""}
               <div class="cart-quantity" aria-label="Quantity controls for ${escapeHtml(item.name)}">
                 <button type="button" data-cart-decrease="${index}" aria-label="Decrease quantity">−</button>
@@ -271,6 +283,8 @@
 
     form.reset();
     form.dataset.productId = product.id;
+    document.querySelector("[data-custom-photo-preview]").innerHTML = "";
+    document.querySelector("[data-custom-upload-status]").textContent = "";
     document.querySelector("[data-custom-title]").textContent = `Customize ${product.name}`;
 
     fields.innerHTML = Object.entries(product.options || {})
@@ -299,19 +313,86 @@
     modal?.setAttribute("aria-hidden", "true");
   }
 
-  function addCustomizedItem(form) {
+  function optimizedImage(file) {
+    if (file.size <= 3.5 * 1024 * 1024) return Promise.resolve(file);
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      const url = URL.createObjectURL(file);
+      image.onload = () => {
+        const scale = Math.min(1, 1800 / Math.max(image.width, image.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(image.width * scale);
+        canvas.height = Math.round(image.height * scale);
+        canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(blob => {
+          URL.revokeObjectURL(url);
+          if (!blob) return reject(new Error("Photo optimization failed."));
+          resolve(new File([blob], file.name.replace(/\.[^.]+$/, ".jpg"), { type: "image/jpeg" }));
+        }, "image/jpeg", .86);
+      };
+      image.onerror = () => reject(new Error("One selected photo could not be read."));
+      image.src = url;
+    });
+  }
+
+  function uploadPhoto(file, onProgress) {
+    return new Promise((resolve, reject) => {
+      const request = new XMLHttpRequest();
+      request.open("POST", "/api/upload-photo");
+      request.responseType = "json";
+      request.upload.onprogress = event => {
+        if (event.lengthComputable) onProgress(Math.round((event.loaded / event.total) * 100));
+      };
+      request.onload = () => request.status >= 200 && request.status < 300
+        ? resolve(request.response)
+        : reject(new Error(request.response?.error || "Photo upload failed."));
+      request.onerror = () => reject(new Error("Photo upload failed."));
+      const body = new FormData();
+      body.append("photo", file);
+      request.send(body);
+    });
+  }
+
+  async function addCustomizedItem(form) {
     const product = findProduct(form.dataset.productId);
     if (!product) return;
 
     const data = new FormData(form);
     const options = {};
     for (const [key, value] of data.entries()) {
+      if (key === "reference_photos") continue;
       const cleanValue = String(value).trim();
       if (cleanValue) options[key] = cleanValue;
     }
 
-    addToCart(product, 1, options);
-    closeCustomization();
+    const files = Array.from(form.elements.reference_photos.files || []);
+    if (files.length > 5) {
+      alert("Please choose no more than 5 reference photos.");
+      return;
+    }
+
+    const status = document.querySelector("[data-custom-upload-status]");
+    const submit = form.querySelector("[type=submit]");
+    submit.disabled = true;
+
+    try {
+      const attachments = [];
+      for (let index = 0; index < files.length; index += 1) {
+        const file = await optimizedImage(files[index]);
+        const uploaded = await uploadPhoto(file, percentage => {
+          status.textContent = `Uploading photo ${index + 1} of ${files.length}: ${percentage}%`;
+        });
+        attachments.push({ url: uploaded.url, name: uploaded.pathname || file.name });
+      }
+      addToCart(product, 1, options, attachments);
+      status.textContent = "";
+      closeCustomization();
+    } catch (error) {
+      console.error("Photo upload error:", error);
+      status.textContent = error.message;
+    } finally {
+      submit.disabled = false;
+    }
   }
 
   async function checkoutAll() {
@@ -427,6 +508,21 @@
     if (!event.target.matches("[data-custom-form]")) return;
     event.preventDefault();
     addCustomizedItem(event.target);
+  });
+
+  document.addEventListener("change", event => {
+    if (!event.target.matches('input[name="reference_photos"]')) return;
+    const preview = document.querySelector("[data-custom-photo-preview]");
+    const files = Array.from(event.target.files || []).slice(0, 5);
+    preview.innerHTML = "";
+    files.forEach(file => {
+      const image = document.createElement("img");
+      const url = URL.createObjectURL(file);
+      image.src = url;
+      image.alt = file.name;
+      image.onload = () => URL.revokeObjectURL(url);
+      preview.appendChild(image);
+    });
   });
 
   document.addEventListener("DOMContentLoaded", () => {
