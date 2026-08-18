@@ -52,6 +52,13 @@
       buyBtn.target = "_blank";
       buyBtn.rel = "noopener noreferrer";
       card.appendChild(buyBtn);
+
+      const cartBtn = document.createElement("button");
+      cartBtn.className = "btn cart-add-btn";
+      cartBtn.type = "button";
+      cartBtn.textContent = "Add to cart";
+      cartBtn.dataset.addToCart = product.id;
+      card.appendChild(cartBtn);
     }
 
     const customBtn = document.createElement("a");
@@ -154,6 +161,7 @@
   document.addEventListener("DOMContentLoaded", async function() {
     try {
       const data = await loadCatalogue();
+      window.VELVET_CATALOGUE = data;
       buildCatalogue(data);
     } catch (err) {
       console.error("Catalogue load error:", err);
