@@ -50,13 +50,42 @@ function validatedItems(requestBody) {
       throw new Error("INVALID_PRODUCT_PRICE");
     }
 
+    const options = {};
+    const rawOptions = rawItem?.options && typeof rawItem.options === "object"
+      ? rawItem.options
+      : {};
+
+    for (const [key, value] of Object.entries(rawOptions)) {
+      const cleanValue = String(value || "").trim().slice(0, 1000);
+      if (!cleanValue) continue;
+
+      if (key === "special_instructions") {
+        options[key] = cleanValue;
+        continue;
+      }
+
+      const allowedValues = product.options?.[key];
+      if (!Array.isArray(allowedValues) || !allowedValues.includes(cleanValue)) {
+        throw new Error("INVALID_CUSTOMIZATION");
+      }
+      options[key] = cleanValue;
+    }
+
     return {
       id: product.id,
       name: String(product.name).slice(0, 127),
       quantity,
-      price
+      price,
+      options
     };
   });
+}
+
+function paypalDescription(options) {
+  const description = Object.entries(options || {})
+    .map(([key, value]) => `${key.replaceAll("_", " ")}: ${value}`)
+    .join("; ");
+  return description.slice(0, 127);
 }
 
 async function accessToken(baseUrl) {
@@ -124,14 +153,18 @@ export default async function handler(req, res) {
                 }
               }
             },
-            items: items.map(item => ({
-              name: item.name,
-              quantity: String(item.quantity),
-              unit_amount: {
-                currency_code: CURRENCY,
-                value: item.price.toFixed(2)
-              }
-            }))
+            items: items.map(item => {
+              const description = paypalDescription(item.options);
+              return {
+                name: item.name,
+                quantity: String(item.quantity),
+                unit_amount: {
+                  currency_code: CURRENCY,
+                  value: item.price.toFixed(2)
+                },
+                ...(description ? { description } : {})
+              };
+            })
           }
         ],
         payment_source: {
@@ -162,7 +195,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error("Create order error:", error);
 
-    if (error.message === "EMPTY_OR_INVALID_CART" || error.message === "INVALID_CART_ITEM") {
+    if (["EMPTY_OR_INVALID_CART", "INVALID_CART_ITEM", "INVALID_CUSTOMIZATION"].includes(error.message)) {
       return res.status(400).json({ error: "The cart is empty or invalid." });
     }
 
@@ -173,4 +206,3 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Checkout could not be started." });
   }
 }
-
