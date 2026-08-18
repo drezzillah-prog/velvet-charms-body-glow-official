@@ -16,48 +16,11 @@
     card.className = "product-card";
 
     if (product.images && product.images.length > 0) {
-      const gallery = document.createElement("div");
-      gallery.className = "product-gallery";
-
-      const mainImg = document.createElement("img");
-      mainImg.className = "product-gallery-main";
-      mainImg.src = product.images[0];
-      mainImg.alt = product.name;
-      mainImg.loading = "lazy";
-      gallery.appendChild(mainImg);
-
-      if (product.images.length > 1) {
-        const thumbnails = document.createElement("div");
-        thumbnails.className = "product-gallery-thumbnails";
-        thumbnails.setAttribute("aria-label", product.name + " image gallery");
-
-        product.images.forEach(function(imageSrc, index) {
-          const thumbnail = document.createElement("button");
-          thumbnail.className = "product-gallery-thumbnail";
-          thumbnail.type = "button";
-          thumbnail.setAttribute("aria-label", "Show image " + (index + 1) + " of " + product.images.length);
-          thumbnail.setAttribute("aria-pressed", index === 0 ? "true" : "false");
-
-          const thumbnailImg = document.createElement("img");
-          thumbnailImg.src = imageSrc;
-          thumbnailImg.alt = "";
-          thumbnailImg.loading = "lazy";
-          thumbnail.appendChild(thumbnailImg);
-
-          thumbnail.addEventListener("click", function() {
-            mainImg.src = imageSrc;
-            thumbnails.querySelectorAll(".product-gallery-thumbnail").forEach(function(item) {
-              item.setAttribute("aria-pressed", item === thumbnail ? "true" : "false");
-            });
-          });
-
-          thumbnails.appendChild(thumbnail);
-        });
-
-        gallery.appendChild(thumbnails);
-      }
-
-      card.appendChild(gallery);
+      const img = document.createElement("img");
+      img.src = product.images[0];
+      img.alt = product.name;
+      img.loading = "lazy";
+      card.appendChild(img);
     }
 
     const name = document.createElement("h4");
@@ -198,4 +161,3 @@
   });
 
 })();
-
