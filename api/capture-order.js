@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
 const CURRENCY = "USD";
 
 function paypalBaseUrl() {
@@ -8,6 +11,100 @@ function paypalBaseUrl() {
 
 function paypalSecret() {
   return process.env.PAYPAL_CLIENT_SECRET || process.env.PAYPAL_SECRET;
+}
+
+function catalogueProducts() {
+  const catalogue = JSON.parse(
+    readFileSync(join(process.cwd(), "catalogue-body-glow.json"), "utf8")
+  );
+  const products = [];
+  for (const category of catalogue.categories || []) {
+    products.push(...(category.products || []));
+    for (const subcategory of category.subcategories || []) {
+      products.push(...(subcategory.products || []));
+    }
+  }
+  return new Map(products.map(product => [product.id, product]));
+}
+
+function validatedItems(requestBody) {
+  const rawItems = requestBody?.cart?.items;
+  if (!Array.isArray(rawItems) || rawItems.length === 0 || rawItems.length > 100) {
+    throw new Error("INVALID_CART");
+  }
+
+  const catalogue = catalogueProducts();
+  return rawItems.map(rawItem => {
+    const product = catalogue.get(rawItem?.id);
+    const quantity = Number.parseInt(rawItem?.qty, 10);
+    if (!product || !Number.isInteger(quantity) || quantity < 1 || quantity > 99) {
+      throw new Error("INVALID_CART");
+    }
+
+    const options = {};
+    const rawOptions = rawItem?.options && typeof rawItem.options === "object"
+      ? rawItem.options
+      : {};
+    for (const [key, value] of Object.entries(rawOptions)) {
+      const cleanValue = String(value || "").trim().slice(0, 1000);
+      if (!cleanValue) continue;
+      if (key === "special_instructions") {
+        options[key] = cleanValue;
+        continue;
+      }
+      const allowedValues = product.options?.[key];
+      if (!Array.isArray(allowedValues) || !allowedValues.includes(cleanValue)) {
+        throw new Error("INVALID_CART");
+      }
+      options[key] = cleanValue;
+    }
+
+    return {
+      id: product.id,
+      name: String(product.name),
+      price: Number(product.price),
+      quantity,
+      options
+    };
+  });
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function orderRows(items) {
+  return items.map(item => {
+    const details = Object.entries(item.options)
+      .map(([key, value]) => `<li><strong>${escapeHtml(key.replaceAll("_", " "))}:</strong> ${escapeHtml(value)}</li>`)
+      .join("");
+    return `<tr><td>${escapeHtml(item.name)}${details ? `<ul>${details}</ul>` : ""}</td><td>${item.quantity}</td><td>$${(item.price * item.quantity).toFixed(2)}</td></tr>`;
+  }).join("");
+}
+
+async function sendEmail(to, subject, html) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.ORDER_FROM_EMAIL;
+  if (!apiKey || !from || !to) return false;
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ from, to: [to], subject, html })
+  });
+  if (!response.ok) {
+    console.error("Order email failed:", response.status, await response.text());
+    return false;
+  }
+  return true;
 }
 
 async function accessToken(baseUrl) {
@@ -49,6 +146,11 @@ export default async function handler(req, res) {
   }
 
   try {
+    const items = validatedItems(req.body);
+    const expectedTotal = items.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
     const baseUrl = paypalBaseUrl();
     const token = await accessToken(baseUrl);
 
@@ -71,15 +173,42 @@ export default async function handler(req, res) {
     }
 
     const capturedAmount = capture.purchase_units?.[0]?.payments?.captures?.[0]?.amount;
-    if (capture.status !== "COMPLETED" || capturedAmount?.currency_code !== CURRENCY) {
+    if (
+      capture.status !== "COMPLETED" ||
+      capturedAmount?.currency_code !== CURRENCY ||
+      Number(capturedAmount?.value) !== Number(expectedTotal.toFixed(2))
+    ) {
       console.error("Unexpected PayPal capture response:", capture);
       return res.status(502).json({ error: "PayPal payment was not completed." });
     }
 
+    const payerName = [capture.payer?.name?.given_name, capture.payer?.name?.surname]
+      .filter(Boolean)
+      .join(" ") || "Customer";
+    const payerEmail = capture.payer?.email_address || "";
+    const total = `$${expectedTotal.toFixed(2)} ${CURRENCY}`;
+    const table = `<table cellpadding="8" cellspacing="0" border="1"><thead><tr><th>Product</th><th>Quantity</th><th>Total</th></tr></thead><tbody>${orderRows(items)}</tbody></table>`;
+
+    const ownerEmailSent = await sendEmail(
+      process.env.ORDER_NOTIFICATION_EMAIL,
+      `New paid Velvet Charms order ${capture.id}`,
+      `<h1>New paid order</h1><p><strong>PayPal order:</strong> ${escapeHtml(capture.id)}</p><p><strong>Customer:</strong> ${escapeHtml(payerName)} (${escapeHtml(payerEmail)})</p>${table}<p><strong>Order total:</strong> ${total}</p>`
+    );
+
+    const customerEmailSent = payerEmail
+      ? await sendEmail(
+          payerEmail,
+          `Velvet Charms order confirmation ${capture.id}`,
+          `<h1>Thank you for your order!</h1><p>Hello ${escapeHtml(payerName)},</p><p>Your payment has been confirmed.</p>${table}<p><strong>Order total:</strong> ${total}</p><p>We will contact you if any customization detail needs clarification.</p>`
+        )
+      : false;
+
     return res.status(200).json({
       status: capture.status,
       orderID: capture.id,
-      captureID: capture.purchase_units?.[0]?.payments?.captures?.[0]?.id
+      captureID: capture.purchase_units?.[0]?.payments?.captures?.[0]?.id,
+      ownerEmailSent,
+      customerEmailSent
     });
   } catch (error) {
     console.error("Capture order error:", error);
@@ -88,7 +217,10 @@ export default async function handler(req, res) {
       return res.status(503).json({ error: "PayPal is not configured yet." });
     }
 
+    if (error.message === "INVALID_CART") {
+      return res.status(400).json({ error: "The cart is empty or invalid." });
+    }
+
     return res.status(500).json({ error: "Payment confirmation failed." });
   }
 }
-
