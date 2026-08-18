@@ -70,10 +70,15 @@
     return JSON.stringify(left || {}) === JSON.stringify(right || {});
   }
 
+  function optionLabel(key) {
+    if (key === "intensity") return "Scent intensity";
+    return key.replaceAll("_", " ");
+  }
+
   function optionSummary(options) {
     return Object.entries(options || {})
       .filter(([, value]) => String(value || "").trim())
-      .map(([key, value]) => `${key.replaceAll("_", " ")}: ${value}`);
+      .map(([key, value]) => `${optionLabel(key)}: ${value}`);
   }
 
   function addToCart(product, qty = 1, options = {}, attachments = []) {
@@ -319,7 +324,7 @@
     fields.innerHTML = Object.entries(product.options || {})
       .map(([key, values]) => {
         if (!Array.isArray(values) || values.length === 0) return "";
-        const label = key.replaceAll("_", " ");
+        const label = optionLabel(key);
         return `
           <label class="custom-field">
             <span>${escapeHtml(label.charAt(0).toUpperCase() + label.slice(1))}</span>
@@ -388,7 +393,7 @@
     const details = [];
     for (const [key, value] of data.entries()) {
       if (key !== "reference_photos" && String(value).trim()) {
-        details.push(`<li><strong>${escapeHtml(key.replaceAll("_", " "))}:</strong> ${escapeHtml(value)}</li>`);
+        details.push(`<li><strong>${escapeHtml(optionLabel(key))}:</strong> ${escapeHtml(value)}</li>`);
       }
     }
     const photoCount = retainedAttachments.length + customPhotoFiles.length;
