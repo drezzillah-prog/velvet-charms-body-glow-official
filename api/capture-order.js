@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { get } from "@vercel/blob";
 
 const CURRENCY = "USD";
 
@@ -62,11 +63,11 @@ function validatedItems(requestBody) {
     const attachments = (Array.isArray(rawItem?.attachments) ? rawItem.attachments : [])
       .slice(0, 5)
       .map(attachment => {
-        const url = new URL(String(attachment?.url || ""));
-        if (url.protocol !== "https:" || !url.hostname.endsWith(".blob.vercel-storage.com")) {
+        const pathname = String(attachment?.pathname || "");
+        if (!/^custom-orders\/reference-[A-Za-z0-9._-]+$/.test(pathname)) {
           throw new Error("INVALID_CART");
         }
-        return { url: url.toString(), name: String(attachment?.name || "Reference photo").slice(0, 200) };
+        return { pathname, name: String(attachment?.name || "Reference photo").slice(0, 200) };
       });
 
     return {
@@ -94,14 +95,35 @@ function orderRows(items) {
     const details = Object.entries(item.options)
       .map(([key, value]) => `<li><strong>${escapeHtml(key.replaceAll("_", " "))}:</strong> ${escapeHtml(value)}</li>`)
       .join("");
-    const photos = item.attachments
-      .map((photo, index) => `<a href="${escapeHtml(photo.url)}">Reference photo ${index + 1}</a>`)
-      .join(" · ");
-    return `<tr><td>${escapeHtml(item.name)}${details ? `<ul>${details}</ul>` : ""}${photos ? `<p>${photos}</p>` : ""}</td><td>${item.quantity}</td><td>$${(item.price * item.quantity).toFixed(2)}</td></tr>`;
+    const photos = item.attachments.length
+      ? `<p><strong>${item.attachments.length} private reference photo(s) attached to this email.</strong></p>`
+      : "";
+    return `<tr><td>${escapeHtml(item.name)}${details ? `<ul>${details}</ul>` : ""}${photos}</td><td>${item.quantity}</td><td>$${(item.price * item.quantity).toFixed(2)}</td></tr>`;
   }).join("");
 }
 
-async function sendEmail(to, subject, html) {
+async function privatePhotoAttachments(items) {
+  const photos = items.flatMap(item => item.attachments || []);
+  const attachments = [];
+
+  for (let index = 0; index < photos.length; index += 1) {
+    const photo = photos[index];
+    const result = await get(photo.pathname, {
+      access: "private",
+      token: process.env.BLOB_READ_WRITE_TOKEN
+    });
+    if (result?.statusCode !== 200) continue;
+    const buffer = Buffer.from(await new Response(result.stream).arrayBuffer());
+    attachments.push({
+      content: buffer.toString("base64"),
+      filename: String(photo.name || `reference-photo-${index + 1}.jpg`).replace(/[^A-Za-z0-9._-]/g, "_")
+    });
+  }
+
+  return attachments;
+}
+
+async function sendEmail(to, subject, html, attachments = [], idempotencyKey = "") {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.ORDER_FROM_EMAIL;
   if (!apiKey || !from || !to) return false;
@@ -110,9 +132,10 @@ async function sendEmail(to, subject, html) {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      ...(idempotencyKey ? { "Idempotency-Key": idempotencyKey } : {})
     },
-    body: JSON.stringify({ from, to: [to], subject, html })
+    body: JSON.stringify({ from, to: [to], subject, html, ...(attachments.length ? { attachments } : {}) })
   });
   if (!response.ok) {
     console.error("Order email failed:", response.status, await response.text());
@@ -202,18 +225,23 @@ export default async function handler(req, res) {
     const payerEmail = capture.payer?.email_address || "";
     const total = `$${expectedTotal.toFixed(2)} ${CURRENCY}`;
     const table = `<table cellpadding="8" cellspacing="0" border="1"><thead><tr><th>Product</th><th>Quantity</th><th>Total</th></tr></thead><tbody>${orderRows(items)}</tbody></table>`;
+    const photoAttachments = await privatePhotoAttachments(items);
 
     const ownerEmailSent = await sendEmail(
       process.env.ORDER_NOTIFICATION_EMAIL,
       `New paid Velvet Charms order ${capture.id}`,
-      `<h1>New paid order</h1><p><strong>PayPal order:</strong> ${escapeHtml(capture.id)}</p><p><strong>Customer:</strong> ${escapeHtml(payerName)} (${escapeHtml(payerEmail)})</p>${table}<p><strong>Order total:</strong> ${total}</p>`
+      `<h1>New paid order</h1><p><strong>PayPal order:</strong> ${escapeHtml(capture.id)}</p><p><strong>Customer:</strong> ${escapeHtml(payerName)} (${escapeHtml(payerEmail)})</p>${table}<p><strong>Order total:</strong> ${total}</p>`,
+      photoAttachments,
+      `owner-order-${capture.id}`
     );
 
     const customerEmailSent = payerEmail
       ? await sendEmail(
           payerEmail,
           `Velvet Charms order confirmation ${capture.id}`,
-          `<h1>Thank you for your order!</h1><p>Hello ${escapeHtml(payerName)},</p><p>Your payment has been confirmed.</p>${table}<p><strong>Order total:</strong> ${total}</p><p>We will contact you if any customization detail needs clarification.</p>`
+          `<h1>Thank you for your order!</h1><p>Hello ${escapeHtml(payerName)},</p><p>Your payment has been confirmed.</p>${table}<p><strong>Order total:</strong> ${total}</p><p>We will contact you if any customization detail needs clarification.</p>`,
+          [],
+          `customer-order-${capture.id}`
         )
       : false;
 
