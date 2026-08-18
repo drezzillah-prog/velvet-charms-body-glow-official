@@ -59,12 +59,23 @@ function validatedItems(requestBody) {
       options[key] = cleanValue;
     }
 
+    const attachments = (Array.isArray(rawItem?.attachments) ? rawItem.attachments : [])
+      .slice(0, 5)
+      .map(attachment => {
+        const url = new URL(String(attachment?.url || ""));
+        if (url.protocol !== "https:" || !url.hostname.endsWith(".blob.vercel-storage.com")) {
+          throw new Error("INVALID_CART");
+        }
+        return { url: url.toString(), name: String(attachment?.name || "Reference photo").slice(0, 200) };
+      });
+
     return {
       id: product.id,
       name: String(product.name),
       price: Number(product.price),
       quantity,
-      options
+      options,
+      attachments
     };
   });
 }
@@ -83,7 +94,10 @@ function orderRows(items) {
     const details = Object.entries(item.options)
       .map(([key, value]) => `<li><strong>${escapeHtml(key.replaceAll("_", " "))}:</strong> ${escapeHtml(value)}</li>`)
       .join("");
-    return `<tr><td>${escapeHtml(item.name)}${details ? `<ul>${details}</ul>` : ""}</td><td>${item.quantity}</td><td>$${(item.price * item.quantity).toFixed(2)}</td></tr>`;
+    const photos = item.attachments
+      .map((photo, index) => `<a href="${escapeHtml(photo.url)}">Reference photo ${index + 1}</a>`)
+      .join(" · ");
+    return `<tr><td>${escapeHtml(item.name)}${details ? `<ul>${details}</ul>` : ""}${photos ? `<p>${photos}</p>` : ""}</td><td>${item.quantity}</td><td>$${(item.price * item.quantity).toFixed(2)}</td></tr>`;
   }).join("");
 }
 
