@@ -71,12 +71,23 @@ function validatedItems(requestBody) {
       options[key] = cleanValue;
     }
 
+    const attachments = (Array.isArray(rawItem?.attachments) ? rawItem.attachments : [])
+      .slice(0, 5)
+      .map(attachment => {
+        const url = new URL(String(attachment?.url || ""));
+        if (url.protocol !== "https:" || !url.hostname.endsWith(".blob.vercel-storage.com")) {
+          throw new Error("INVALID_CUSTOMIZATION");
+        }
+        return { url: url.toString(), name: String(attachment?.name || "Reference photo").slice(0, 200) };
+      });
+
     return {
       id: product.id,
       name: String(product.name).slice(0, 127),
       quantity,
       price,
-      options
+      options,
+      attachments
     };
   });
 }
@@ -154,7 +165,9 @@ export default async function handler(req, res) {
               }
             },
             items: items.map(item => {
-              const description = paypalDescription(item.options);
+              const baseDescription = paypalDescription(item.options);
+              const photoLabel = item.attachments.length ? `${item.attachments.length} reference photo(s)` : "";
+              const description = [baseDescription, photoLabel].filter(Boolean).join("; ").slice(0, 127);
               return {
                 name: item.name,
                 quantity: String(item.quantity),
