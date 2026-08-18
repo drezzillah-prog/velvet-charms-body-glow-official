@@ -74,11 +74,11 @@ function validatedItems(requestBody) {
     const attachments = (Array.isArray(rawItem?.attachments) ? rawItem.attachments : [])
       .slice(0, 5)
       .map(attachment => {
-        const url = new URL(String(attachment?.url || ""));
-        if (url.protocol !== "https:" || !url.hostname.endsWith(".blob.vercel-storage.com")) {
+        const pathname = String(attachment?.pathname || "");
+        if (!/^custom-orders\/reference-[A-Za-z0-9._-]+$/.test(pathname)) {
           throw new Error("INVALID_CUSTOMIZATION");
         }
-        return { url: url.toString(), name: String(attachment?.name || "Reference photo").slice(0, 200) };
+        return { pathname, name: String(attachment?.name || "Reference photo").slice(0, 200) };
       });
 
     return {
