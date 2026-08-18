@@ -65,6 +65,12 @@
     return JSON.stringify(left || {}) === JSON.stringify(right || {});
   }
 
+  function optionSummary(options) {
+    return Object.entries(options || {})
+      .filter(([, value]) => String(value || "").trim())
+      .map(([key, value]) => `${key.replaceAll("_", " ")}: ${value}`);
+  }
+
   function addToCart(product, qty = 1, options = {}) {
     if (!product || !product.id || !Number.isFinite(Number(product.price))) return;
 
@@ -166,6 +172,22 @@
             </button>
           </div>
         </aside>
+
+        <div class="custom-modal" data-custom-modal aria-hidden="true">
+          <div class="custom-dialog" role="dialog" aria-modal="true" aria-labelledby="custom-title">
+            <button class="custom-close" type="button" data-custom-close aria-label="Close customization">×</button>
+            <h2 id="custom-title" data-custom-title>Customize product</h2>
+            <p class="custom-intro">Choose your preferences, then add this personalized item to your cart.</p>
+            <form data-custom-form>
+              <div data-custom-fields></div>
+              <label class="custom-field">
+                <span>Special instructions</span>
+                <textarea name="special_instructions" rows="4" maxlength="1000" placeholder="Colors, shapes, personal message, or any other details..."></textarea>
+              </label>
+              <button class="btn custom-submit" type="submit">Add customized item to cart</button>
+            </form>
+          </div>
+        </div>
       `
     );
 
@@ -201,6 +223,9 @@
             <div class="cart-item-details">
               <p class="cart-item-name">${escapeHtml(item.name)}</p>
               <p class="cart-item-price">${money(item.price)} each</p>
+              ${optionSummary(item.options).length
+                ? `<ul class="cart-item-options">${optionSummary(item.options).map(line => `<li>${escapeHtml(line)}</li>`).join("")}</ul>`
+                : ""}
               <div class="cart-quantity" aria-label="Quantity controls for ${escapeHtml(item.name)}">
                 <button type="button" data-cart-decrease="${index}" aria-label="Decrease quantity">−</button>
                 <strong>${item.qty}</strong>
@@ -236,6 +261,57 @@
     document.querySelector("[data-cart-drawer]")?.classList.remove("is-open");
     document.querySelector("[data-cart-backdrop]")?.classList.remove("is-open");
     document.querySelector("[data-cart-drawer]")?.setAttribute("aria-hidden", "true");
+  }
+
+  function openCustomization(product) {
+    const modal = document.querySelector("[data-custom-modal]");
+    const form = document.querySelector("[data-custom-form]");
+    const fields = document.querySelector("[data-custom-fields]");
+    if (!modal || !form || !fields) return;
+
+    form.reset();
+    form.dataset.productId = product.id;
+    document.querySelector("[data-custom-title]").textContent = `Customize ${product.name}`;
+
+    fields.innerHTML = Object.entries(product.options || {})
+      .map(([key, values]) => {
+        if (!Array.isArray(values) || values.length === 0) return "";
+        const label = key.replaceAll("_", " ");
+        return `
+          <label class="custom-field">
+            <span>${escapeHtml(label.charAt(0).toUpperCase() + label.slice(1))}</span>
+            <select name="${escapeHtml(key)}" required>
+              <option value="">Choose an option</option>
+              ${values.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join("")}
+            </select>
+          </label>
+        `;
+      })
+      .join("");
+
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+  }
+
+  function closeCustomization() {
+    const modal = document.querySelector("[data-custom-modal]");
+    modal?.classList.remove("is-open");
+    modal?.setAttribute("aria-hidden", "true");
+  }
+
+  function addCustomizedItem(form) {
+    const product = findProduct(form.dataset.productId);
+    if (!product) return;
+
+    const data = new FormData(form);
+    const options = {};
+    for (const [key, value] of data.entries()) {
+      const cleanValue = String(value).trim();
+      if (cleanValue) options[key] = cleanValue;
+    }
+
+    addToCart(product, 1, options);
+    closeCustomization();
   }
 
   async function checkoutAll() {
@@ -276,7 +352,7 @@
       const response = await fetch("/api/capture-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderID: params.get("token") })
+        body: JSON.stringify({ orderID: params.get("token"), cart: loadCart() })
       });
 
       const data = await response.json();
@@ -286,7 +362,11 @@
 
       localStorage.removeItem(CART_KEY);
       renderCart();
-      alert("Payment completed successfully. Thank you for your order!");
+      alert(
+        data.customerEmailSent
+          ? "Payment completed successfully. Your confirmation email is on its way!"
+          : "Payment completed successfully. Thank you for your order!"
+      );
     } catch (error) {
       console.error("PayPal capture error:", error);
       alert("PayPal approved the order, but confirmation failed. Please contact us before trying again.");
@@ -308,8 +388,21 @@
       return;
     }
 
+    const customizeButton = event.target.closest("[data-customize-product]");
+    if (customizeButton) {
+      const product = findProduct(customizeButton.dataset.customizeProduct);
+      if (!product) {
+        alert("This product could not be customized. Please refresh the page.");
+        return;
+      }
+      openCustomization(product);
+      return;
+    }
+
     if (event.target.closest("[data-cart-open]")) openCart();
     if (event.target.closest("[data-cart-close], [data-cart-backdrop]")) closeCart();
+    if (event.target.closest("[data-custom-close]")) closeCustomization();
+    if (event.target.matches("[data-custom-modal]")) closeCustomization();
 
     const increaseButton = event.target.closest("[data-cart-increase]");
     if (increaseButton) changeQuantity(Number(increaseButton.dataset.cartIncrease), 1);
@@ -324,7 +417,16 @@
   });
 
   document.addEventListener("keydown", event => {
-    if (event.key === "Escape") closeCart();
+    if (event.key === "Escape") {
+      closeCart();
+      closeCustomization();
+    }
+  });
+
+  document.addEventListener("submit", event => {
+    if (!event.target.matches("[data-custom-form]")) return;
+    event.preventDefault();
+    addCustomizedItem(event.target);
   });
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -332,4 +434,3 @@
     captureApprovedOrder();
   });
 })();
-
