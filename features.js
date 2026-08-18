@@ -236,7 +236,7 @@
                 ? `<ul class="cart-item-options">${optionSummary(item.options).map(line => `<li>${escapeHtml(line)}</li>`).join("")}</ul>`
                 : ""}
               ${item.attachments?.length
-                ? `<div class="cart-photo-strip">${item.attachments.map(photo => `<a href="${escapeHtml(photo.url)}" target="_blank" rel="noopener"><img src="${escapeHtml(photo.url)}" alt="Customization reference"></a>`).join("")}</div>`
+                ? `<div class="cart-photo-strip">${item.attachments.map((photo, photoIndex) => `<span class="private-photo-chip">📷 Reference photo ${photoIndex + 1} attached</span>`).join("")}</div>`
                 : ""}
               <div class="cart-quantity" aria-label="Quantity controls for ${escapeHtml(item.name)}">
                 <button type="button" data-cart-decrease="${index}" aria-label="Decrease quantity">−</button>
@@ -382,7 +382,7 @@
         const uploaded = await uploadPhoto(file, percentage => {
           status.textContent = `Uploading photo ${index + 1} of ${files.length}: ${percentage}%`;
         });
-        attachments.push({ url: uploaded.url, name: uploaded.pathname || file.name });
+        attachments.push({ pathname: uploaded.pathname, name: file.name });
       }
       addToCart(product, 1, options, attachments);
       status.textContent = "";
