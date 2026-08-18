@@ -34,44 +34,19 @@
       price.textContent = "$" + product.price;
       card.appendChild(price);
 
-      const buyBtn = document.createElement("a");
-      buyBtn.className = "btn primary";
-      buyBtn.textContent = "Buy Now";
-
-      if (product.paymentLink) {
-        buyBtn.href = product.paymentLink;
-      } else {
-        buyBtn.href =
-          "https://www.paypal.com/cgi-bin/webscr?cmd=_xclick" +
-          "&business=rosalinda.mauve@gmail.com" +
-          "&item_name=" + encodeURIComponent(product.name) +
-          "&amount=" + product.price +
-          "&currency_code=USD";
-      }
-
-      buyBtn.target = "_blank";
-      buyBtn.rel = "noopener noreferrer";
-      card.appendChild(buyBtn);
-
       const cartBtn = document.createElement("button");
-      cartBtn.className = "btn cart-add-btn";
+      cartBtn.className = "btn primary cart-add-btn";
       cartBtn.type = "button";
       cartBtn.textContent = "Add to cart";
       cartBtn.dataset.addToCart = product.id;
       card.appendChild(cartBtn);
     }
 
-    const customBtn = document.createElement("a");
+    const customBtn = document.createElement("button");
     customBtn.className = "btn small";
-    customBtn.textContent = "Request customization";
-
-    const message =
-      "Hello! I’d like to request a customization for:\n\n" +
-      "Product: " + product.name + "\n" +
-      "Product ID: " + product.id + "\n\n" +
-      "My customization idea:";
-
-    customBtn.href = "contact.html?message=" + encodeURIComponent(message);
+    customBtn.type = "button";
+    customBtn.textContent = "Customize";
+    customBtn.dataset.customizeProduct = product.id;
     card.appendChild(customBtn);
 
     return card;
