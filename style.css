@@ -592,6 +592,17 @@ color:#c78fb3;
   font-weight:600;
 }
 
+.private-photo-chip{
+  display:inline-flex;
+  align-items:center;
+  padding:7px 10px;
+  border-radius:999px;
+  background:#f4e2e9;
+  color:#66555e;
+  font-size:.78rem;
+  font-weight:600;
+}
+
 .custom-submit:disabled{
   opacity:.6;
   cursor:wait;
