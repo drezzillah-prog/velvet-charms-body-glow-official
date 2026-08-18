@@ -7,6 +7,10 @@
 
   const CART_KEY = "velvet_cart_body_glow";
   const CURRENCY = "USD";
+  let customPhotoFiles = [];
+  let retainedAttachments = [];
+  let editingItemIndex = null;
+  let customStep = 1;
 
   function emptyCart() {
     return { items: [] };
@@ -180,20 +184,40 @@
             <button class="custom-close" type="button" data-custom-close aria-label="Close customization">×</button>
             <h2 id="custom-title" data-custom-title>Customize product</h2>
             <p class="custom-intro">Choose your preferences, then add this personalized item to your cart.</p>
+            <ol class="custom-steps" aria-label="Customization progress">
+              <li data-step-indicator="1">1. Options</li>
+              <li data-step-indicator="2">2. Photos</li>
+              <li data-step-indicator="3">3. Review</li>
+            </ol>
             <form data-custom-form>
-              <div data-custom-fields></div>
-              <label class="custom-field">
-                <span>Special instructions</span>
-                <textarea name="special_instructions" rows="4" maxlength="1000" placeholder="Colors, shapes, personal message, or any other details..."></textarea>
-              </label>
-              <label class="custom-field custom-photo-field">
-                <span>Reference photos (up to 5)</span>
-                <input type="file" name="reference_photos" accept="image/jpeg,image/png,image/webp" capture="environment" multiple>
-                <small>JPG, PNG or WEBP. Large photos are optimized before upload.</small>
-              </label>
-              <div class="custom-photo-preview" data-custom-photo-preview></div>
-              <div class="custom-upload-status" data-custom-upload-status aria-live="polite"></div>
-              <button class="btn custom-submit" type="submit">Add customized item to cart</button>
+              <section class="custom-step" data-custom-step="1">
+                <div data-custom-fields></div>
+                <label class="custom-field">
+                  <span>Special instructions</span>
+                  <textarea name="special_instructions" rows="4" maxlength="1000" placeholder="Colors, shapes, personal message, or any other details..."></textarea>
+                </label>
+                <div class="custom-actions"><button class="btn" type="button" data-custom-next>Continue to photos</button></div>
+              </section>
+              <section class="custom-step" data-custom-step="2" hidden>
+                <label class="custom-field custom-photo-field">
+                  <span>Reference photos (up to 5)</span>
+                  <input type="file" name="reference_photos" accept="image/jpeg,image/png,image/webp" capture="environment" multiple>
+                  <small>Preview, remove or reorder photos before upload.</small>
+                </label>
+                <div class="custom-photo-preview" data-custom-photo-preview></div>
+                <div class="custom-upload-status" data-custom-upload-status aria-live="polite"></div>
+                <div class="custom-actions">
+                  <button class="btn custom-secondary" type="button" data-custom-prev>Back</button>
+                  <button class="btn" type="button" data-custom-next>Review customization</button>
+                </div>
+              </section>
+              <section class="custom-step" data-custom-step="3" hidden>
+                <div class="custom-review" data-custom-review></div>
+                <div class="custom-actions">
+                  <button class="btn custom-secondary" type="button" data-custom-prev>Back</button>
+                  <button class="btn custom-submit" type="submit">Add customized item to cart</button>
+                </div>
+              </section>
             </form>
           </div>
         </div>
@@ -246,6 +270,7 @@
             </div>
             <div>
               <p><strong>${money(item.price * item.qty)}</strong></p>
+              <button class="cart-edit" type="button" data-cart-edit="${index}">Edit customization</button>
               <button class="cart-remove" type="button" data-cart-remove="${index}">Remove</button>
             </div>
           </div>
@@ -275,17 +300,21 @@
     document.querySelector("[data-cart-drawer]")?.setAttribute("aria-hidden", "true");
   }
 
-  function openCustomization(product) {
+  function openCustomization(product, itemIndex = null) {
     const modal = document.querySelector("[data-custom-modal]");
     const form = document.querySelector("[data-custom-form]");
     const fields = document.querySelector("[data-custom-fields]");
     if (!modal || !form || !fields) return;
 
+    const item = itemIndex === null ? null : loadCart().items[itemIndex];
+    editingItemIndex = itemIndex;
+    customPhotoFiles = [];
+    retainedAttachments = item?.attachments ? [...item.attachments] : [];
     form.reset();
     form.dataset.productId = product.id;
     document.querySelector("[data-custom-photo-preview]").innerHTML = "";
     document.querySelector("[data-custom-upload-status]").textContent = "";
-    document.querySelector("[data-custom-title]").textContent = `Customize ${product.name}`;
+    document.querySelector("[data-custom-title]").textContent = item ? `Edit ${product.name}` : `Customize ${product.name}`;
 
     fields.innerHTML = Object.entries(product.options || {})
       .map(([key, values]) => {
@@ -303,8 +332,67 @@
       })
       .join("");
 
+    if (item) {
+      Object.entries(item.options || {}).forEach(([key, value]) => {
+        const field = form.elements[key];
+        if (field) field.value = value;
+      });
+    }
+    renderSelectedPhotos();
+    setCustomStep(1);
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
+  }
+
+  function renderSelectedPhotos() {
+    const preview = document.querySelector("[data-custom-photo-preview]");
+    if (!preview) return;
+    preview.innerHTML = retainedAttachments.map((photo, index) =>
+      `<div class="photo-preview-card"><span>📷 Saved photo ${index + 1}</span><button type="button" data-existing-photo-remove="${index}">Remove</button></div>`
+    ).join("");
+    customPhotoFiles.forEach((file, index) => {
+      const card = document.createElement("div");
+      card.className = "photo-preview-card";
+      const image = document.createElement("img");
+      const url = URL.createObjectURL(file);
+      image.src = url;
+      image.alt = file.name;
+      image.onload = () => URL.revokeObjectURL(url);
+      card.appendChild(image);
+      card.insertAdjacentHTML("beforeend", `<div class="photo-controls"><button type="button" data-photo-up="${index}" aria-label="Move photo left">←</button><button type="button" data-photo-down="${index}" aria-label="Move photo right">→</button><button type="button" data-photo-remove="${index}">Remove</button></div>`);
+      preview.appendChild(card);
+    });
+  }
+
+  function setCustomStep(step) {
+    const form = document.querySelector("[data-custom-form]");
+    if (!form) return;
+    if (step > customStep && customStep === 1 && !form.reportValidity()) return;
+    customStep = Math.max(1, Math.min(3, step));
+    document.querySelectorAll("[data-custom-step]").forEach(section => {
+      section.hidden = Number(section.dataset.customStep) !== customStep;
+    });
+    document.querySelectorAll("[data-step-indicator]").forEach(indicator => {
+      indicator.classList.toggle("is-active", Number(indicator.dataset.stepIndicator) === customStep);
+      indicator.classList.toggle("is-complete", Number(indicator.dataset.stepIndicator) < customStep);
+    });
+    if (customStep === 3) renderCustomizationReview();
+  }
+
+  function renderCustomizationReview() {
+    const form = document.querySelector("[data-custom-form]");
+    const review = document.querySelector("[data-custom-review]");
+    const product = findProduct(form?.dataset.productId);
+    if (!form || !review || !product) return;
+    const data = new FormData(form);
+    const details = [];
+    for (const [key, value] of data.entries()) {
+      if (key !== "reference_photos" && String(value).trim()) {
+        details.push(`<li><strong>${escapeHtml(key.replaceAll("_", " "))}:</strong> ${escapeHtml(value)}</li>`);
+      }
+    }
+    const photoCount = retainedAttachments.length + customPhotoFiles.length;
+    review.innerHTML = `<h3>${escapeHtml(product.name)}</h3><p><strong>${money(product.price)}</strong></p>${details.length ? `<ul>${details.join("")}</ul>` : "<p>As displayed, with no extra options.</p>"}<p>📷 ${photoCount} private reference photo(s)</p><p class="review-note">Please confirm every detail before adding this item to your cart.</p>`;
   }
 
   function closeCustomization() {
@@ -365,8 +453,8 @@
       if (cleanValue) options[key] = cleanValue;
     }
 
-    const files = Array.from(form.elements.reference_photos.files || []);
-    if (files.length > 5) {
+    const files = customPhotoFiles;
+    if (retainedAttachments.length + files.length > 5) {
       alert("Please choose no more than 5 reference photos.");
       return;
     }
@@ -376,7 +464,7 @@
     submit.disabled = true;
 
     try {
-      const attachments = [];
+      const attachments = [...retainedAttachments];
       for (let index = 0; index < files.length; index += 1) {
         const file = await optimizedImage(files[index]);
         const uploaded = await uploadPhoto(file, percentage => {
@@ -384,7 +472,18 @@
         });
         attachments.push({ pathname: uploaded.pathname, name: file.name });
       }
-      addToCart(product, 1, options, attachments);
+      if (editingItemIndex !== null) {
+        const cart = loadCart();
+        const item = cart.items[editingItemIndex];
+        if (item) {
+          item.options = options;
+          item.attachments = attachments;
+          saveCart(cart);
+          openCart();
+        }
+      } else {
+        addToCart(product, 1, options, attachments);
+      }
       status.textContent = "";
       closeCustomization();
     } catch (error) {
@@ -491,8 +590,45 @@
     const decreaseButton = event.target.closest("[data-cart-decrease]");
     if (decreaseButton) changeQuantity(Number(decreaseButton.dataset.cartDecrease), -1);
 
+    const editButton = event.target.closest("[data-cart-edit]");
+    if (editButton) {
+      const index = Number(editButton.dataset.cartEdit);
+      const item = loadCart().items[index];
+      const product = item ? findProduct(item.id) : null;
+      if (product) {
+        closeCart();
+        openCustomization(product, index);
+      }
+    }
+
     const removeButton = event.target.closest("[data-cart-remove]");
     if (removeButton) removeItem(Number(removeButton.dataset.cartRemove));
+
+    if (event.target.closest("[data-custom-next]")) setCustomStep(customStep + 1);
+    if (event.target.closest("[data-custom-prev]")) setCustomStep(customStep - 1);
+
+    const removePhoto = event.target.closest("[data-photo-remove]");
+    if (removePhoto) {
+      customPhotoFiles.splice(Number(removePhoto.dataset.photoRemove), 1);
+      renderSelectedPhotos();
+    }
+    const removeExisting = event.target.closest("[data-existing-photo-remove]");
+    if (removeExisting) {
+      retainedAttachments.splice(Number(removeExisting.dataset.existingPhotoRemove), 1);
+      renderSelectedPhotos();
+    }
+    const moveUp = event.target.closest("[data-photo-up]");
+    if (moveUp) {
+      const index = Number(moveUp.dataset.photoUp);
+      if (index > 0) [customPhotoFiles[index - 1], customPhotoFiles[index]] = [customPhotoFiles[index], customPhotoFiles[index - 1]];
+      renderSelectedPhotos();
+    }
+    const moveDown = event.target.closest("[data-photo-down]");
+    if (moveDown) {
+      const index = Number(moveDown.dataset.photoDown);
+      if (index < customPhotoFiles.length - 1) [customPhotoFiles[index + 1], customPhotoFiles[index]] = [customPhotoFiles[index], customPhotoFiles[index + 1]];
+      renderSelectedPhotos();
+    }
 
     if (event.target.closest("[data-checkout-all]")) checkoutAll();
   });
@@ -512,17 +648,9 @@
 
   document.addEventListener("change", event => {
     if (!event.target.matches('input[name="reference_photos"]')) return;
-    const preview = document.querySelector("[data-custom-photo-preview]");
-    const files = Array.from(event.target.files || []).slice(0, 5);
-    preview.innerHTML = "";
-    files.forEach(file => {
-      const image = document.createElement("img");
-      const url = URL.createObjectURL(file);
-      image.src = url;
-      image.alt = file.name;
-      image.onload = () => URL.revokeObjectURL(url);
-      preview.appendChild(image);
-    });
+    const available = Math.max(0, 5 - retainedAttachments.length);
+    customPhotoFiles = Array.from(event.target.files || []).slice(0, available);
+    renderSelectedPhotos();
   });
 
   document.addEventListener("DOMContentLoaded", () => {
