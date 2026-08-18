@@ -45,13 +45,13 @@ export default async function handler(req, res) {
     const extension = photo.mimetype === "image/png" ? "png" : photo.mimetype === "image/webp" ? "webp" : "jpg";
     const data = await readFile(photo.filepath);
     const blob = await put(`custom-orders/reference-${Date.now()}.${extension}`, data, {
-      access: "public",
+      access: "private",
       addRandomSuffix: true,
       contentType: photo.mimetype,
       token: process.env.BLOB_READ_WRITE_TOKEN
     });
 
-    return res.status(200).json({ url: blob.url, pathname: blob.pathname });
+    return res.status(200).json({ pathname: blob.pathname });
   } catch (error) {
     console.error("Photo upload error:", error);
     return res.status(400).json({ error: "The photo could not be uploaded. Please try again." });
