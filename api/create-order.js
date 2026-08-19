@@ -29,7 +29,7 @@ function catalogueProducts() {
   return new Map(products.map(product => [product.id, product]));
 }
 
-function validatedItems(requestBody) {
+function validatedItems(requestBody, market) {
   const rawItems = requestBody?.cart?.items;
   if (!Array.isArray(rawItems) || rawItems.length === 0 || rawItems.length > 100) {
     throw new Error("EMPTY_OR_INVALID_CART");
@@ -45,7 +45,9 @@ function validatedItems(requestBody) {
       throw new Error("INVALID_CART_ITEM");
     }
 
-    const price = Number(product.price);
+    const price = market === "RO"
+      ? Number(product.price_ro_usd)
+      : Number(product.price);
     if (!Number.isFinite(price) || price < 0) {
       throw new Error("INVALID_PRODUCT_PRICE");
     }
@@ -133,7 +135,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const items = validatedItems(req.body);
+    const market = String(req.headers["x-vercel-ip-country"] || "").toUpperCase() === "RO"
+      ? "RO"
+      : "INTL";
+    const items = validatedItems(req.body, market);
     const requestedDate = /^\d{4}-\d{2}-\d{2}$/.test(String(req.body?.cart?.requiredByDate || ""))
       ? String(req.body.cart.requiredByDate)
       : "";
@@ -157,6 +162,7 @@ export default async function handler(req, res) {
         intent: "CAPTURE",
         purchase_units: [
           {
+            custom_id: market,
             amount: {
               currency_code: CURRENCY,
               value: itemTotal.toFixed(2),
@@ -174,6 +180,7 @@ export default async function handler(req, res) {
               const description = [baseDescription, photoLabel, dateLabel].filter(Boolean).join("; ").slice(0, 127);
               return {
                 name: item.name,
+                sku: item.id,
                 quantity: String(item.quantity),
                 unit_amount: {
                   currency_code: CURRENCY,
@@ -208,7 +215,7 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: "PayPal approval link is unavailable." });
     }
 
-    return res.status(200).json({ orderID: order.id, approveUrl });
+    return res.status(200).json({ orderID: order.id, approveUrl, market });
   } catch (error) {
     console.error("Create order error:", error);
 
