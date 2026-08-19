@@ -10,7 +10,24 @@
     return res.json();
   }
 
-  function buildProductCard(product) {
+  function approximateMakingTime(categoryName, subcategoryName) {
+    if (categoryName === "Candles") {
+      return ["Spiritual Candle", "Divination Candles"].includes(subcategoryName)
+        ? "5–7 business days"
+        : "3–5 business days";
+    }
+    if (categoryName === "Body Care" || categoryName === "Soaps") return "3–5 business days";
+    if (categoryName === "Perfumes") return "5–7 business days";
+    if (subcategoryName === "Braided Blankets") return "10–20 business days";
+    if (["Hand-Knitted Scarves", "Matching Winter Set", "Felted Animals", "Pet Wear"].includes(subcategoryName)) {
+      return "7–14 business days";
+    }
+    if (categoryName === "Knitted & Braided Wool Creations") return "5–10 business days";
+    if (categoryName === "Bundles") return "7–14 business days";
+    return "Confirmed with your production slot";
+  }
+
+  function buildProductCard(product, categoryName, subcategoryName = "") {
 
     const card = document.createElement("article");
     card.className = "product-card";
@@ -26,6 +43,12 @@
     const name = document.createElement("h4");
     name.textContent = product.name;
     card.appendChild(name);
+
+    const makingTime = document.createElement("p");
+    makingTime.className = "product-making-time";
+    makingTime.innerHTML = "<strong>Approximate making time:</strong> " +
+      approximateMakingTime(categoryName, subcategoryName);
+    card.appendChild(makingTime);
 
     if (product.price) {
 
@@ -107,7 +130,7 @@
             grid.className = "products-grid";
 
             sub.products.forEach(function(product) {
-              grid.appendChild(buildProductCard(product));
+              grid.appendChild(buildProductCard(product, category.name, sub.name));
             });
 
             section.appendChild(grid);
@@ -121,7 +144,7 @@
         grid.className = "products-grid";
 
         category.products.forEach(function(product) {
-          grid.appendChild(buildProductCard(product));
+          grid.appendChild(buildProductCard(product, category.name));
         });
 
         section.appendChild(grid);
