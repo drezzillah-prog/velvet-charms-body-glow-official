@@ -20,15 +20,43 @@
     </div>
   </header>
 
-  <main class="main">
-    <h2>Contact</h2>
-    <form id="contact-form">
-      <label>Name<input type="text" name="name" required></label>
-      <label>Email (optional)<input type="email" name="email"></label>
-      <label>Message<textarea name="message" rows="5" required></textarea></label>
-      <label>Attach one file (image/pdf) <input type="file" name="attachment" accept=".png,.jpg,.jpeg,.pdf"></label>
-      <div><button type="submit" class="btn">Send</button></div>
-      <p id="contact-status" style="margin-top:10px;color:var(--muted)"></p>
+  <main class="main contact-panel">
+    <div class="contact-intro">
+      <p class="section-kicker">We would love to hear from you</p>
+      <h2>Let’s Create Something Meaningful</h2>
+      <p>
+        Tell us what you have in mind, whether you are asking about an existing piece,
+        planning a personalized gift or beginning a completely bespoke creation.
+      </p>
+    </div>
+
+    <form id="contact-form" class="contact-form">
+      <div class="contact-field-row">
+        <label class="contact-field">
+          <span>Your name</span>
+          <input type="text" name="name" autocomplete="name" placeholder="How should we address you?" required>
+        </label>
+        <label class="contact-field">
+          <span>Email <small>(optional)</small></span>
+          <input type="email" name="email" autocomplete="email" placeholder="you@example.com">
+        </label>
+      </div>
+
+      <label class="contact-field">
+        <span>Your message</span>
+        <textarea name="message" rows="6" placeholder="Share your idea, preferred details or any questions..." required></textarea>
+      </label>
+
+      <label class="contact-field contact-file-field">
+        <span>Reference file <small>(optional — image or PDF)</small></span>
+        <input type="file" name="attachment" accept=".png,.jpg,.jpeg,.pdf">
+      </label>
+
+      <div class="contact-actions">
+        <button type="submit" class="btn">Send your message</button>
+        <p>We usually reply within 1–2 business days.</p>
+      </div>
+      <p id="contact-status" class="contact-status" aria-live="polite"></p>
     </form>
   </main>
 
