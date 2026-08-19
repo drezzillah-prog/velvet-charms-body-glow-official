@@ -81,6 +81,11 @@ function validatedItems(requestBody) {
   });
 }
 
+function preferredDate(requestBody) {
+  const value = String(requestBody?.cart?.requiredByDate || "");
+  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : "";
+}
+
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -184,6 +189,10 @@ export default async function handler(req, res) {
 
   try {
     const items = validatedItems(req.body);
+    const requiredByDate = preferredDate(req.body);
+    const preferredDateLine = requiredByDate
+      ? `<p><strong>Preferred date requested:</strong> ${escapeHtml(requiredByDate)} (not yet confirmed)</p>`
+      : "<p><strong>Preferred date requested:</strong> None</p>";
     const expectedTotal = items.reduce(
       (total, item) => total + item.price * item.quantity,
       0
@@ -230,7 +239,7 @@ export default async function handler(req, res) {
     const ownerEmailSent = await sendEmail(
       process.env.ORDER_NOTIFICATION_EMAIL,
       `New paid Velvet Charms order ${capture.id}`,
-      `<h1>New paid order</h1><p><strong>PayPal order:</strong> ${escapeHtml(capture.id)}</p><p><strong>Customer:</strong> ${escapeHtml(payerName)} (${escapeHtml(payerEmail)})</p>${table}<p><strong>Order total:</strong> ${total}</p>`,
+      `<h1>New paid order</h1><p><strong>PayPal order:</strong> ${escapeHtml(capture.id)}</p><p><strong>Customer:</strong> ${escapeHtml(payerName)} (${escapeHtml(payerEmail)})</p>${preferredDateLine}${table}<p><strong>Order total:</strong> ${total}</p>`,
       photoAttachments,
       `owner-order-${capture.id}`
     );
@@ -239,7 +248,7 @@ export default async function handler(req, res) {
       ? await sendEmail(
           payerEmail,
           `Velvet Charms order confirmation ${capture.id}`,
-          `<h1>Thank you for your order!</h1><p>Hello ${escapeHtml(payerName)},</p><p>Your payment has been confirmed.</p>${table}<p><strong>Order total:</strong> ${total}</p><p>We will contact you if any customization detail needs clarification.</p>`,
+          `<h1>Thank you for your order!</h1><p>Hello ${escapeHtml(payerName)},</p><p>Your payment has been confirmed and your place in our production schedule is reserved.</p>${preferredDateLine}<p>Within 1–2 business days, we will confirm your production window and estimated dispatch date. Any preferred date remains unconfirmed until we review the creation and our current schedule.</p>${table}<p><strong>Order total:</strong> ${total}</p><p>We will contact you if any customization detail needs clarification.</p>`,
           [],
           `customer-order-${capture.id}`
         )
