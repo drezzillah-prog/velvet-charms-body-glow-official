@@ -131,6 +131,10 @@
     saveCart(cart);
   }
 
+  function t(value) {
+    return window.VELVET_I18N ? window.VELVET_I18N.t(value) : value;
+  }
+
   function money(value) {
     if (window.VELVET_CURRENCY) {
       return window.VELVET_CURRENCY.displayMoney(value);
@@ -478,7 +482,7 @@
 
     const files = customPhotoFiles;
     if (retainedAttachments.length + files.length > 5) {
-      alert("Please choose no more than 5 reference photos.");
+      alert(t("Please choose no more than 5 reference photos."));
       return;
     }
 
@@ -541,7 +545,7 @@
       window.location.assign(data.approveUrl);
     } catch (error) {
       console.error("PayPal checkout error:", error);
-      alert(error.message || "PayPal checkout is temporarily unavailable.");
+      alert(t(error.message || "PayPal checkout is temporarily unavailable."));
       checkoutButton.disabled = false;
       checkoutButton.textContent = "Checkout securely with PayPal";
     }
@@ -567,12 +571,12 @@
       renderCart();
       alert(
         data.customerEmailSent
-          ? "Payment completed successfully. Your confirmation email is on its way!"
-          : "Payment completed successfully. Thank you for your order!"
+          ? t("Payment completed successfully. Your confirmation email is on its way!")
+          : t("Payment completed successfully. Thank you for your order!")
       );
     } catch (error) {
       console.error("PayPal capture error:", error);
-      alert("PayPal approved the order, but confirmation failed. Please contact us before trying again.");
+      alert(t("PayPal approved the order, but confirmation failed. Please contact us before trying again."));
     } finally {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
@@ -583,7 +587,7 @@
     if (addButton) {
       const product = findProduct(addButton.dataset.addToCart);
       if (!product) {
-        alert("This product could not be added. Please refresh the page.");
+        alert(t("This product could not be added. Please refresh the page."));
         return;
       }
 
@@ -595,7 +599,7 @@
     if (customizeButton) {
       const product = findProduct(customizeButton.dataset.customizeProduct);
       if (!product) {
-        alert("This product could not be customized. Please refresh the page.");
+        alert(t("This product could not be customized. Please refresh the page."));
         return;
       }
       openCustomization(product);
