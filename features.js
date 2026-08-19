@@ -132,6 +132,9 @@
   }
 
   function money(value) {
+    if (window.VELVET_CURRENCY) {
+      return window.VELVET_CURRENCY.displayMoney(value);
+    }
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: CURRENCY
@@ -679,6 +682,8 @@
     customPhotoFiles = Array.from(event.target.files || []).slice(0, available);
     renderSelectedPhotos();
   });
+
+  document.addEventListener("velvet:currency-change", renderCart);
 
   document.addEventListener("DOMContentLoaded", () => {
     createCartUI();
