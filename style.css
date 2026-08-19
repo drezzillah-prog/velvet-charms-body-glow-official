@@ -983,3 +983,105 @@ body::after{
   .contact-field-row{grid-template-columns:1fr}
   .contact-actions{align-items:flex-start;flex-direction:column}
 }
+
+
+/* Meet the Collective and FAQ */
+.meet-team{
+  margin:38px 0;
+}
+
+.meet-team-heading{
+  max-width:880px;
+  margin-bottom:20px;
+}
+
+.meet-team-heading h3{
+  margin:.25rem 0 .7rem;
+  font-size:clamp(1.65rem,3vw,2.25rem);
+}
+
+.team-mosaic{
+  margin:0;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.78);
+  border-radius:22px;
+  background:#f9edf2;
+  box-shadow:0 18px 42px rgba(86,52,68,.17);
+}
+
+.team-mosaic img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.team-mosaic figcaption{
+  padding:12px 18px;
+  color:#806a74;
+  background:rgba(255,252,253,.94);
+  font-size:.78rem;
+  line-height:1.5;
+  text-align:center;
+}
+
+.faq-intro{
+  max-width:760px;
+  margin-bottom:30px;
+}
+
+.faq-list{
+  display:grid;
+  gap:12px;
+}
+
+.faq-list details{
+  overflow:hidden;
+  border:1px solid rgba(190,126,155,.24);
+  border-radius:15px;
+  background:rgba(255,255,255,.65);
+  transition:border-color .2s ease,background .2s ease,box-shadow .2s ease;
+}
+
+.faq-list details[open]{
+  border-color:rgba(178,103,138,.38);
+  background:rgba(255,255,255,.88);
+  box-shadow:0 8px 22px rgba(93,57,74,.08);
+}
+
+.faq-list summary{
+  position:relative;
+  padding:18px 52px 18px 20px;
+  color:#684858;
+  font-family:'Playfair Display',serif;
+  font-size:1.08rem;
+  font-weight:600;
+  cursor:pointer;
+  list-style:none;
+}
+
+.faq-list summary::-webkit-details-marker{display:none}
+
+.faq-list summary::after{
+  content:"+";
+  position:absolute;
+  top:50%;
+  right:20px;
+  width:26px;
+  height:26px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#f1dce5;
+  color:#7b5064;
+  font-family:'Inter',sans-serif;
+  transform:translateY(-50%);
+}
+
+.faq-list details[open] summary::after{content:"−"}
+
+.faq-list details p{
+  margin:0;
+  padding:0 20px 20px;
+  color:#5c4d54;
+  line-height:1.7;
+}
