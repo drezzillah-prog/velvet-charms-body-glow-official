@@ -7,6 +7,7 @@
   const originalAttributes = new WeakMap();
   let currentLanguage = "en";
   let observer;
+  const originalTitle = document.title;
 
   const ro = {
     "Home":"Acasă","Catalogue":"Catalog","About":"Despre noi","Contact":"Contact","Visit Art & Gifts":"Vizitează Art & Gifts",
@@ -139,6 +140,12 @@
     "Warm handcrafted winter set.":"Set călduros de iarnă, lucrat manual.","Small braided throw.":"Pătură mică, împletită manual.","Medium-size braided blanket.":"Pătură împletită de dimensiune medie.","Large cozy chunky-knit blanket.":"Pătură mare și confortabilă, cu împletitură amplă.",
     "Small hand-felted wool figurine.":"Figurină mică din lână, împâslită manual.","Medium-sized felted animal.":"Animal împâslit de dimensiune medie.","Custom animal family felted set.":"Set personalizat cu o familie de animale împâslite.","Handmade warm accessories for pets.":"Accesorii călduroase pentru animale, realizate manual.",
     "Herbal soap + face cream + small wax candle.":"Săpun natural, cremă de față și lumânare mică din ceară.","Beanie + scarf + mittens + small candle bundle.":"Căciulă, fular, mănuși și o lumânare mică.","Epoxy decor + wax candle + seasonal soap.":"Decor din rășină epoxidică, lumânare din ceară și săpun de sezon.",
+    "Sending…":"Se trimite…","Message sent. Thank you!":"Mesajul a fost trimis. Îți mulțumim!","Failed to send:":"Mesajul nu a putut fi trimis:","Error:":"Eroare:",
+    "Open shopping cart":"Deschide coșul","Close shopping cart":"Închide coșul","Close customization":"Închide personalizarea",
+    "Options":"Opțiuni","Photos":"Fotografii","Review":"Verificare","As displayed, with no extra options.":"Așa cum este prezentat, fără opțiuni suplimentare.",
+    "Please confirm every detail before adding this item to your cart.":"Verifică toate detaliile înainte de a adăuga produsul în coș.",
+    "Payment completed successfully. Your confirmation email is on its way!":"Plata a fost finalizată cu succes. E-mailul de confirmare este pe drum!",
+    "Payment completed successfully. Thank you for your order!":"Plata a fost finalizată cu succes. Îți mulțumim pentru comandă!",
     "© Velvet Charms — Body Glow":"© Velvet Charms — Body Glow","© Velvet Charms — handmade with care":"© Velvet Charms — creat manual cu grijă","Currency rates":"Curs valutar"
   };
 
@@ -235,7 +242,7 @@
     translateTree(document.body);
     document.title = currentLanguage === "ro"
       ? (ro[normalize(document.title)] || document.title.replace("About", "Despre noi").replace("Contact", "Contact").replace("Catalogue", "Catalog").replace("Frequently Asked Questions", "Întrebări frecvente"))
-      : document.title;
+      : originalTitle;
     const select = document.querySelector("[data-language-switcher] select");
     if (select) select.value = currentLanguage;
     observer?.observe(document.body, { childList: true, subtree: true });
