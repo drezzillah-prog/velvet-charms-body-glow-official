@@ -1199,3 +1199,42 @@ body::after{
   z-index:1;
 }
 
+
+
+/* Language selection */
+.language-switcher{
+  display:inline-flex;
+  align-items:center;
+  margin-left:4px;
+}
+.language-switcher select{
+  min-width:58px;
+  padding:7px 25px 7px 10px;
+  border:1px solid rgba(183,120,149,.32);
+  border-radius:999px;
+  background:rgba(255,252,253,.86);
+  color:#674c58;
+  font:inherit;
+  font-size:.78rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  cursor:pointer;
+}
+.language-switcher select:focus-visible{
+  outline:2px solid rgba(199,164,76,.42);
+  outline-offset:2px;
+}
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+  border:0;
+}
+@media(max-width:760px){
+  .language-switcher{margin:3px 0}
+}
