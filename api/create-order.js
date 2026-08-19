@@ -134,6 +134,9 @@ export default async function handler(req, res) {
 
   try {
     const items = validatedItems(req.body);
+    const requestedDate = /^\d{4}-\d{2}-\d{2}$/.test(String(req.body?.cart?.requiredByDate || ""))
+      ? String(req.body.cart.requiredByDate)
+      : "";
     const itemTotal = items.reduce(
       (total, item) => total + item.price * item.quantity,
       0
@@ -164,10 +167,11 @@ export default async function handler(req, res) {
                 }
               }
             },
-            items: items.map(item => {
+            items: items.map((item, index) => {
               const baseDescription = paypalDescription(item.options);
               const photoLabel = item.attachments.length ? `${item.attachments.length} reference photo(s)` : "";
-              const description = [baseDescription, photoLabel].filter(Boolean).join("; ").slice(0, 127);
+              const dateLabel = index === 0 && requestedDate ? `Preferred date: ${requestedDate} (not confirmed)` : "";
+              const description = [baseDescription, photoLabel, dateLabel].filter(Boolean).join("; ").slice(0, 127);
               return {
                 name: item.name,
                 quantity: String(item.quantity),
