@@ -76,6 +76,11 @@
 
   function optionLabel(key) {
     if (key === "intensity") return "Scent intensity";
+    if (key === "vessel_preference") return "Vessel preference";
+    if (key === "hidden_message") return "Hidden message";
+    if (key === "ritual_card") return "Ritual card";
+    if (key === "collectible_charm") return "Collectible charm";
+    if (key === "velvet_passport") return "Velvet Passport";
     return key.replaceAll("_", " ");
   }
 
@@ -587,6 +592,8 @@
         throw new Error(data.error || "PayPal payment could not be confirmed.");
       }
 
+      const completedCart = loadCart();
+      document.dispatchEvent(new CustomEvent("velvet:order-completed", { detail: { cart: completedCart, order: data } }));
       localStorage.removeItem(CART_KEY);
       renderCart();
       alert(
@@ -601,6 +608,8 @@
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }
+
+  window.VELVET_CART = { add: addToCart, load: loadCart };
 
   document.addEventListener("click", event => {
     const addButton = event.target.closest("[data-add-to-cart]");
