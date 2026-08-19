@@ -44,6 +44,13 @@
     name.textContent = product.name;
     card.appendChild(name);
 
+    if (product.description) {
+      const description = document.createElement("p");
+      description.className = "product-description";
+      description.textContent = product.description;
+      card.appendChild(description);
+    }
+
     const makingTime = document.createElement("p");
     makingTime.className = "product-making-time";
     makingTime.innerHTML = "<strong>Approximate making time:</strong> " +
