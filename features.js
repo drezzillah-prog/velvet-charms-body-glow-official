@@ -13,7 +13,7 @@
   let customStep = 1;
 
   function emptyCart() {
-    return { items: [] };
+    return { items: [], requiredByDate: "" };
   }
 
   function loadCart() {
@@ -22,6 +22,9 @@
       if (!stored || !Array.isArray(stored.items)) return emptyCart();
 
       return {
+        requiredByDate: /^\d{4}-\d{2}-\d{2}$/.test(String(stored.requiredByDate || ""))
+          ? String(stored.requiredByDate)
+          : "",
         items: stored.items
           .filter(item => item && typeof item.id === "string")
           .map(item => ({
@@ -177,7 +180,13 @@
               <span>Total</span>
               <strong data-cart-total>$0.00</strong>
             </div>
-            <p class="cart-shipping-note">Shipping is confirmed separately when required.</p>
+            <label class="cart-needed-date">
+              <span>Do you need it by a specific date? <small>(optional)</small></span>
+              <input type="date" data-required-by-date>
+              <small>Tell us your preferred date. It is only confirmed after we review the creation and our current production schedule.</small>
+            </label>
+            <p class="cart-production-note">Payment reserves your place in our production schedule. Your production window and estimated dispatch date will be confirmed within 1–2 business days.</p>
+            <p class="cart-shipping-note">Shipping time is added separately after your creation is ready.</p>
             <button class="btn cart-checkout" type="button" data-checkout-all>
               Checkout securely with PayPal
             </button>
@@ -248,6 +257,12 @@
 
     const checkoutButton = document.querySelector("[data-checkout-all]");
     checkoutButton.disabled = cart.items.length === 0;
+
+    const requiredDateInput = document.querySelector("[data-required-by-date]");
+    if (requiredDateInput) {
+      requiredDateInput.value = cart.requiredByDate || "";
+      requiredDateInput.min = new Date().toISOString().slice(0, 10);
+    }
 
     if (!cart.items.length) {
       itemsRoot.innerHTML = '<p class="cart-empty">Your cart is empty.</p>';
@@ -652,6 +667,13 @@
   });
 
   document.addEventListener("change", event => {
+    if (event.target.matches("[data-required-by-date]")) {
+      const cart = loadCart();
+      cart.requiredByDate = event.target.value || "";
+      saveCart(cart);
+      return;
+    }
+
     if (!event.target.matches('input[name="reference_photos"]')) return;
     const available = Math.max(0, 5 - retainedAttachments.length);
     customPhotoFiles = Array.from(event.target.files || []).slice(0, available);
