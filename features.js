@@ -31,6 +31,7 @@
             id: item.id,
             name: String(item.name || ""),
             price: Number(item.price) || 0,
+            priceRo: Number(item.priceRo) || 0,
             qty: Math.max(1, Math.min(99, Number.parseInt(item.qty, 10) || 1)),
             options: item.options && typeof item.options === "object" ? item.options : {},
             attachments: Array.isArray(item.attachments) ? item.attachments.slice(0, 5) : []
@@ -99,6 +100,7 @@
         id: product.id,
         name: product.name,
         price: Number(product.price),
+        priceRo: Number(product.price_ro) || 0,
         qty: Math.max(1, qty),
         options,
         attachments: attachments.slice(0, 5)
@@ -135,9 +137,9 @@
     return window.VELVET_I18N ? window.VELVET_I18N.t(value) : value;
   }
 
-  function money(value) {
+  function money(value, romanianPrice = null) {
     if (window.VELVET_CURRENCY) {
-      return window.VELVET_CURRENCY.displayMoney(value);
+      return window.VELVET_CURRENCY.displayMoney(value, romanianPrice);
     }
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -150,11 +152,17 @@
       (sum, item) => sum + Number(item.price) * Number(item.qty),
       0
     );
+    const subtotalRo = cart.items.reduce(
+      (sum, item) => sum + Number(item.priceRo || 0) * Number(item.qty),
+      0
+    );
 
     return {
       itemCount: cart.items.reduce((sum, item) => sum + Number(item.qty), 0),
       subtotal,
-      total: subtotal
+      subtotalRo,
+      total: subtotal,
+      totalRo: subtotalRo
     };
   }
 
@@ -253,14 +261,26 @@
     if (!itemsRoot) return;
 
     const cart = loadCart();
+    let pricesChanged = false;
+    cart.items.forEach(item => {
+      const product = findProduct(item.id);
+      if (!product) return;
+      if (item.price !== Number(product.price) || item.priceRo !== Number(product.price_ro || 0)) {
+        item.price = Number(product.price);
+        item.priceRo = Number(product.price_ro) || 0;
+        item.name = product.name;
+        pricesChanged = true;
+      }
+    });
+    if (pricesChanged) localStorage.setItem(CART_KEY, JSON.stringify(cart));
     const totals = cartTotals(cart);
 
     document.querySelectorAll("[data-cart-count]").forEach(node => {
       node.textContent = totals.itemCount;
     });
 
-    document.querySelector("[data-cart-subtotal]").textContent = money(totals.subtotal);
-    document.querySelector("[data-cart-total]").textContent = money(totals.total);
+    document.querySelector("[data-cart-subtotal]").textContent = money(totals.subtotal, totals.subtotalRo);
+    document.querySelector("[data-cart-total]").textContent = money(totals.total, totals.totalRo);
 
     const checkoutButton = document.querySelector("[data-checkout-all]");
     checkoutButton.disabled = cart.items.length === 0;
@@ -282,7 +302,7 @@
           <div class="cart-item">
             <div class="cart-item-details">
               <p class="cart-item-name">${escapeHtml(item.name)}</p>
-              <p class="cart-item-price">${money(item.price)} each</p>
+              <p class="cart-item-price">${money(item.price, item.priceRo)} each</p>
               ${optionSummary(item.options).length
                 ? `<ul class="cart-item-options">${optionSummary(item.options).map(line => `<li>${escapeHtml(line)}</li>`).join("")}</ul>`
                 : ""}
@@ -296,7 +316,7 @@
               </div>
             </div>
             <div>
-              <p><strong>${money(item.price * item.qty)}</strong></p>
+              <p><strong>${money(item.price * item.qty, item.priceRo * item.qty)}</strong></p>
               <button class="cart-edit" type="button" data-cart-edit="${index}">Edit customization</button>
               <button class="cart-remove" type="button" data-cart-remove="${index}">Remove</button>
             </div>
@@ -419,7 +439,7 @@
       }
     }
     const photoCount = retainedAttachments.length + customPhotoFiles.length;
-    review.innerHTML = `<h3>${escapeHtml(product.name)}</h3><p><strong>${money(product.price)}</strong></p>${details.length ? `<ul>${details.join("")}</ul>` : "<p>As displayed, with no extra options.</p>"}<p>📷 ${photoCount} private reference photo(s)</p><p class="review-note">Please confirm every detail before adding this item to your cart.</p>`;
+    review.innerHTML = `<h3>${escapeHtml(product.name)}</h3><p><strong>${money(product.price, product.price_ro)}</strong></p>${details.length ? `<ul>${details.join("")}</ul>` : "<p>As displayed, with no extra options.</p>"}<p>📷 ${photoCount} private reference photo(s)</p><p class="review-note">Please confirm every detail before adding this item to your cart.</p>`;
   }
 
   function closeCustomization() {
