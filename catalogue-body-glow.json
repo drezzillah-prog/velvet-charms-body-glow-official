@@ -1121,11 +1121,11 @@
           "images": [
             "Natural Herbal Soap.png",
             "Natural Herbal Soap1.png",
-            "Natural Herbal Soap2.png",
+            "Natural Herbal Soap 2.png",
             "Natural Herbal Soap3.png",
-            "Natural Herbal Soap4.png",
-            "Natural Herbal Soap5.png",
-            "Natural Herbal Soap6.png"
+            "Natural Herbal Soap 4.png",
+            "Natural Herbal Soap 5.png",
+            "Natural Herbal Soap 6.png"
           ],
           "options": {
             "aroma": [
@@ -2174,7 +2174,7 @@
               "images": [
                 "Pet Beanie - shirt small.png",
                 "Pet Beanie - shirt small 2.png",
-                "Pet Beanie - shirt small2.png"
+                "Pet Beanie - shirt  small2.png"
               ],
               "price_ro": 99,
               "price_ro_usd": 22,
@@ -2660,3 +2660,4 @@
     }
   ]
 }
+
