@@ -2,7 +2,7 @@
 (function () {
   "use strict";
 
-  const state = { currency: "USD", rates: { USD: 1 } };
+  const state = { country: "", currency: "USD", rates: { USD: 1 } };
 
   function formatCurrency(amount, currency) {
     return new Intl.NumberFormat(undefined, {
@@ -12,7 +12,10 @@
     }).format(amount);
   }
 
-  function displayMoney(usdValue) {
+  function displayMoney(usdValue, romanianPrice = null) {
+    if (state.country === "RO" && Number.isFinite(Number(romanianPrice))) {
+      return formatCurrency(Number(romanianPrice), "RON");
+    }
     const usd = Number(usdValue) || 0;
     const rate = Number(state.rates[state.currency]) || 1;
     return formatCurrency(usd * rate, state.currency);
@@ -20,7 +23,7 @@
 
   function refreshPriceLabels() {
     document.querySelectorAll("[data-usd-price]").forEach(node => {
-      node.textContent = displayMoney(node.dataset.usdPrice);
+      node.textContent = displayMoney(node.dataset.usdPrice, node.dataset.roPrice);
     });
   }
 
@@ -35,6 +38,7 @@
       if (!response.ok) throw new Error("Currency service unavailable");
       const data = await response.json();
       state.rates = data.rates || { USD: 1 };
+      state.country = data.country || "";
       state.currency = data.currency && state.rates[data.currency] ? data.currency : "USD";
     } catch (error) {
       console.warn("Automatic local currency unavailable:", error);
@@ -50,7 +54,9 @@
 
   window.VELVET_CURRENCY = {
     displayMoney,
-    get currency() { return state.currency; }
+    get currency() { return state.currency; },
+    get country() { return state.country; },
+    get isRomania() { return state.country === "RO"; }
   };
 
   document.addEventListener("DOMContentLoaded", initialize);
