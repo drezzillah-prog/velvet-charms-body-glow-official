@@ -37,20 +37,23 @@ export default async function handler(req, res) {
   const localCurrency = COUNTRY_CURRENCY[country] || "USD";
 
   try {
-    const response = await fetch(
-      "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
-      { headers: { Accept: "application/xml" } }
-    );
-    if (!response.ok) throw new Error(`ECB request failed: ${response.status}`);
+    const response = await fetch("https://open.er-api.com/v6/latest/USD", {
+      headers: { Accept: "application/json" }
+    });
+    if (!response.ok) throw new Error(`Exchange rate request failed: ${response.status}`);
 
-    const rates = parseEcbRates(await response.text());
-    res.setHeader("Cache-Control", "public, s-maxage=21600, stale-while-revalidate=86400");
+    const data = await response.json();
+    if (data.result !== "success" || !data.rates?.USD) {
+      throw new Error("Exchange rate response unavailable");
+    }
+
+    res.setHeader("Cache-Control", "public, s-maxage=86400, stale-while-revalidate=172800");
     return res.status(200).json({
       base: "USD",
       country,
-      currency: rates[localCurrency] ? localCurrency : "USD",
-      rates,
-      source: "European Central Bank",
+      currency: data.rates[localCurrency] ? localCurrency : "USD",
+      rates: data.rates,
+      source: "ExchangeRate-API",
       estimated: true
     });
   } catch (error) {
