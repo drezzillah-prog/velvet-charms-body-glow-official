@@ -61,7 +61,10 @@
 
       const price = document.createElement("div");
       price.className = "price";
-      price.textContent = "$" + product.price;
+      price.dataset.usdPrice = product.price;
+      price.textContent = window.VELVET_CURRENCY
+        ? window.VELVET_CURRENCY.displayMoney(product.price)
+        : "$" + product.price;
       card.appendChild(price);
 
       const cartBtn = document.createElement("button");
