@@ -62,8 +62,9 @@
       const price = document.createElement("div");
       price.className = "price";
       price.dataset.usdPrice = product.price;
+      if (Number.isFinite(Number(product.price_ro))) price.dataset.roPrice = product.price_ro;
       price.textContent = window.VELVET_CURRENCY
-        ? window.VELVET_CURRENCY.displayMoney(product.price)
+        ? window.VELVET_CURRENCY.displayMoney(product.price, product.price_ro)
         : "$" + product.price;
       card.appendChild(price);
 
