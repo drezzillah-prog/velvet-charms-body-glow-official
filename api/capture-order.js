@@ -28,7 +28,7 @@ function catalogueProducts() {
   return new Map(products.map(product => [product.id, product]));
 }
 
-function validatedItems(requestBody) {
+function validatedItems(requestBody, market) {
   const rawItems = requestBody?.cart?.items;
   if (!Array.isArray(rawItems) || rawItems.length === 0 || rawItems.length > 100) {
     throw new Error("INVALID_CART");
@@ -73,7 +73,7 @@ function validatedItems(requestBody) {
     return {
       id: product.id,
       name: String(product.name),
-      price: Number(product.price),
+      price: market === "RO" ? Number(product.price_ro_usd) : Number(product.price),
       quantity,
       options,
       attachments
@@ -188,7 +188,39 @@ export default async function handler(req, res) {
   }
 
   try {
-    const items = validatedItems(req.body);
+    const baseUrl = paypalBaseUrl();
+    const token = await accessToken(baseUrl);
+    const detailsResponse = await fetch(
+      `${baseUrl}/v2/checkout/orders/${encodeURIComponent(orderID)}`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    const orderDetails = await detailsResponse.json();
+    if (!detailsResponse.ok) {
+      return res.status(502).json({ error: "PayPal order details could not be verified." });
+    }
+
+    const market = orderDetails.purchase_units?.[0]?.custom_id === "RO" ? "RO" : "INTL";
+    const deliveryCountry = String(
+      orderDetails.purchase_units?.[0]?.shipping?.address?.country_code ||
+      orderDetails.payer?.address?.country_code ||
+      ""
+    ).toUpperCase();
+    if (market === "RO" && deliveryCountry !== "RO") {
+      return res.status(409).json({
+        error: "Romanian prices require a delivery address in Romania. No payment was captured."
+      });
+    }
+
+    const items = validatedItems(req.body, market);
+    const paypalItems = orderDetails.purchase_units?.[0]?.items || [];
+    const itemsMatch = paypalItems.length === items.length && items.every((item, index) =>
+      paypalItems[index]?.sku === item.id &&
+      Number(paypalItems[index]?.quantity) === item.quantity
+    );
+    if (!itemsMatch) {
+      return res.status(409).json({ error: "The approved PayPal order no longer matches this cart." });
+    }
+
     const requiredByDate = preferredDate(req.body);
     const preferredDateLine = requiredByDate
       ? `<p><strong>Preferred date requested:</strong> ${escapeHtml(requiredByDate)} (not yet confirmed)</p>`
@@ -197,8 +229,6 @@ export default async function handler(req, res) {
       (total, item) => total + item.price * item.quantity,
       0
     );
-    const baseUrl = paypalBaseUrl();
-    const token = await accessToken(baseUrl);
 
     const response = await fetch(
       `${baseUrl}/v2/checkout/orders/${encodeURIComponent(orderID)}/capture`,
