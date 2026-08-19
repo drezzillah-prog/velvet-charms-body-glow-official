@@ -1,27 +1,29 @@
 const COUNTRY_CURRENCY = {
-  RO: "RON",
-  AT: "EUR", BE: "EUR", HR: "EUR", CY: "EUR", EE: "EUR", FI: "EUR",
-  FR: "EUR", DE: "EUR", GR: "EUR", IE: "EUR", IT: "EUR", LV: "EUR",
-  LT: "EUR", LU: "EUR", MT: "EUR", NL: "EUR", PT: "EUR", SK: "EUR",
-  SI: "EUR", ES: "EUR",
-  GB: "GBP", US: "USD", CA: "CAD", AU: "AUD"
+  AD:"EUR", AE:"AED", AF:"AFN", AL:"ALL", AM:"AMD", AO:"AOA", AR:"ARS", AT:"EUR",
+  AU:"AUD", AZ:"AZN", BA:"BAM", BD:"BDT", BE:"EUR", BG:"BGN", BH:"BHD", BR:"BRL",
+  BY:"BYN", CA:"CAD", CH:"CHF", CL:"CLP", CN:"CNY", CO:"COP", CR:"CRC", CY:"EUR",
+  CZ:"CZK", DE:"EUR", DK:"DKK", DO:"DOP", DZ:"DZD", EC:"USD", EE:"EUR", EG:"EGP",
+  ES:"EUR", FI:"EUR", FR:"EUR", GB:"GBP", GE:"GEL", GR:"EUR", GT:"GTQ", HK:"HKD",
+  HR:"EUR", HU:"HUF", ID:"IDR", IE:"EUR", IL:"ILS", IN:"INR", IS:"ISK", IT:"EUR",
+  JP:"JPY", KE:"KES", KR:"KRW", KW:"KWD", KZ:"KZT", LI:"CHF", LK:"LKR", LT:"EUR",
+  LU:"EUR", LV:"EUR", MA:"MAD", MD:"MDL", ME:"EUR", MK:"MKD", MT:"EUR", MX:"MXN",
+  MY:"MYR", NG:"NGN", NL:"EUR", NO:"NOK", NP:"NPR", NZ:"NZD", PA:"USD", PE:"PEN",
+  PH:"PHP", PK:"PKR", PL:"PLN", PT:"EUR", QA:"QAR", RO:"RON", RS:"RSD", RU:"RUB",
+  SA:"SAR", SE:"SEK", SG:"SGD", SI:"EUR", SK:"EUR", TH:"THB", TN:"TND", TR:"TRY",
+  TW:"TWD", UA:"UAH", US:"USD", UY:"UYU", VN:"VND", ZA:"ZAR"
 };
-
-const SUPPORTED = ["USD", "EUR", "RON", "GBP", "CAD", "AUD"];
 
 function parseEcbRates(xml) {
   const eurRates = { EUR: 1 };
   for (const match of xml.matchAll(/currency=['"]([A-Z]{3})['"]\s+rate=['"]([0-9.]+)['"]/g)) {
     eurRates[match[1]] = Number(match[2]);
   }
-
   if (!Number.isFinite(eurRates.USD)) throw new Error("ECB USD rate unavailable");
 
   return Object.fromEntries(
-    SUPPORTED.map(currency => [
-      currency,
-      currency === "USD" ? 1 : eurRates[currency] / eurRates.USD
-    ]).filter(([, rate]) => Number.isFinite(rate))
+    Object.entries(eurRates)
+      .map(([currency, rate]) => [currency, currency === "USD" ? 1 : rate / eurRates.USD])
+      .filter(([, rate]) => Number.isFinite(rate))
   );
 }
 
@@ -32,7 +34,7 @@ export default async function handler(req, res) {
   }
 
   const country = String(req.headers["x-vercel-ip-country"] || "").toUpperCase();
-  const suggestedCurrency = COUNTRY_CURRENCY[country] || "USD";
+  const localCurrency = COUNTRY_CURRENCY[country] || "USD";
 
   try {
     const response = await fetch(
@@ -46,7 +48,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       base: "USD",
       country,
-      suggestedCurrency: rates[suggestedCurrency] ? suggestedCurrency : "USD",
+      currency: rates[localCurrency] ? localCurrency : "USD",
       rates,
       source: "European Central Bank",
       estimated: true
@@ -57,7 +59,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       base: "USD",
       country,
-      suggestedCurrency: "USD",
+      currency: "USD",
       rates: { USD: 1 },
       source: "USD fallback",
       estimated: true
