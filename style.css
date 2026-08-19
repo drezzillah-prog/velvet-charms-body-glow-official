@@ -1085,3 +1085,76 @@ body::after{
   color:#5c4d54;
   line-height:1.7;
 }
+
+
+/* Individual Meet the Collective profiles */
+.team-profile-grid{
+  --team-image:none;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:18px;
+  margin-top:22px;
+}
+
+.team-profile{
+  overflow:hidden;
+  border:1px solid rgba(190,126,155,.24);
+  border-radius:18px;
+  background:rgba(255,255,255,.78);
+  box-shadow:0 10px 26px rgba(86,52,68,.11);
+  transition:transform .22s ease,box-shadow .22s ease;
+}
+
+.team-profile:hover{
+  transform:translateY(-3px);
+  box-shadow:0 15px 32px rgba(86,52,68,.16);
+}
+
+.team-profile-photo{
+  width:100%;
+  aspect-ratio:.505 / 1;
+  background-image:var(--team-image);
+  background-repeat:no-repeat;
+  background-size:700% 200%;
+  background-position:calc(var(--col) * 16.6666667%) calc(var(--row) * 100%);
+}
+
+.team-profile-copy{
+  min-height:82px;
+  padding:14px 15px 16px;
+  text-align:center;
+}
+
+.team-profile-copy h4{
+  margin:0 0 4px;
+  color:#684858;
+  font-family:'Playfair Display',serif;
+  font-size:1.25rem;
+}
+
+.team-profile-copy p{
+  margin:0;
+  color:#8a6b79;
+  font-size:.82rem;
+  line-height:1.45;
+}
+
+.team-gallery-note{
+  max-width:780px;
+  margin:16px auto 0 !important;
+  color:#806a74 !important;
+  font-size:.78rem !important;
+  line-height:1.5 !important;
+  text-align:center;
+}
+
+@media (max-width:820px){
+  .team-profile-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
+@media (max-width:560px){
+  .team-profile-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .team-profile-copy{min-height:76px;padding:12px 10px 14px}
+  .team-profile-copy h4{font-size:1.1rem}
+  .team-profile-copy p{font-size:.76rem}
+}
