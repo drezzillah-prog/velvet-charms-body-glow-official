@@ -629,3 +629,46 @@ color:#c78fb3;
 .photo-controls button,.photo-preview-card>button,.cart-edit{border:1px solid #d9bdc8;background:white;color:var(--text-dark);border-radius:8px;padding:6px 8px;cursor:pointer;font-size:.76rem}
 .cart-edit{display:block;margin:0 0 7px auto}
 @media(max-width:600px){.custom-steps li{font-size:.68rem}.custom-actions{flex-direction:column-reverse}.custom-actions .btn{width:100%}}
+
+
+/* Made-to-order timing and preferred date */
+.product-making-time {
+  margin: .35rem 0 .85rem;
+  color: #66575e;
+  font-size: .9rem;
+  line-height: 1.45;
+}
+
+.cart-needed-date {
+  display: grid;
+  gap: .45rem;
+  margin: 1rem 0;
+  color: #4d4146;
+  font-weight: 600;
+}
+
+.cart-needed-date input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: .75rem .8rem;
+  border: 1px solid #d8c4cb;
+  border-radius: 10px;
+  background: #fff;
+  color: #3f363a;
+  font: inherit;
+}
+
+.cart-needed-date small,
+.cart-production-note {
+  color: #75666c;
+  font-size: .82rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.cart-production-note {
+  margin: .75rem 0;
+  padding: .8rem;
+  border-radius: 10px;
+  background: #fbf3f6;
+}
