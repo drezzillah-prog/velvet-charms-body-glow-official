@@ -64,21 +64,66 @@
   </footer>
 
   <script src="localization.js"></script>
+  <script src="multilingual.js"></script>
   <script>
+    const contactCopy = {
+      en: {
+        photo: 'Reference photographs for a personalized catalogue item can be added securely inside that product’s customization flow.',
+        sending: 'Sending…',
+        sent: 'Message sent. Thank you!',
+        failed: 'We could not send your message. Please try again.',
+        error: 'Something went wrong while sending your message. Please try again.'
+      },
+      ro: {
+        photo: 'Fotografiile de referință pentru un produs personalizat din catalog pot fi adăugate în siguranță direct în fluxul de personalizare al produsului.',
+        sending: 'Se trimite…',
+        sent: 'Mesaj trimis. Îți mulțumim!',
+        failed: 'Mesajul nu a putut fi trimis. Te rugăm să încerci din nou.',
+        error: 'A apărut o problemă la trimiterea mesajului. Te rugăm să încerci din nou.'
+      },
+      fr: {
+        photo: 'Les photos de référence pour un article personnalisé du catalogue peuvent être ajoutées en toute sécurité directement dans l’étape de personnalisation du produit.',
+        sending: 'Envoi en cours…',
+        sent: 'Votre message a bien été envoyé. Merci !',
+        failed: 'Votre message n’a pas pu être envoyé. Veuillez réessayer.',
+        error: 'Un problème est survenu lors de l’envoi. Veuillez réessayer.'
+      },
+      it: {
+        photo: 'Le fotografie di riferimento per un articolo personalizzato del catalogo possono essere caricate in modo sicuro direttamente durante la personalizzazione del prodotto.',
+        sending: 'Invio in corso…',
+        sent: 'Messaggio inviato. Grazie!',
+        failed: 'Non è stato possibile inviare il messaggio. Riprova.',
+        error: 'Si è verificato un problema durante l’invio. Riprova.'
+      },
+      de: {
+        photo: 'Referenzfotos für einen personalisierten Katalogartikel können sicher direkt im Personalisierungsbereich des jeweiligen Produkts hochgeladen werden.',
+        sending: 'Wird gesendet…',
+        sent: 'Nachricht gesendet. Vielen Dank!',
+        failed: 'Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.',
+        error: 'Beim Senden ist ein Problem aufgetreten. Bitte versuchen Sie es erneut.'
+      }
+    };
+
+    function contactLanguage() {
+      const lang = (window.VELVET_GET_LANGUAGE?.() || document.documentElement.lang || 'en').slice(0, 2).toLowerCase();
+      return contactCopy[lang] ? lang : 'en';
+    }
+
     function syncContactPhotoNote(){
       const note = document.getElementById('contact-photo-note');
       if (!note) return;
-      note.textContent = document.documentElement.lang === 'ro'
-        ? 'Fotografiile de referință pentru un produs personalizat din catalog pot fi adăugate în siguranță direct în fluxul de personalizare al produsului.'
-        : 'Reference photographs for a personalized catalogue item can be added securely inside that product’s customization flow.';
+      note.textContent = contactCopy[contactLanguage()].photo;
     }
+
     document.addEventListener('DOMContentLoaded', syncContactPhotoNote);
+    window.addEventListener('velvet-language-changed', syncContactPhotoNote);
     document.addEventListener('velvet:language-change', syncContactPhotoNote);
 
     document.getElementById('contact-form').addEventListener('submit', async function(e){
       e.preventDefault();
       const status = document.getElementById('contact-status');
-      status.textContent = 'Sending…';
+      const copy = contactCopy[contactLanguage()];
+      status.textContent = copy.sending;
       const form = e.target;
       try {
         const r = await fetch('/api/contact.js', {
@@ -86,15 +131,17 @@
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({ name: form.name.value, email: form.email.value, message: form.message.value })
         });
-        const j = await r.json();
+        const j = await r.json().catch(() => ({}));
         if (r.ok) {
-          status.textContent = 'Message sent. Thank you!';
+          status.textContent = copy.sent;
           form.reset();
         } else {
-          status.textContent = 'Failed to send: ' + (j.error || 'unknown');
+          console.error('Contact error:', j.error || 'unknown');
+          status.textContent = copy.failed;
         }
       } catch (err) {
-        status.textContent = 'Error: ' + err.toString();
+        console.error(err);
+        status.textContent = copy.error;
       }
     });
   </script>
