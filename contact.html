@@ -49,7 +49,7 @@
         <textarea name="message" rows="6" placeholder="Share your idea, preferred details or any questions..." required></textarea>
       </label>
 
-      <p class="contact-note">Reference photographs for a personalized catalogue item can be added securely inside that product’s customization flow.</p>
+      <p class="contact-note" id="contact-photo-note">Reference photographs for a personalized catalogue item can be added securely inside that product’s customization flow.</p>
 
       <div class="contact-actions">
         <button type="submit" class="btn">Send your message</button>
@@ -65,6 +65,16 @@
 
   <script src="localization.js"></script>
   <script>
+    function syncContactPhotoNote(){
+      const note = document.getElementById('contact-photo-note');
+      if (!note) return;
+      note.textContent = document.documentElement.lang === 'ro'
+        ? 'Fotografiile de referință pentru un produs personalizat din catalog pot fi adăugate în siguranță direct în fluxul de personalizare al produsului.'
+        : 'Reference photographs for a personalized catalogue item can be added securely inside that product’s customization flow.';
+    }
+    document.addEventListener('DOMContentLoaded', syncContactPhotoNote);
+    document.addEventListener('velvet:language-change', syncContactPhotoNote);
+
     document.getElementById('contact-form').addEventListener('submit', async function(e){
       e.preventDefault();
       const status = document.getElementById('contact-status');
