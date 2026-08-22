@@ -47,7 +47,7 @@ function responseRecorder() {
   };
 }
 
-async function submit(body, country = 'US') {
+async function submit(body, country = 'US', timezone = '') {
   const calls = [];
   global.fetch = async (url, options = {}) => {
     calls.push({ url: String(url), options });
@@ -61,7 +61,10 @@ async function submit(body, country = 'US') {
     };
   };
   const res = responseRecorder();
-  await createOrder({ method: 'POST', headers: { host: 'preview.test', 'x-vercel-ip-country': country }, body }, res);
+  const headers = { host: 'preview.test' };
+  if (country) headers['x-vercel-ip-country'] = country;
+  if (timezone) headers['x-vercel-ip-timezone'] = timezone;
+  await createOrder({ method: 'POST', headers, body }, res);
   const orderCall = calls.find(call => call.url.endsWith('/v2/checkout/orders'));
   return { res, paypalBody: orderCall ? JSON.parse(orderCall.options.body) : null };
 }
@@ -70,6 +73,10 @@ const refill = await submit({ cart: { items: [{ id: 'refill_face_cream', qty: 2,
 assert.equal(refill.res.statusCode, 200);
 assert.equal(refill.res.payload.market, 'RO');
 assert.equal(refill.paypalBody.purchase_units[0].amount.value, '24.44', 'Romanian server price must override client price');
+
+const timezoneFallback = await submit({ cart: { items: [{ id: 'refill_face_cream', qty: 1, options: {} }] } }, '', 'Europe/Bucharest');
+assert.equal(timezoneFallback.res.statusCode, 200);
+assert.equal(timezoneFallback.res.payload.market, 'RO', 'Bucharest Vercel timezone must safely recover Romania when country is missing');
 
 const candle = byId.get('spirit_full_200');
 const cream = byId.get('refill_face_cream');
@@ -86,4 +93,3 @@ assert.equal(invalid.res.statusCode, 400, 'unsupported product option must be re
 assert.equal(invalid.paypalBody, null, 'invalid carts must never reach PayPal');
 
 console.log('PASS: 52 products, media, ritual experience, regional pricing and PayPal validation are intact.');
-
