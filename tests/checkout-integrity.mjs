@@ -22,6 +22,12 @@ assert.equal(byId.size, 52, 'product IDs must remain unique');
 assert.equal(products.filter(product => product.id.startsWith('refill_')).length, 6, 'all six refills must exist');
 
 for (const product of products) {
+  assert.ok(Number.isFinite(Number(product.price)) && Number(product.price) > 0, `${product.id} needs a valid international USD price`);
+  assert.ok(Number.isFinite(Number(product.price_ro)) && Number(product.price_ro) > 0, `${product.id} needs a valid Romanian RON price`);
+  assert.ok(Number.isFinite(Number(product.price_ro_usd)) && Number(product.price_ro_usd) > 0, `${product.id} needs a valid Romanian PayPal USD price`);
+  const expectedRoUsd = Number((Number(product.price_ro) / 4.5).toFixed(2));
+  assert.equal(Number(product.price_ro_usd), expectedRoUsd, `${product.id} Romanian PayPal price must stay aligned with its curated RON price`);
+
   assert.ok(Array.isArray(product.images) && product.images.length, `${product.id} must retain images`);
   for (const image of product.images) assert.ok(existsSync(join(root, image)), `${product.id} image is missing: ${image}`);
   for (const key of ['hidden_message', 'ritual_card', 'collectible_charm', 'velvet_passport']) {
@@ -78,6 +84,11 @@ const timezoneFallback = await submit({ cart: { items: [{ id: 'refill_face_cream
 assert.equal(timezoneFallback.res.statusCode, 200);
 assert.equal(timezoneFallback.res.payload.market, 'RO', 'Bucharest Vercel timezone must safely recover Romania when country is missing');
 
+const international = await submit({ cart: { items: [{ id: 'spirit_full_200', qty: 1, options: {} }] } }, 'US');
+assert.equal(international.res.statusCode, 200);
+assert.equal(international.res.payload.market, 'INTL');
+assert.equal(international.paypalBody.purchase_units[0].amount.value, byId.get('spirit_full_200').price.toFixed(2), 'International visitors must keep the international catalogue price');
+
 const candle = byId.get('spirit_full_200');
 const cream = byId.get('refill_face_cream');
 const box = await submit({ cart: { items: [
@@ -92,4 +103,4 @@ const invalid = await submit({ cart: { items: [{ id: 'refill_face_cream', qty: 1
 assert.equal(invalid.res.statusCode, 400, 'unsupported product option must be rejected');
 assert.equal(invalid.paypalBody, null, 'invalid carts must never reach PayPal');
 
-console.log('PASS: 52 products, media, ritual experience, regional pricing and PayPal validation are intact.');
+console.log('PASS: 52 products, RON/international pricing, media, ritual experience and PayPal validation are intact.');
