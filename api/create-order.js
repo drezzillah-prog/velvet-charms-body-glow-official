@@ -13,6 +13,12 @@ function paypalSecret() {
   return process.env.PAYPAL_CLIENT_SECRET || process.env.PAYPAL_SECRET;
 }
 
+function marketFromRequest(req) {
+  const country = String(req.headers["x-vercel-ip-country"] || "").toUpperCase();
+  const timezone = String(req.headers["x-vercel-ip-timezone"] || "");
+  return country === "RO" || (!country && timezone === "Europe/Bucharest") ? "RO" : "INTL";
+}
+
 function catalogueProducts() {
   const path = join(process.cwd(), "catalogue-body-glow.json");
   const catalogue = JSON.parse(readFileSync(path, "utf8"));
@@ -135,9 +141,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const market = String(req.headers["x-vercel-ip-country"] || "").toUpperCase() === "RO"
-      ? "RO"
-      : "INTL";
+    const market = marketFromRequest(req);
     const items = validatedItems(req.body, market);
     const requestedDate = /^\d{4}-\d{2}-\d{2}$/.test(String(req.body?.cart?.requiredByDate || ""))
       ? String(req.body.cart.requiredByDate)
