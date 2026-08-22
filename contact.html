@@ -9,26 +9,53 @@
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <h1 class="brand">Contact</h1>
+      <h1 class="brand">Velvet Charms</h1>
       <nav class="nav">
         <a href="index.html">Home</a>
         <a href="catalogue.html">Catalogue</a>
         <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html" class="active">Contact</a>
+        <a href="universe.html">Velvet Universe</a>
         <a href="https://velvet-charms-art-gifts-official.vercel.app" class="sister-link">Visit Art & Gifts</a>
       </nav>
     </div>
   </header>
 
-  <main class="main">
-    <h2>Contact</h2>
-    <form id="contact-form">
-      <label>Name<input type="text" name="name" required></label>
-      <label>Email (optional)<input type="email" name="email"></label>
-      <label>Message<textarea name="message" rows="5" required></textarea></label>
-      <label>Attach one file (image/pdf) <input type="file" name="attachment" accept=".png,.jpg,.jpeg,.pdf"></label>
-      <div><button type="submit" class="btn">Send</button></div>
-      <p id="contact-status" style="margin-top:10px;color:var(--muted)"></p>
+  <main class="main contact-panel">
+    <div class="contact-intro">
+      <p class="section-kicker">We would love to hear from you</p>
+      <h2>Let’s Create Something Meaningful</h2>
+      <p>
+        Tell us what you have in mind, whether you are asking about an existing piece,
+        planning a personalized gift or beginning a completely bespoke creation.
+      </p>
+    </div>
+
+    <form id="contact-form" class="contact-form">
+      <div class="contact-field-row">
+        <label class="contact-field">
+          <span>Your name</span>
+          <input type="text" name="name" autocomplete="name" placeholder="How should we address you?" required>
+        </label>
+        <label class="contact-field">
+          <span>Email <small>(optional)</small></span>
+          <input type="email" name="email" autocomplete="email" placeholder="you@example.com">
+        </label>
+      </div>
+
+      <label class="contact-field">
+        <span>Your message</span>
+        <textarea name="message" rows="6" placeholder="Share your idea, preferred details or any questions..." required></textarea>
+      </label>
+
+      <p class="contact-note" id="contact-photo-note">Reference photographs for a personalized catalogue item can be added securely inside that product’s customization flow.</p>
+
+      <div class="contact-actions">
+        <button type="submit" class="btn">Send your message</button>
+        <p>We usually reply within 1–2 business days.</p>
+      </div>
+      <p id="contact-status" class="contact-status" aria-live="polite"></p>
     </form>
   </main>
 
@@ -36,46 +63,96 @@
     <p>© Velvet Charms — handmade with care</p>
   </footer>
 
+  <script src="localization.js"></script>
+  <script src="multilingual.js"></script>
   <script>
+    const contactCopy = {
+      en: {
+        photo: 'Reference photographs for a personalized catalogue item can be added securely inside that product’s customization flow.',
+        sending: 'Sending…',
+        sent: 'Message sent. Thank you!',
+        failed: 'We could not send your message. Please try again.',
+        error: 'Something went wrong while sending your message. Please try again.'
+      },
+      ro: {
+        photo: 'Fotografiile de referință pentru un produs personalizat din catalog pot fi adăugate în siguranță direct în fluxul de personalizare al produsului.',
+        sending: 'Se trimite…',
+        sent: 'Mesaj trimis. Îți mulțumim!',
+        failed: 'Mesajul nu a putut fi trimis. Te rugăm să încerci din nou.',
+        error: 'A apărut o problemă la trimiterea mesajului. Te rugăm să încerci din nou.'
+      },
+      fr: {
+        photo: 'Les photos de référence pour un article personnalisé du catalogue peuvent être ajoutées en toute sécurité directement dans l’étape de personnalisation du produit.',
+        sending: 'Envoi en cours…',
+        sent: 'Votre message a bien été envoyé. Merci !',
+        failed: 'Votre message n’a pas pu être envoyé. Veuillez réessayer.',
+        error: 'Un problème est survenu lors de l’envoi. Veuillez réessayer.'
+      },
+      it: {
+        photo: 'Le fotografie di riferimento per un articolo personalizzato del catalogo possono essere caricate in modo sicuro direttamente durante la personalizzazione del prodotto.',
+        sending: 'Invio in corso…',
+        sent: 'Messaggio inviato. Grazie!',
+        failed: 'Non è stato possibile inviare il messaggio. Riprova.',
+        error: 'Si è verificato un problema durante l’invio. Riprova.'
+      },
+      de: {
+        photo: 'Referenzfotos für einen personalisierten Katalogartikel können sicher direkt im Personalisierungsbereich des jeweiligen Produkts hochgeladen werden.',
+        sending: 'Wird gesendet…',
+        sent: 'Nachricht gesendet. Vielen Dank!',
+        failed: 'Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.',
+        error: 'Beim Senden ist ein Problem aufgetreten. Bitte versuchen Sie es erneut.'
+      }
+    };
+
+    function contactLanguage() {
+      const lang = (window.VELVET_GET_LANGUAGE?.() || document.documentElement.lang || 'en').slice(0, 2).toLowerCase();
+      return contactCopy[lang] ? lang : 'en';
+    }
+
+    function syncContactPhotoNote(){
+      const note = document.getElementById('contact-photo-note');
+      if (!note) return;
+      note.textContent = contactCopy[contactLanguage()].photo;
+    }
+
+    document.addEventListener('DOMContentLoaded', syncContactPhotoNote);
+    window.addEventListener('velvet-language-changed', syncContactPhotoNote);
+    document.addEventListener('velvet:language-change', syncContactPhotoNote);
+
     document.getElementById('contact-form').addEventListener('submit', async function(e){
       e.preventDefault();
       const status = document.getElementById('contact-status');
-      status.textContent = 'Sending…';
+      const copy = contactCopy[contactLanguage()];
+      status.textContent = copy.sending;
       const form = e.target;
-      const fd = new FormData();
-      fd.append('name', form.name.value);
-      fd.append('email', form.email.value || '');
-      fd.append('message', form.message.value);
-      if (form.attachment.files[0]) fd.append('attachment', form.attachment.files[0]);
-
-      // If you have server api/upload.js you can POST the file; otherwise we POST JSON to /api/contact.js
       try {
-        // Try multipart to /api/upload (if exists)
         const r = await fetch('/api/contact.js', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({ name: form.name.value, email: form.email.value, message: form.message.value })
         });
-        const j = await r.json();
+        const j = await r.json().catch(() => ({}));
         if (r.ok) {
-          status.textContent = 'Message sent. Thank you!';
+          status.textContent = copy.sent;
           form.reset();
         } else {
-          status.textContent = 'Failed to send: ' + (j.error || 'unknown');
+          console.error('Contact error:', j.error || 'unknown');
+          status.textContent = copy.failed;
         }
       } catch (err) {
-        status.textContent = 'Error: ' + err.toString();
+        console.error(err);
+        status.textContent = copy.error;
       }
     });
   </script>
   <script src="features.js"></script>
   <script>
-  const params = new URLSearchParams(window.location.search);
-  const msg = params.get('message');
-  if (msg) {
-    const textarea = document.querySelector('textarea[name="message"]');
-    if (textarea) textarea.value = msg;
-  }
-</script>
+    const params = new URLSearchParams(window.location.search);
+    const msg = params.get('message');
+    if (msg) {
+      const textarea = document.querySelector('textarea[name="message"]');
+      if (textarea) textarea.value = msg;
+    }
+  </script>
 </body>
 </html>
