@@ -1,6 +1,5 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { get } from "@vercel/blob";
 
 const CURRENCY = "USD";
 
@@ -70,83 +69,18 @@ function validatedItems(requestBody, market) {
         return { pathname, name: String(attachment?.name || "Reference photo").slice(0, 200) };
       });
 
+    const price = market === "RO" ? Number(product.price_ro_usd) : Number(product.price);
+    if (!Number.isFinite(price) || price < 0) throw new Error("INVALID_CART");
+
     return {
-      id: product.id,
+      id: String(product.id),
       name: String(product.name),
-      price: market === "RO" ? Number(product.price_ro_usd) : Number(product.price),
+      price,
       quantity,
       options,
       attachments
     };
   });
-}
-
-function preferredDate(requestBody) {
-  const value = String(requestBody?.cart?.requiredByDate || "");
-  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : "";
-}
-
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-function orderRows(items) {
-  return items.map(item => {
-    const details = Object.entries(item.options)
-      .map(([key, value]) => `<li><strong>${escapeHtml(key.replaceAll("_", " "))}:</strong> ${escapeHtml(value)}</li>`)
-      .join("");
-    const photos = item.attachments.length
-      ? `<p><strong>${item.attachments.length} private reference photo(s) attached to this email.</strong></p>`
-      : "";
-    return `<tr><td>${escapeHtml(item.name)}${details ? `<ul>${details}</ul>` : ""}${photos}</td><td>${item.quantity}</td><td>$${(item.price * item.quantity).toFixed(2)}</td></tr>`;
-  }).join("");
-}
-
-async function privatePhotoAttachments(items) {
-  const photos = items.flatMap(item => item.attachments || []);
-  const attachments = [];
-
-  for (let index = 0; index < photos.length; index += 1) {
-    const photo = photos[index];
-    const result = await get(photo.pathname, {
-      access: "private",
-      token: process.env.BLOB_READ_WRITE_TOKEN
-    });
-    if (result?.statusCode !== 200) continue;
-    const buffer = Buffer.from(await new Response(result.stream).arrayBuffer());
-    attachments.push({
-      content: buffer.toString("base64"),
-      filename: String(photo.name || `reference-photo-${index + 1}.jpg`).replace(/[^A-Za-z0-9._-]/g, "_")
-    });
-  }
-
-  return attachments;
-}
-
-async function sendEmail(to, subject, html, attachments = [], idempotencyKey = "") {
-  const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.ORDER_FROM_EMAIL;
-  if (!apiKey || !from || !to) return false;
-
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-      ...(idempotencyKey ? { "Idempotency-Key": idempotencyKey } : {})
-    },
-    body: JSON.stringify({ from, to: [to], subject, html, ...(attachments.length ? { attachments } : {}) })
-  });
-  if (!response.ok) {
-    console.error("Order email failed:", response.status, await response.text());
-    return false;
-  }
-  return true;
 }
 
 async function accessToken(baseUrl) {
@@ -183,7 +117,7 @@ export default async function handler(req, res) {
   }
 
   const orderID = String(req.body?.orderID || "");
-  if (!/^[A-Z0-9]{1,36}$/.test(orderID)) {
+  if (!/^[A-Z0-9]{1,36}$/i.test(orderID)) {
     return res.status(400).json({ error: "Missing or invalid PayPal order ID." });
   }
 
@@ -199,35 +133,27 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: "PayPal order details could not be verified." });
     }
 
-    /*
-      The pricing market is stamped server-side when checkout starts, using the
-      visitor's access geolocation. PayPal preserves it in custom_id. Shipping or
-      billing addresses do not determine whether Romanian storefront pricing applies.
-    */
     const storedMarket = orderDetails.purchase_units?.[0]?.custom_id;
     if (storedMarket !== "RO" && storedMarket !== "INTL") {
       return res.status(409).json({ error: "The approved PayPal order has an invalid pricing market." });
     }
-    const market = storedMarket;
 
-    const items = validatedItems(req.body, market);
+    const items = validatedItems(req.body, storedMarket);
+    const expectedTotal = items.reduce((total, item) => total + item.price * item.quantity, 0);
     const paypalItems = orderDetails.purchase_units?.[0]?.items || [];
     const itemsMatch = paypalItems.length === items.length && items.every((item, index) =>
       paypalItems[index]?.sku === item.id &&
-      Number(paypalItems[index]?.quantity) === item.quantity
+      Number(paypalItems[index]?.quantity) === item.quantity &&
+      paypalItems[index]?.unit_amount?.currency_code === CURRENCY &&
+      Number(paypalItems[index]?.unit_amount?.value) === Number(item.price.toFixed(2))
     );
-    if (!itemsMatch) {
+    const approvedAmount = orderDetails.purchase_units?.[0]?.amount;
+    const amountMatches = approvedAmount?.currency_code === CURRENCY &&
+      Number(approvedAmount?.value) === Number(expectedTotal.toFixed(2));
+
+    if (!itemsMatch || !amountMatches) {
       return res.status(409).json({ error: "The approved PayPal order no longer matches this cart." });
     }
-
-    const requiredByDate = preferredDate(req.body);
-    const preferredDateLine = requiredByDate
-      ? `<p><strong>Preferred date requested:</strong> ${escapeHtml(requiredByDate)} (not yet confirmed)</p>`
-      : "<p><strong>Preferred date requested:</strong> None</p>";
-    const expectedTotal = items.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
 
     const response = await fetch(
       `${baseUrl}/v2/checkout/orders/${encodeURIComponent(orderID)}/capture`,
@@ -257,38 +183,10 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: "PayPal payment was not completed." });
     }
 
-    const payerName = [capture.payer?.name?.given_name, capture.payer?.name?.surname]
-      .filter(Boolean)
-      .join(" ") || "Customer";
-    const payerEmail = capture.payer?.email_address || "";
-    const total = `$${expectedTotal.toFixed(2)} ${CURRENCY}`;
-    const table = `<table cellpadding="8" cellspacing="0" border="1"><thead><tr><th>Product</th><th>Quantity</th><th>Total</th></tr></thead><tbody>${orderRows(items)}</tbody></table>`;
-    const photoAttachments = await privatePhotoAttachments(items);
-
-    const ownerEmailSent = await sendEmail(
-      process.env.ORDER_NOTIFICATION_EMAIL,
-      `New paid Velvet Charms order ${capture.id}`,
-      `<h1>New paid order</h1><p><strong>PayPal order:</strong> ${escapeHtml(capture.id)}</p><p><strong>Customer:</strong> ${escapeHtml(payerName)} (${escapeHtml(payerEmail)})</p>${preferredDateLine}${table}<p><strong>Order total:</strong> ${total}</p>`,
-      photoAttachments,
-      `owner-order-${capture.id}`
-    );
-
-    const customerEmailSent = payerEmail
-      ? await sendEmail(
-          payerEmail,
-          `Velvet Charms order confirmation ${capture.id}`,
-          `<h1>Thank you for your order!</h1><p>Hello ${escapeHtml(payerName)},</p><p>Your payment has been confirmed and your place in our production schedule is reserved.</p>${preferredDateLine}<p>Within 1–2 business days, we will confirm your production window and estimated dispatch date. Any preferred date remains unconfirmed until we review the creation and our current schedule.</p>${table}<p><strong>Order total:</strong> ${total}</p><p>We will contact you if any customization detail needs clarification.</p>`,
-          [],
-          `customer-order-${capture.id}`
-        )
-      : false;
-
     return res.status(200).json({
       status: capture.status,
       orderID: capture.id,
-      captureID: capture.purchase_units?.[0]?.payments?.captures?.[0]?.id,
-      ownerEmailSent,
-      customerEmailSent
+      captureID: capture.purchase_units?.[0]?.payments?.captures?.[0]?.id || ""
     });
   } catch (error) {
     console.error("Capture order error:", error);
