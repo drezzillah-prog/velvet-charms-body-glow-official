@@ -42,6 +42,13 @@ const catalogueHtml = readFileSync(join(root, 'catalogue.html'), 'utf8');
 assert.match(catalogueHtml, /ritual-experience\.css/);
 assert.match(catalogueHtml, /ritual-experience\.js/);
 
+const captureOrderSource = readFileSync(join(root, 'api/capture-order.js'), 'utf8');
+assert.match(captureOrderSource, /storedMarket/, 'capture must use the server-stamped access market');
+assert.match(captureOrderSource, /unit_amount/, 'capture must verify each approved PayPal unit price before capture');
+assert.match(captureOrderSource, /amountMatches/, 'capture must verify the approved PayPal total before capture');
+assert.doesNotMatch(captureOrderSource, /RESEND_API_KEY|resend\.com/i, 'current launch checkout must remain PayPal-only for customer payment confirmation');
+assert.doesNotMatch(captureOrderSource, /delivery address in Romania|shipping.*Romania/i, 'delivery address must not determine Romanian pricing');
+
 function responseRecorder() {
   return {
     statusCode: 200,
@@ -103,4 +110,4 @@ const invalid = await submit({ cart: { items: [{ id: 'refill_face_cream', qty: 1
 assert.equal(invalid.res.statusCode, 400, 'unsupported product option must be rejected');
 assert.equal(invalid.paypalBody, null, 'invalid carts must never reach PayPal');
 
-console.log('PASS: 52 products, RON/international pricing, media, ritual experience and PayPal validation are intact.');
+console.log('PASS: 52 products, RON/international pricing, media, ritual experience and pre-capture PayPal validation are intact.');
