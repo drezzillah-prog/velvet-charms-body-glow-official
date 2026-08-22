@@ -199,17 +199,16 @@ export default async function handler(req, res) {
       return res.status(502).json({ error: "PayPal order details could not be verified." });
     }
 
-    const market = orderDetails.purchase_units?.[0]?.custom_id === "RO" ? "RO" : "INTL";
-    const deliveryCountry = String(
-      orderDetails.purchase_units?.[0]?.shipping?.address?.country_code ||
-      orderDetails.payer?.address?.country_code ||
-      ""
-    ).toUpperCase();
-    if (market === "RO" && deliveryCountry !== "RO") {
-      return res.status(409).json({
-        error: "Romanian prices require a delivery address in Romania. No payment was captured."
-      });
+    /*
+      The pricing market is stamped server-side when checkout starts, using the
+      visitor's access geolocation. PayPal preserves it in custom_id. Shipping or
+      billing addresses do not determine whether Romanian storefront pricing applies.
+    */
+    const storedMarket = orderDetails.purchase_units?.[0]?.custom_id;
+    if (storedMarket !== "RO" && storedMarket !== "INTL") {
+      return res.status(409).json({ error: "The approved PayPal order has an invalid pricing market." });
     }
+    const market = storedMarket;
 
     const items = validatedItems(req.body, market);
     const paypalItems = orderDetails.purchase_units?.[0]?.items || [];
