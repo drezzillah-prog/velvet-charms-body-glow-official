@@ -1,158 +1,20 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Contact — Velvet Charms</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header class="site-header">
-    <div class="header-inner">
-      <h1 class="brand">Velvet Charms</h1>
-      <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="catalogue.html">Catalogue</a>
-        <a href="about.html">About</a>
-        <a href="faq.html">FAQ</a>
-        <a href="contact.html" class="active">Contact</a>
-        <a href="universe.html">Velvet Universe</a>
-        <a href="https://velvet-charms-art-gifts-official.vercel.app" class="sister-link">Visit Art & Gifts</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="main contact-panel">
-    <div class="contact-intro">
-      <p class="section-kicker">We would love to hear from you</p>
-      <h2>Let’s Create Something Meaningful</h2>
-      <p>
-        Tell us what you have in mind, whether you are asking about an existing piece,
-        planning a personalized gift or beginning a completely bespoke creation.
-      </p>
-    </div>
-
-    <form id="contact-form" class="contact-form">
-      <div class="contact-field-row">
-        <label class="contact-field">
-          <span>Your name</span>
-          <input type="text" name="name" autocomplete="name" placeholder="How should we address you?" required>
-        </label>
-        <label class="contact-field">
-          <span>Email <small>(optional)</small></span>
-          <input type="email" name="email" autocomplete="email" placeholder="you@example.com">
-        </label>
-      </div>
-
-      <label class="contact-field">
-        <span>Your message</span>
-        <textarea name="message" rows="6" placeholder="Share your idea, preferred details or any questions..." required></textarea>
-      </label>
-
-      <p class="contact-note" id="contact-photo-note">Reference photographs for a personalized catalogue item can be added securely inside that product’s customization flow.</p>
-
-      <div class="contact-actions">
-        <button type="submit" class="btn">Send your message</button>
-        <p>We usually reply within 1–2 business days.</p>
-      </div>
-      <p id="contact-status" class="contact-status" aria-live="polite"></p>
-    </form>
-  </main>
-
-  <footer class="site-footer">
-    <p>© Velvet Charms — handmade with care</p>
-  </footer>
-
-  <script src="localization.js"></script>
-  <script src="multilingual.js"></script>
-  <script>
-    const contactCopy = {
-      en: {
-        photo: 'Reference photographs for a personalized catalogue item can be added securely inside that product’s customization flow.',
-        sending: 'Sending…',
-        sent: 'Message sent. Thank you!',
-        failed: 'We could not send your message. Please try again.',
-        error: 'Something went wrong while sending your message. Please try again.'
-      },
-      ro: {
-        photo: 'Fotografiile de referință pentru un produs personalizat din catalog pot fi adăugate în siguranță direct în fluxul de personalizare al produsului.',
-        sending: 'Se trimite…',
-        sent: 'Mesaj trimis. Îți mulțumim!',
-        failed: 'Mesajul nu a putut fi trimis. Te rugăm să încerci din nou.',
-        error: 'A apărut o problemă la trimiterea mesajului. Te rugăm să încerci din nou.'
-      },
-      fr: {
-        photo: 'Les photos de référence pour un article personnalisé du catalogue peuvent être ajoutées en toute sécurité directement dans l’étape de personnalisation du produit.',
-        sending: 'Envoi en cours…',
-        sent: 'Votre message a bien été envoyé. Merci !',
-        failed: 'Votre message n’a pas pu être envoyé. Veuillez réessayer.',
-        error: 'Un problème est survenu lors de l’envoi. Veuillez réessayer.'
-      },
-      it: {
-        photo: 'Le fotografie di riferimento per un articolo personalizzato del catalogo possono essere caricate in modo sicuro direttamente durante la personalizzazione del prodotto.',
-        sending: 'Invio in corso…',
-        sent: 'Messaggio inviato. Grazie!',
-        failed: 'Non è stato possibile inviare il messaggio. Riprova.',
-        error: 'Si è verificato un problema durante l’invio. Riprova.'
-      },
-      de: {
-        photo: 'Referenzfotos für einen personalisierten Katalogartikel können sicher direkt im Personalisierungsbereich des jeweiligen Produkts hochgeladen werden.',
-        sending: 'Wird gesendet…',
-        sent: 'Nachricht gesendet. Vielen Dank!',
-        failed: 'Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.',
-        error: 'Beim Senden ist ein Problem aufgetreten. Bitte versuchen Sie es erneut.'
-      }
-    };
-
-    function contactLanguage() {
-      const lang = (window.VELVET_GET_LANGUAGE?.() || document.documentElement.lang || 'en').slice(0, 2).toLowerCase();
-      return contactCopy[lang] ? lang : 'en';
-    }
-
-    function syncContactPhotoNote(){
-      const note = document.getElementById('contact-photo-note');
-      if (!note) return;
-      note.textContent = contactCopy[contactLanguage()].photo;
-    }
-
-    document.addEventListener('DOMContentLoaded', syncContactPhotoNote);
-    window.addEventListener('velvet-language-changed', syncContactPhotoNote);
-    document.addEventListener('velvet:language-change', syncContactPhotoNote);
-
-    document.getElementById('contact-form').addEventListener('submit', async function(e){
-      e.preventDefault();
-      const status = document.getElementById('contact-status');
-      const copy = contactCopy[contactLanguage()];
-      status.textContent = copy.sending;
-      const form = e.target;
-      try {
-        const r = await fetch('/api/contact.js', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({ name: form.name.value, email: form.email.value, message: form.message.value })
-        });
-        const j = await r.json().catch(() => ({}));
-        if (r.ok) {
-          status.textContent = copy.sent;
-          form.reset();
-        } else {
-          console.error('Contact error:', j.error || 'unknown');
-          status.textContent = copy.failed;
-        }
-      } catch (err) {
-        console.error(err);
-        status.textContent = copy.error;
-      }
-    });
-  </script>
-  <script src="features.js"></script>
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const msg = params.get('message');
-    if (msg) {
-      const textarea = document.querySelector('textarea[name="message"]');
-      if (textarea) textarea.value = msg;
-    }
-  </script>
-</body>
-</html>
+<html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>Contact — Velvet Charms</title><link rel="stylesheet" href="style.css"></head>
+<body><header class="site-header"><div class="header-inner"><h1 class="brand">Velvet Charms</h1><nav class="nav"><a href="index.html">Home</a><a href="catalogue.html">Catalogue</a><a href="about.html">About</a><a href="faq.html">FAQ</a><a href="contact.html" class="active">Contact</a><a href="universe.html">Velvet Universe</a><a href="https://velvet-charms-art-gifts-official.vercel.app" class="sister-link">Visit Art & Gifts</a></nav></div></header>
+<main class="main contact-panel"><div class="contact-intro"><p class="section-kicker" data-contact-copy="kicker">We would love to hear from you</p><h2 data-contact-copy="title">Let’s Create Something Meaningful</h2><p data-contact-copy="intro">Tell us what you have in mind, whether you are asking about an existing piece, planning a personalized gift or beginning a completely bespoke creation.</p></div>
+<form id="contact-form" class="contact-form"><div class="contact-field-row"><label class="contact-field"><span data-contact-copy="name">Your name</span><input id="contact-name" type="text" name="name" autocomplete="name" placeholder="How should we address you?" required></label><label class="contact-field"><span><span data-contact-copy="email">Email</span> <small data-contact-copy="optional">(optional)</small></span><input id="contact-email" type="email" name="email" autocomplete="email" placeholder="you@example.com"></label></div><label class="contact-field"><span data-contact-copy="message">Your message</span><textarea id="contact-message" name="message" rows="6" placeholder="Share your idea, preferred details or any questions..." required></textarea></label><p class="contact-note" id="contact-photo-note"></p><div class="contact-actions"><button type="submit" class="btn" data-contact-copy="send">Send your message</button><p data-contact-copy="reply">We usually reply within 1–2 business days.</p></div><p id="contact-status" class="contact-status" aria-live="polite"></p></form></main>
+<footer class="site-footer"><p>© Velvet Charms — handmade with care</p></footer>
+<script src="localization.js"></script><script src="multilingual.js"></script><script src="i18n-runtime.js"></script>
+<script>
+const contactCopy={
+en:{kicker:'We would love to hear from you',title:'Let’s Create Something Meaningful',intro:'Tell us what you have in mind, whether you are asking about an existing piece, planning a personalized gift or beginning a completely bespoke creation.',name:'Your name',email:'Email',optional:'(optional)',message:'Your message',send:'Send your message',reply:'We usually reply within 1–2 business days.',namePlaceholder:'How should we address you?',messagePlaceholder:'Share your idea, preferred details or any questions...',photo:'Reference photographs for a personalized catalogue item can be added securely inside that product’s customization flow.',sending:'Sending…',sent:'Message sent. Thank you!',failed:'We could not send your message. Please try again.',error:'Something went wrong while sending your message. Please try again.'},
+ro:{kicker:'Ne-ar face plăcere să ne scrii',title:'Hai să creăm ceva cu însemnătate',intro:'Povestește-ne ce ai în minte, fie că vrei să afli mai multe despre o creație existentă, pregătești un cadou personalizat sau pornești de la o idee complet nouă.',name:'Numele tău',email:'E-mail',optional:'(opțional)',message:'Mesajul tău',send:'Trimite mesajul',reply:'Răspundem de regulă în 1–2 zile lucrătoare.',namePlaceholder:'Cum dorești să ne adresăm?',messagePlaceholder:'Povestește-ne ideea, preferințele sau întrebările tale...',photo:'Fotografiile de referință pentru un produs personalizat din catalog pot fi adăugate în siguranță direct în fluxul de personalizare al produsului.',sending:'Se trimite…',sent:'Mesaj trimis. Îți mulțumim!',failed:'Mesajul nu a putut fi trimis. Te rugăm să încerci din nou.',error:'A apărut o problemă la trimiterea mesajului. Te rugăm să încerci din nou.'},
+fr:{kicker:'Nous serons ravis de vous lire',title:'Créons quelque chose qui compte',intro:'Parlez-nous de votre idée, qu’il s’agisse d’une question sur une création existante, d’un cadeau personnalisé ou du début d’un projet entièrement sur mesure.',name:'Votre nom',email:'E-mail',optional:'(facultatif)',message:'Votre message',send:'Envoyer le message',reply:'Nous répondons généralement sous 1 à 2 jours ouvrés.',namePlaceholder:'Comment souhaitez-vous que nous nous adressions à vous ?',messagePlaceholder:'Parlez-nous de votre idée, de vos préférences ou de vos questions…',photo:'Les photos de référence pour un article personnalisé du catalogue peuvent être ajoutées en toute sécurité directement dans l’étape de personnalisation du produit.',sending:'Envoi en cours…',sent:'Votre message a bien été envoyé. Merci !',failed:'Votre message n’a pas pu être envoyé. Veuillez réessayer.',error:'Un problème est survenu lors de l’envoi. Veuillez réessayer.'},
+it:{kicker:'Ci farà piacere sentirti',title:'Creiamo qualcosa che abbia significato',intro:'Raccontaci cosa hai in mente, che si tratti di una domanda su una creazione già presente, di un regalo personalizzato o dell’inizio di un progetto completamente su misura.',name:'Il tuo nome',email:'E-mail',optional:'(facoltativa)',message:'Il tuo messaggio',send:'Invia il messaggio',reply:'Di solito rispondiamo entro 1–2 giorni lavorativi.',namePlaceholder:'Come preferisci che ci rivolgiamo a te?',messagePlaceholder:'Raccontaci la tua idea, le preferenze o le domande che hai…',photo:'Le fotografie di riferimento per un articolo personalizzato del catalogo possono essere caricate in modo sicuro direttamente durante la personalizzazione del prodotto.',sending:'Invio in corso…',sent:'Messaggio inviato. Grazie!',failed:'Non è stato possibile inviare il messaggio. Riprova.',error:'Si è verificato un problema durante l’invio. Riprova.'},
+de:{kicker:'Wir freuen uns, von Ihnen zu hören',title:'Lassen Sie uns etwas Bedeutungsvolles gestalten',intro:'Erzählen Sie uns, was Sie sich vorstellen — ob Sie eine Frage zu einer vorhandenen Kreation haben, ein persönliches Geschenk planen oder mit einer völlig neuen Idee beginnen.',name:'Ihr Name',email:'E-Mail',optional:'(optional)',message:'Ihre Nachricht',send:'Nachricht senden',reply:'In der Regel antworten wir innerhalb von 1–2 Werktagen.',namePlaceholder:'Wie dürfen wir Sie ansprechen?',messagePlaceholder:'Erzählen Sie uns von Ihrer Idee, Ihren Wünschen oder Ihren Fragen…',photo:'Referenzfotos für einen personalisierten Katalogartikel können sicher direkt im Personalisierungsbereich des jeweiligen Produkts hochgeladen werden.',sending:'Wird gesendet…',sent:'Nachricht gesendet. Vielen Dank!',failed:'Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.',error:'Beim Senden ist ein Problem aufgetreten. Bitte versuchen Sie es erneut.'}}
+function contactLanguage(){const l=(window.VELVET_GET_LANGUAGE?.()||document.documentElement.lang||'en').slice(0,2).toLowerCase();return contactCopy[l]?l:'en';}
+function syncContactCopy(){const c=contactCopy[contactLanguage()];document.querySelectorAll('[data-contact-copy]').forEach(el=>{const key=el.dataset.contactCopy;if(c[key])el.textContent=c[key];});document.getElementById('contact-name').placeholder=c.namePlaceholder;document.getElementById('contact-message').placeholder=c.messagePlaceholder;document.getElementById('contact-photo-note').textContent=c.photo;}
+document.addEventListener('DOMContentLoaded',syncContactCopy);window.addEventListener('velvet-language-changed',syncContactCopy);document.addEventListener('velvet:language-change',syncContactCopy);
+document.getElementById('contact-form').addEventListener('submit',async function(e){e.preventDefault();const status=document.getElementById('contact-status'),c=contactCopy[contactLanguage()],form=e.target;status.textContent=c.sending;try{const r=await fetch('/api/contact.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:form.name.value,email:form.email.value,message:form.message.value})});const j=await r.json().catch(()=>({}));if(r.ok){status.textContent=c.sent;form.reset();}else{console.error('Contact error:',j.error||'unknown');status.textContent=c.failed;}}catch(err){console.error(err);status.textContent=c.error;}});
+const params=new URLSearchParams(window.location.search),msg=params.get('message');if(msg){const textarea=document.querySelector('textarea[name="message"]');if(textarea)textarea.value=msg;}
+</script><script src="features.js"></script></body></html>
