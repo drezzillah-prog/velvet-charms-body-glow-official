@@ -120,7 +120,7 @@ function paypalDescription(options) {
   const description = Object.entries(options || {})
     .map(([key, value]) => `${key.replaceAll("_", " ")}: ${value}`)
     .join("; ");
-  return description.slice(0, 127);
+  return description;
 }
 
 async function accessToken(baseUrl) {
@@ -196,7 +196,9 @@ export default async function handler(req, res) {
               const baseDescription = paypalDescription(item.options);
               const photoLabel = item.attachments.length ? `${item.attachments.length} reference photo(s)` : "";
               const dateLabel = index === 0 && date ? `Preferred date: ${date} (not confirmed)` : "";
-              const description = [baseDescription, photoLabel, dateLabel].filter(Boolean).join("; ").slice(0, 127);
+              // Put the most operationally important details first so PayPal's 127-character
+              // description limit cannot hide the photo count or requested date behind long options.
+              const description = [photoLabel, dateLabel, baseDescription].filter(Boolean).join("; ").slice(0, 127);
               return {
                 name: item.name,
                 sku: item.id,
