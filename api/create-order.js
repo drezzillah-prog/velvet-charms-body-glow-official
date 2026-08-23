@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
@@ -100,6 +101,21 @@ function validatedItems(requestBody, market) {
   });
 }
 
+function requestedDate(requestBody) {
+  const value = String(requestBody?.cart?.requiredByDate || "");
+  return /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : "";
+}
+
+function cartFingerprint(items, date) {
+  const normalized = items.map(item => ({
+    id: item.id,
+    quantity: item.quantity,
+    options: Object.fromEntries(Object.entries(item.options || {}).sort(([a], [b]) => a.localeCompare(b))),
+    attachments: item.attachments.map(attachment => ({ pathname: attachment.pathname, name: attachment.name }))
+  }));
+  return createHash("sha256").update(JSON.stringify({ items: normalized, requestedDate: date })).digest("hex").slice(0, 40);
+}
+
 function paypalDescription(options) {
   const description = Object.entries(options || {})
     .map(([key, value]) => `${key.replaceAll("_", " ")}: ${value}`)
@@ -143,9 +159,8 @@ export default async function handler(req, res) {
   try {
     const market = marketFromRequest(req);
     const items = validatedItems(req.body, market);
-    const requestedDate = /^\d{4}-\d{2}-\d{2}$/.test(String(req.body?.cart?.requiredByDate || ""))
-      ? String(req.body.cart.requiredByDate)
-      : "";
+    const date = requestedDate(req.body);
+    const fingerprint = cartFingerprint(items, date);
     const itemTotal = items.reduce(
       (total, item) => total + item.price * item.quantity,
       0
@@ -166,7 +181,7 @@ export default async function handler(req, res) {
         intent: "CAPTURE",
         purchase_units: [
           {
-            custom_id: market,
+            custom_id: `${market}:${fingerprint}`,
             amount: {
               currency_code: CURRENCY,
               value: itemTotal.toFixed(2),
@@ -180,7 +195,7 @@ export default async function handler(req, res) {
             items: items.map((item, index) => {
               const baseDescription = paypalDescription(item.options);
               const photoLabel = item.attachments.length ? `${item.attachments.length} reference photo(s)` : "";
-              const dateLabel = index === 0 && requestedDate ? `Preferred date: ${requestedDate} (not confirmed)` : "";
+              const dateLabel = index === 0 && date ? `Preferred date: ${date} (not confirmed)` : "";
               const description = [baseDescription, photoLabel, dateLabel].filter(Boolean).join("; ").slice(0, 127);
               return {
                 name: item.name,
