@@ -6,8 +6,8 @@
     "node": "24.x"
   },
   "scripts": {
-    "test": "node tests/checkout-integrity.mjs",
-    "test:checkout": "node tests/checkout-integrity.mjs"
+    "test": "node tests/checkout-integrity.mjs && node tests/payment-capture.mjs",
+    "test:checkout": "node tests/checkout-integrity.mjs && node tests/payment-capture.mjs"
   },
   "dependencies": {
     "@vercel/blob": "^2.0.0",
