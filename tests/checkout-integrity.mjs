@@ -27,7 +27,6 @@ for (const product of products) {
   assert.ok(Number.isFinite(Number(product.price_ro_usd)) && Number(product.price_ro_usd) > 0, `${product.id} needs a valid Romanian PayPal USD price`);
   const expectedRoUsd = Number((Number(product.price_ro) / 4.5).toFixed(2));
   assert.equal(Number(product.price_ro_usd), expectedRoUsd, `${product.id} Romanian PayPal price must stay aligned with its curated RON price`);
-
   assert.ok(Array.isArray(product.images) && product.images.length, `${product.id} must retain images`);
   for (const image of product.images) assert.ok(existsSync(join(root, image)), `${product.id} image is missing: ${image}`);
   for (const key of ['hidden_message', 'ritual_card', 'collectible_charm', 'velvet_passport']) {
@@ -35,12 +34,13 @@ for (const product of products) {
   }
 }
 
-for (const file of ['catalogue.html', 'ritual-experience.js', 'ritual-experience.css', 'features.js', 'velvet-create-your-ritual.webp']) {
+for (const file of ['catalogue.html','ritual-experience.js','ritual-experience.css','features.js','velvet-create-your-ritual.webp','shipping-clarity.js']) {
   assert.ok(existsSync(join(root, file)), `missing required experience file: ${file}`);
 }
 const catalogueHtml = readFileSync(join(root, 'catalogue.html'), 'utf8');
 assert.match(catalogueHtml, /ritual-experience\.css/);
 assert.match(catalogueHtml, /ritual-experience\.js/);
+assert.match(catalogueHtml, /shipping-clarity\.js/, 'catalogue must load explicit shipping-cost disclosure');
 
 const captureOrderSource = readFileSync(join(root, 'api/capture-order.js'), 'utf8');
 assert.match(captureOrderSource, /storedMarket/, 'capture must use the server-stamped access market');
@@ -48,6 +48,16 @@ assert.match(captureOrderSource, /unit_amount/, 'capture must verify each approv
 assert.match(captureOrderSource, /amountMatches/, 'capture must verify the approved PayPal total before capture');
 assert.doesNotMatch(captureOrderSource, /RESEND_API_KEY|resend\.com/i, 'current launch checkout must remain PayPal-only for customer payment confirmation');
 assert.doesNotMatch(captureOrderSource, /delivery address in Romania|shipping.*Romania/i, 'delivery address must not determine Romanian pricing');
+
+const currencySource = readFileSync(join(root, 'api/currency.js'), 'utf8');
+assert.match(currencySource, /x-vercel-ip-country/, 'currency display must use access country');
+assert.match(currencySource, /x-vercel-ip-timezone/, 'currency display must share the safe Bucharest fallback used by checkout');
+assert.match(currencySource, /Europe\/Bucharest/, 'Romania fallback must stay aligned with checkout');
+
+const shippingSource = readFileSync(join(root, 'shipping-clarity.js'), 'utf8');
+assert.match(shippingSource, /Shipping is not included in the product total/);
+assert.match(shippingSource, /No shipping charge is taken without your approval/);
+for (const language of ['ro','fr','it','de']) assert.match(shippingSource, new RegExp(`${language}:`), `shipping disclosure needs ${language} localization`);
 
 function responseRecorder() {
   return {
@@ -64,14 +74,8 @@ async function submit(body, country = 'US', timezone = '') {
   const calls = [];
   global.fetch = async (url, options = {}) => {
     calls.push({ url: String(url), options });
-    if (String(url).endsWith('/v1/oauth2/token')) {
-      return { ok: true, status: 200, json: async () => ({ access_token: 'token' }) };
-    }
-    return {
-      ok: true,
-      status: 201,
-      json: async () => ({ id: 'ORDER-1', links: [{ rel: 'approve', href: 'https://paypal.test/approve' }] })
-    };
+    if (String(url).endsWith('/v1/oauth2/token')) return { ok: true, status: 200, json: async () => ({ access_token: 'token' }) };
+    return { ok: true, status: 201, json: async () => ({ id: 'ORDER-1', links: [{ rel: 'approve', href: 'https://paypal.test/approve' }] }) };
   };
   const res = responseRecorder();
   const headers = { host: 'preview.test' };
@@ -110,4 +114,4 @@ const invalid = await submit({ cart: { items: [{ id: 'refill_face_cream', qty: 1
 assert.equal(invalid.res.statusCode, 400, 'unsupported product option must be rejected');
 assert.equal(invalid.paypalBody, null, 'invalid carts must never reach PayPal');
 
-console.log('PASS: 52 products, RON/international pricing, media, ritual experience and pre-capture PayPal validation are intact.');
+console.log('PASS: 52 products, regional pricing, media, shipping disclosure, ritual experience and pre-capture PayPal validation are intact.');
