@@ -20,7 +20,10 @@
       if (!window.VELVET_GET_LANGUAGE) await ensureScript("multilingual.js");
       if (!document.querySelector('script[src="i18n-runtime.js"]')) await ensureScript("i18n-runtime.js");
       const page = location.pathname.split('/').pop() || 'index.html';
-      if (page === 'about.html') await ensureScript("about-multilingual.js");
+      if (page === 'about.html') {
+        await ensureScript("about-multilingual.js");
+        await ensureScript("about-specialties-multilingual.js");
+      }
       if (page === 'index.html' || page === '') await ensureScript("home-multilingual.js");
     } catch (error) {
       console.warn("Extended localization could not be loaded:", error);
