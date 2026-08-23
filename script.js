@@ -4,6 +4,29 @@
 
   const CATALOGUE_FILE = "catalogue-body-glow.json";
 
+  function ensureScript(src) {
+    if (document.querySelector(`script[src="${src}"]`)) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = src;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.body.appendChild(script);
+    });
+  }
+
+  async function ensureModernLocalization() {
+    try {
+      if (!window.VELVET_GET_LANGUAGE) await ensureScript("multilingual.js");
+      if (!document.querySelector('script[src="i18n-runtime.js"]')) await ensureScript("i18n-runtime.js");
+      const page = location.pathname.split('/').pop() || 'index.html';
+      if (page === 'about.html') await ensureScript("about-multilingual.js");
+      if (page === 'index.html' || page === '') await ensureScript("home-multilingual.js");
+    } catch (error) {
+      console.warn("Extended localization could not be loaded:", error);
+    }
+  }
+
   async function loadCatalogue() {
     const res = await fetch(CATALOGUE_FILE, { cache: "no-store" });
     if (!res.ok) throw new Error("Failed to load catalogue JSON");
@@ -168,6 +191,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", async function() {
+    setTimeout(ensureModernLocalization, 20);
     try {
       const data = await loadCatalogue();
       window.VELVET_CATALOGUE = data;
