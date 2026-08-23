@@ -34,16 +34,22 @@ for (const product of products) {
   }
 }
 
-for (const file of ['catalogue.html','ritual-experience.js','ritual-experience.css','features.js','velvet-create-your-ritual.webp','shipping-clarity.js']) {
+for (const file of ['catalogue.html','ritual-experience.js','ritual-experience.css','features.js','velvet-create-your-ritual.webp','shipping-clarity.js','checkout-return-guard.js']) {
   assert.ok(existsSync(join(root, file)), `missing required experience file: ${file}`);
 }
 const catalogueHtml = readFileSync(join(root, 'catalogue.html'), 'utf8');
 assert.match(catalogueHtml, /ritual-experience\.css/);
 assert.match(catalogueHtml, /ritual-experience\.js/);
 assert.match(catalogueHtml, /shipping-clarity\.js/, 'catalogue must load explicit shipping-cost disclosure');
+assert.match(catalogueHtml, /checkout-return-guard\.js/, 'catalogue must load PayPal return protection');
 
+const createOrderSource = readFileSync(join(root, 'api/create-order.js'), 'utf8');
 const captureOrderSource = readFileSync(join(root, 'api/capture-order.js'), 'utf8');
-assert.match(captureOrderSource, /storedMarket/, 'capture must use the server-stamped access market');
+assert.match(createOrderSource, /cartFingerprint/, 'PayPal creation must bind the approved order to exact cart details');
+assert.match(createOrderSource, /custom_id:\s*`\$\{market\}:\$\{fingerprint\}`/, 'PayPal order metadata must bind market and cart fingerprint');
+assert.match(captureOrderSource, /parseStoredCart/, 'capture must recover the server-stamped access market and fingerprint');
+assert.match(captureOrderSource, /stored\.market/, 'capture must use the market stored with the approved PayPal order');
+assert.match(captureOrderSource, /cartFingerprint\(items, date\) !== stored\.fingerprint/, 'capture must reject changed customization, reference or preferred-date details');
 assert.match(captureOrderSource, /unit_amount/, 'capture must verify each approved PayPal unit price before capture');
 assert.match(captureOrderSource, /amountMatches/, 'capture must verify the approved PayPal total before capture');
 assert.doesNotMatch(captureOrderSource, /RESEND_API_KEY|resend\.com/i, 'current launch checkout must remain PayPal-only for customer payment confirmation');
@@ -90,6 +96,7 @@ const refill = await submit({ cart: { items: [{ id: 'refill_face_cream', qty: 2,
 assert.equal(refill.res.statusCode, 200);
 assert.equal(refill.res.payload.market, 'RO');
 assert.equal(refill.paypalBody.purchase_units[0].amount.value, '24.44', 'Romanian server price must override client price');
+assert.match(refill.paypalBody.purchase_units[0].custom_id, /^RO:[a-f0-9]{40}$/);
 
 const timezoneFallback = await submit({ cart: { items: [{ id: 'refill_face_cream', qty: 1, options: {} }] } }, '', 'Europe/Bucharest');
 assert.equal(timezoneFallback.res.statusCode, 200);
@@ -99,6 +106,7 @@ const international = await submit({ cart: { items: [{ id: 'spirit_full_200', qt
 assert.equal(international.res.statusCode, 200);
 assert.equal(international.res.payload.market, 'INTL');
 assert.equal(international.paypalBody.purchase_units[0].amount.value, byId.get('spirit_full_200').price.toFixed(2), 'International visitors must keep the international catalogue price');
+assert.match(international.paypalBody.purchase_units[0].custom_id, /^INTL:[a-f0-9]{40}$/);
 
 const candle = byId.get('spirit_full_200');
 const cream = byId.get('refill_face_cream');
@@ -114,4 +122,4 @@ const invalid = await submit({ cart: { items: [{ id: 'refill_face_cream', qty: 1
 assert.equal(invalid.res.statusCode, 400, 'unsupported product option must be rejected');
 assert.equal(invalid.paypalBody, null, 'invalid carts must never reach PayPal');
 
-console.log('PASS: 52 products, regional pricing, media, shipping disclosure, ritual experience and pre-capture PayPal validation are intact.');
+console.log('PASS: 52 products, regional pricing, media, shipping disclosure, ritual experience, exact cart fingerprinting and pre-capture PayPal validation are intact.');
