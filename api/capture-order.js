@@ -157,6 +157,14 @@ async function accessToken(baseUrl) {
   return data.access_token;
 }
 
+function completedCapture(details, expectedTotal) {
+  if (details?.status !== "COMPLETED") return null;
+  const capture = details.purchase_units?.[0]?.payments?.captures?.[0];
+  const amount = capture?.amount;
+  if (!capture?.id || amount?.currency_code !== CURRENCY || Number(amount?.value) !== Number(expectedTotal.toFixed(2))) return null;
+  return capture;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") { res.setHeader("Allow", "POST"); return res.status(405).json({ error: "Method not allowed" }); }
   const orderID = String(req.body?.orderID || "");
@@ -182,6 +190,13 @@ export default async function handler(req, res) {
     const amountMatches = approvedAmount?.currency_code === CURRENCY && Number(approvedAmount?.value) === Number(expectedTotal.toFixed(2));
     if (!itemsMatch || !amountMatches) return res.status(409).json({ error: "The approved PayPal order no longer matches this cart." });
 
+    const previousCapture = completedCapture(orderDetails, expectedTotal);
+    if (orderDetails.status === "COMPLETED") {
+      if (!previousCapture) return res.status(409).json({ error: "The completed PayPal order does not match the expected captured amount." });
+      const sellerNotificationSent = await notifySeller(req, { details: orderDetails, items, captureID: previousCapture.id, orderID: orderDetails.id || orderID, market: storedMarket, total: expectedTotal });
+      return res.status(200).json({ status: "COMPLETED", orderID: orderDetails.id || orderID, captureID: previousCapture.id, sellerNotificationSent, recovered: true });
+    }
+
     const response = await fetch(`${baseUrl}/v2/checkout/orders/${encodeURIComponent(orderID)}/capture`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", Prefer: "return=representation" }
@@ -196,7 +211,7 @@ export default async function handler(req, res) {
     }
 
     const sellerNotificationSent = await notifySeller(req, { details: orderDetails, items, captureID, orderID: capture.id || orderID, market: storedMarket, total: expectedTotal });
-    return res.status(200).json({ status: capture.status, orderID: capture.id, captureID, sellerNotificationSent });
+    return res.status(200).json({ status: capture.status, orderID: capture.id || orderID, captureID, sellerNotificationSent, recovered: false });
   } catch (error) {
     console.error("Capture order error:", error);
     if (error.message === "PAYPAL_NOT_CONFIGURED") return res.status(503).json({ error: "PayPal is not configured yet." });
