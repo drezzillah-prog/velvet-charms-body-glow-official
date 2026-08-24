@@ -1,8 +1,13 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import contact from '../api/contact.js';
 
 function res(){return{statusCode:200,payload:null,headers:{},setHeader(k,v){this.headers[k]=v;},status(c){this.statusCode=c;return this;},json(p){this.payload=p;return this;}};}
 const req={method:'POST',body:{name:'Test Customer',email:'test@example.com',message:'Test message'}};
+
+const contactHtml=readFileSync('contact.html','utf8');
+assert.match(contactHtml,/fetch\('\/api\/contact'/,'contact form must call the extensionless Vercel function route');
+assert.doesNotMatch(contactHtml,/fetch\('\/api\/contact\.js'/,'browser must never call /api/contact.js');
 
 const oldEndpoint=process.env.FORMSPREE_ENDPOINT;
 const oldId=process.env.FORMSPREE_FORM_ID;
@@ -19,4 +24,4 @@ assert.equal(sentBody.name,'Test Customer'); assert.equal(sentBody.email,'test@e
 
 if(oldEndpoint===undefined) delete process.env.FORMSPREE_ENDPOINT; else process.env.FORMSPREE_ENDPOINT=oldEndpoint;
 if(oldId===undefined) delete process.env.FORMSPREE_FORM_ID; else process.env.FORMSPREE_FORM_ID=oldId;
-console.log('PASS: Contact fails honestly without Formspree and forwards validated messages when configured.');
+console.log('PASS: Body Glow Contact uses the correct Vercel route, fails honestly without Formspree, and forwards validated messages when configured.');
