@@ -2,10 +2,10 @@
   "name": "velvet-charms-site",
   "version": "1.0.0",
   "private": true,
-  "engines": {
-    "node": "24.x"
+  "engines": { "node": "24.x" },
+  "scripts": {
+    "test": "node tests/checkout-integrity.mjs && node tests/payment-capture.mjs && node tests/contact-integrity.mjs && node tests/order-handoff.mjs && node tests/checkout-return-integrity.mjs && node tests/order-flow-e2e.mjs && node tests/static-integrity.mjs",
+    "test:checkout": "node tests/checkout-integrity.mjs && node tests/payment-capture.mjs && node tests/contact-integrity.mjs && node tests/order-handoff.mjs && node tests/checkout-return-integrity.mjs && node tests/order-flow-e2e.mjs && node tests/static-integrity.mjs"
   },
-  "dependencies": {
-    "formidable": "^3.0.0"
-  }
+  "dependencies": { "@vercel/blob": "^2.0.0", "formidable": "^3.0.0" }
 }

@@ -12,42 +12,210 @@
             {
               "id": "spirit_full_200",
               "name": "Custom Spiritual Candle — Full-body 3D Relief (200ml)",
-              "price": 90,
+              "price": 65,
               "description": "Full-body sculpted spiritual candle with optional divine symbols.",
-              "images": ["ethereal_candle_7.jpg"],
+              "images": [
+                "ethereal_candle_7.jpg"
+              ],
               "options": {
-                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
-              }
+                "scent": [
+                  "Myrrh",
+                  "Sage",
+                  "Frankincense",
+                  "Sandalwood",
+                  "Unscented"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 249,
+              "price_ro_usd": 55.33
             },
             {
               "id": "spirit_half_200",
               "name": "Custom Spiritual Candle — Half-relief Sculpted (200ml)",
-              "price": 75,
+              "price": 55,
               "description": "Half-relief sculpted candle featuring deities or sacred motifs.",
-              "images": ["spiritual candle (2).jpg"],
+              "images": [
+                "spiritual candle (2).jpg"
+              ],
               "options": {
-                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
-              }
+                "scent": [
+                  "Myrrh",
+                  "Sage",
+                  "Frankincense",
+                  "Sandalwood",
+                  "Unscented"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 219,
+              "price_ro_usd": 48.67
             },
             {
               "id": "spirit_full_400",
               "name": "Custom Spiritual Candle — Full-body 3D Sculpture (400ml)",
-              "price": 150,
+              "price": 115,
               "description": "Large sculpted spiritual candle with detailed 3D figure.",
-              "images": ["ethereal_candle_6.jpg"],
+              "images": [
+                "ethereal_candle_6.jpg"
+              ],
               "options": {
-                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
-              }
+                "scent": [
+                  "Myrrh",
+                  "Sage",
+                  "Frankincense",
+                  "Sandalwood",
+                  "Unscented"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 449,
+              "price_ro_usd": 99.78
             },
             {
               "id": "spirit_half_400",
               "name": "Custom Spiritual Candle — Half-relief Sculpted (400ml)",
-              "price": 110,
+              "price": 90,
               "description": "Large half-relief candle with sacred sculpted designs.",
-              "images": ["ethereal_candle_4.jpg"],
+              "images": [
+                "ethereal_candle_4.jpg"
+              ],
               "options": {
-                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
-              }
+                "scent": [
+                  "Myrrh",
+                  "Sage",
+                  "Frankincense",
+                  "Sandalwood",
+                  "Unscented"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 349,
+              "price_ro_usd": 77.56
             }
           ]
         },
@@ -58,22 +226,106 @@
             {
               "id": "div_200",
               "name": "Divination Candle — Painted Symbols (200ml)",
-              "price": 50,
+              "price": 45,
               "description": "Altar candle painted with sacred icons.",
-              "images": ["divination candle.jpg"],
+              "images": [
+                "divination candle.jpg"
+              ],
               "options": {
-                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
-              }
+                "scent": [
+                  "Myrrh",
+                  "Sage",
+                  "Frankincense",
+                  "Sandalwood",
+                  "Unscented"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 169,
+              "price_ro_usd": 37.56
             },
             {
               "id": "div_400",
               "name": "Divination Candle — Painted Symbols (400ml)",
-              "price": 80,
+              "price": 65,
               "description": "Large altar candle painted with sacred symbols.",
-              "images": ["divination candle.jpg"],
+              "images": [
+                "divination candle.jpg"
+              ],
               "options": {
-                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
-              }
+                "scent": [
+                  "Myrrh",
+                  "Sage",
+                  "Frankincense",
+                  "Sandalwood",
+                  "Unscented"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 249,
+              "price_ro_usd": 55.33
             }
           ]
         },
@@ -84,9 +336,11 @@
             {
               "id": "wax_small",
               "name": "Wax Candle — Small (150ml)",
-              "price": 20,
+              "price": 18,
               "description": "Classic wax candle.",
-              "images": ["wax_candle_small.png"],
+              "images": [
+                "wax_candle_small.png"
+              ],
               "options": {
                 "scent": [
                   "Orange",
@@ -103,15 +357,55 @@
                   "Sweet Almond",
                   "Unscented"
                 ],
-                "intensity": ["Soft", "Medium", "Strong"]
-              }
+                "intensity": [
+                  "Soft",
+                  "Medium",
+                  "Strong"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 79,
+              "price_ro_usd": 17.56
             },
             {
               "id": "wax_medium",
               "name": "Wax Candle — Medium (250ml)",
-              "price": 25,
+              "price": 24,
               "description": "Medium-size decorative wax candle.",
-              "images": ["wax_candle_medium.jpg"],
+              "images": [
+                "wax_candle_medium.jpg"
+              ],
               "options": {
                 "scent": [
                   "Orange",
@@ -128,15 +422,55 @@
                   "Sweet Almond",
                   "Unscented"
                 ],
-                "intensity": ["Soft", "Medium", "Strong"]
-              }
+                "intensity": [
+                  "Soft",
+                  "Medium",
+                  "Strong"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 99,
+              "price_ro_usd": 22
             },
             {
               "id": "wax_large",
               "name": "Wax Candle — Large (400ml)",
-              "price": 33,
+              "price": 32,
               "description": "Large wax candle.",
-              "images": ["wax_candle_large.png"],
+              "images": [
+                "wax_candle_large.png"
+              ],
               "options": {
                 "scent": [
                   "Orange",
@@ -153,8 +487,46 @@
                   "Sweet Almond",
                   "Unscented"
                 ],
-                "intensity": ["Soft", "Medium", "Strong"]
-              }
+                "intensity": [
+                  "Soft",
+                  "Medium",
+                  "Strong"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 129,
+              "price_ro_usd": 28.67
             }
           ]
         },
@@ -165,9 +537,11 @@
             {
               "id": "jelly_medium",
               "name": "Jelly Candle — Medium (200ml)",
-              "price": 32,
+              "price": 28,
               "description": "Translucent decorative jelly candle.",
-              "images": ["jelly candles small.jpg"],
+              "images": [
+                "jelly candles small.jpg"
+              ],
               "options": {
                 "scent": [
                   "Orange",
@@ -184,15 +558,55 @@
                   "Sweet Almond",
                   "Unscented"
                 ],
-                "intensity": ["Soft", "Medium", "Strong"]
-              }
+                "intensity": [
+                  "Soft",
+                  "Medium",
+                  "Strong"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 109,
+              "price_ro_usd": 24.22
             },
             {
               "id": "jelly_large",
               "name": "Jelly Candle — Large (350ml)",
-              "price": 40,
+              "price": 38,
               "description": "Large translucent jelly candle.",
-              "images": ["Jelly_candle large.jpg"],
+              "images": [
+                "Jelly_candle large.jpg"
+              ],
               "options": {
                 "scent": [
                   "Orange",
@@ -209,8 +623,46 @@
                   "Sweet Almond",
                   "Unscented"
                 ],
-                "intensity": ["Soft", "Medium", "Strong"]
-              }
+                "intensity": [
+                  "Soft",
+                  "Medium",
+                  "Strong"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 149,
+              "price_ro_usd": 33.11
             }
           ]
         },
@@ -221,9 +673,11 @@
             {
               "id": "sand_small",
               "name": "Sand Candle — Small (150ml)",
-              "price": 20,
+              "price": 18,
               "description": "Rustic sand-texture candle.",
-              "images": ["sand_candles_small.png"],
+              "images": [
+                "sand_candles_small.png"
+              ],
               "options": {
                 "scent": [
                   "Orange",
@@ -240,15 +694,55 @@
                   "Sweet Almond",
                   "Unscented"
                 ],
-                "intensity": ["Soft", "Medium", "Strong"]
-              }
+                "intensity": [
+                  "Soft",
+                  "Medium",
+                  "Strong"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 79,
+              "price_ro_usd": 17.56
             },
             {
               "id": "sand_medium",
               "name": "Sand Candle — Medium (250ml)",
-              "price": 25,
+              "price": 24,
               "description": "Medium-size rustic sand candle.",
-              "images": ["sand_candles_medium.png"],
+              "images": [
+                "sand_candles_medium.png"
+              ],
               "options": {
                 "scent": [
                   "Orange",
@@ -265,15 +759,55 @@
                   "Sweet Almond",
                   "Unscented"
                 ],
-                "intensity": ["Soft", "Medium", "Strong"]
-              }
+                "intensity": [
+                  "Soft",
+                  "Medium",
+                  "Strong"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 99,
+              "price_ro_usd": 22
             },
             {
               "id": "sand_large",
               "name": "Sand Candle — Large (400ml)",
-              "price": 33,
+              "price": 32,
               "description": "Large rustic sand candle.",
-              "images": ["sand candles large.jpg"],
+              "images": [
+                "sand candles large.jpg"
+              ],
               "options": {
                 "scent": [
                   "Orange",
@@ -290,14 +824,51 @@
                   "Sweet Almond",
                   "Unscented"
                 ],
-                "intensity": ["Soft", "Medium", "Strong"]
-              }
+                "intensity": [
+                  "Soft",
+                  "Medium",
+                  "Strong"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
+                ]
+              },
+              "price_ro": 129,
+              "price_ro_usd": 28.67
             }
           ]
         }
       ]
     },
-
     {
       "id": "bodycare",
       "name": "Body Care",
@@ -309,9 +880,11 @@
             {
               "id": "face_cream",
               "name": "Natural Face Cream (50ml)",
-              "price": 28,
+              "price": 22,
               "description": "Gentle moisturizing face cream.",
-              "images": ["Natural Face Cream.png"],
+              "images": [
+                "Natural Face Cream.png"
+              ],
               "options": {
                 "scent": [
                   "Lavender",
@@ -322,8 +895,42 @@
                   "Rose",
                   "Sandalwood",
                   "Unscented"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
                 ]
-              }
+              },
+              "price_ro": 69,
+              "price_ro_usd": 15.33
             }
           ]
         },
@@ -334,9 +941,11 @@
             {
               "id": "body_butter_100",
               "name": "Body Butter (100ml)",
-              "price": 35,
+              "price": 28,
               "description": "Deeply hydrating and rich body butter.",
-              "images": ["Body Butter.png"],
+              "images": [
+                "Body Butter.png"
+              ],
               "options": {
                 "scent": [
                   "Lavender",
@@ -347,8 +956,42 @@
                   "Rose",
                   "Sandalwood",
                   "Unscented"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
                 ]
-              }
+              },
+              "price_ro": 109,
+              "price_ro_usd": 24.22
             }
           ]
         },
@@ -359,9 +1002,11 @@
             {
               "id": "hand_foot_cream",
               "name": "Hand & Foot Cream (50ml)",
-              "price": 22,
+              "price": 18,
               "description": "Non-greasy cream formulated for daily hydration.",
-              "images": ["Hand & Foot Cream.png"],
+              "images": [
+                "Hand & Foot Cream.png"
+              ],
               "options": {
                 "scent": [
                   "Lavender",
@@ -372,14 +1017,47 @@
                   "Rose",
                   "Sandalwood",
                   "Unscented"
+                ],
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ],
+                "vessel_preference": [
+                  "As displayed",
+                  "Reusable ceramic vessel",
+                  "Reusable glass vessel",
+                  "Surprise Second Life vessel"
                 ]
-              }
+              },
+              "price_ro": 69,
+              "price_ro_usd": 15.33
             }
           ]
         }
       ]
     },
-
     {
       "id": "soaps",
       "name": "Soaps",
@@ -387,7 +1065,7 @@
         {
           "id": "soap_exfoliating",
           "name": "Exfoliating Soap (100g)",
-          "price": 12,
+          "price": 10,
           "description": "Exfoliating soap bar with coffee or oatmeal base.",
           "images": [
             "Exfoliating Soap 1.png",
@@ -398,31 +1076,99 @@
             "Exfoliating Soap 6.png"
           ],
           "options": {
-            "aroma": ["Coffee", "Oatmeal", "Citrus", "Lavender", "Vanilla"]
-          }
+            "aroma": [
+              "Coffee",
+              "Oatmeal",
+              "Citrus",
+              "Lavender",
+              "Vanilla"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          },
+          "price_ro": 39,
+          "price_ro_usd": 8.67
         },
         {
           "id": "soap_herbal",
           "name": "Natural Herbal Soap (100g)",
-          "price": 12,
+          "price": 10,
           "description": "Natural herbal soap with chamomile or calendula.",
           "images": [
             "Natural Herbal Soap.png",
             "Natural Herbal Soap1.png",
-            "Natural Herbal Soap2.png",
+            "Natural Herbal Soap 2.png",
             "Natural Herbal Soap3.png",
-            "Natural Herbal Soap4.png",
-            "Natural Herbal Soap5.png",
-            "Natural Herbal Soap6.png"
+            "Natural Herbal Soap 4.png",
+            "Natural Herbal Soap 5.png",
+            "Natural Herbal Soap 6.png"
           ],
           "options": {
-            "aroma": ["Coffee", "Oatmeal", "Citrus", "Lavender", "Vanilla"]
-          }
+            "aroma": [
+              "Coffee",
+              "Oatmeal",
+              "Citrus",
+              "Lavender",
+              "Vanilla"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          },
+          "price_ro": 39,
+          "price_ro_usd": 8.67
         },
         {
           "id": "soap_flower",
           "name": "Flower-Shaped Scented Soap (100g)",
-          "price": 20,
+          "price": 14,
           "description": "Hand-sculpted floral soap with essential oils.",
           "images": [
             "Flower soaps (1).png",
@@ -432,13 +1178,47 @@
             "Flower soaps (5).png"
           ],
           "options": {
-            "aroma": ["Rose", "Lavender", "Vanilla", "Jasmine", "Citrus"]
-          }
+            "aroma": [
+              "Rose",
+              "Lavender",
+              "Vanilla",
+              "Jasmine",
+              "Citrus"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          },
+          "price_ro": 49,
+          "price_ro_usd": 10.89
         },
         {
           "id": "soap_fruit",
           "name": "Fruit-Shaped Scented Soap (100g)",
-          "price": 20,
+          "price": 14,
           "description": "Handmade fruit-shaped soap.",
           "images": [
             "Fruit Soap.png",
@@ -448,42 +1228,167 @@
             "Fruit Soap5.png"
           ],
           "options": {
-            "aroma": ["Lemon", "Orange", "Apple", "Peach", "Vanilla"]
-          }
+            "aroma": [
+              "Lemon",
+              "Orange",
+              "Apple",
+              "Peach",
+              "Vanilla"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          },
+          "price_ro": 49,
+          "price_ro_usd": 10.89
         },
         {
           "id": "soap_gift_herbal_exfoliating",
           "name": "Gift Herbal / Exfoliating Soap Set (3 pcs)",
-          "price": 30,
+          "price": 28,
           "description": "A special selection of herbal & exfoliating soaps.",
           "images": [
             "gift_herbal_exfoliating_set_1.png",
-  "gift_herbal_exfoliating_set_2.png",
-  "gift_herbal_exfoliating_set_3.png",
-  "gift_herbal_exfoliating_set_4.png"
-          ]
+            "gift_herbal_exfoliating_set_2.png",
+            "gift_herbal_exfoliating_set_3.png",
+            "gift_herbal_exfoliating_set_4.png"
+          ],
+          "price_ro": 99,
+          "price_ro_usd": 22,
+          "options": {
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
         },
         {
           "id": "soap_gift_flower_fruit",
           "name": "Gift Fruit / Flower Soap Set (3 pcs)",
-          "price": 54,
+          "price": 36,
           "description": "Three handcrafted scented soaps.",
-          "images": ["gift_fruit_flower_set.png"]
+          "images": [
+            "gift_fruit_flower_set.png"
+          ],
+          "price_ro": 129,
+          "price_ro_usd": 28.67,
+          "options": {
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
         },
         {
           "id": "soap_gift_set_new",
           "name": "Gift Soap Set (3 pcs)",
-          "price": 30,
+          "price": 28,
           "description": "A curated trio of handmade soaps.",
           "images": [
             "Gift Soap Set (3 pcs)1.png",
             "Gift Soap Set (3 pcs)2.png",
             "Gift Soap Set (3 pcs)3.png"
-          ]
+          ],
+          "price_ro": 99,
+          "price_ro_usd": 22,
+          "options": {
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
         }
       ]
     },
-
     {
       "id": "perfumes",
       "name": "Perfumes",
@@ -491,36 +1396,107 @@
         {
           "id": "solid_perfume",
           "name": "Solid Perfume (50ml)",
-          "price": 28,
+          "price": 22,
           "description": "Alcohol-free solid perfume.",
-          "images": ["Solid Perfume.png"],
+          "images": [
+            "Solid Perfume.png"
+          ],
           "options": {
             "scent": [
               "Vanilla Orchid",
               "Amber Wood",
               "Sandalwood Rose",
               "White Musk"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ],
+            "vessel_preference": [
+              "As displayed",
+              "Reusable ceramic vessel",
+              "Reusable glass vessel",
+              "Surprise Second Life vessel"
             ]
-          }
+          },
+          "price_ro": 89,
+          "price_ro_usd": 19.78
         },
         {
           "id": "perfume_rollon",
           "name": "Perfume Roll-On (10ml)",
-          "price": 22,
+          "price": 17,
           "description": "Essential oil roll-on perfume.",
-          "images": ["Oil Perfume Roll-On.jpg"],
+          "images": [
+            "Oil Perfume Roll-On.jpg"
+          ],
           "options": {
             "scent": [
               "Citrus Bloom",
               "Lavender Mist",
               "Cedar & Amber",
               "Floral Spice"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ],
+            "vessel_preference": [
+              "As displayed",
+              "Reusable ceramic vessel",
+              "Reusable glass vessel",
+              "Surprise Second Life vessel"
             ]
-          }
+          },
+          "price_ro": 69,
+          "price_ro_usd": 15.33
         }
       ]
     },
-
     {
       "id": "knitted_braided",
       "name": "Knitted & Braided Wool Creations",
@@ -532,30 +1508,158 @@
             {
               "id": "beanie_small",
               "name": "Hand-Knitted Beanie — Small",
-              "price": 35,
+              "price": 45,
               "description": "Hand-knitted warm beanie.",
-              "images": ["Hand-Knitted Beanie - Small.png"]
+              "images": [
+                "Hand-Knitted Beanie - Small.png"
+              ],
+              "price_ro": 169,
+              "price_ro_usd": 37.56,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             },
             {
               "id": "beanie_medium",
               "name": "Hand-Knitted Beanie — Medium",
-              "price": 38,
+              "price": 48,
               "description": "Most popular size.",
-              "images": ["Hand-Knitted Beanie - Medium.png"]
+              "images": [
+                "Hand-Knitted Beanie - Medium.png"
+              ],
+              "price_ro": 179,
+              "price_ro_usd": 39.78,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             },
             {
               "id": "beanie_large",
               "name": "Hand-Knitted Beanie — Large",
-              "price": 42,
+              "price": 52,
               "description": "Large size for extra warmth.",
-              "images": ["Hand-Knitted Beanie - Large.png"]
+              "images": [
+                "Hand-Knitted Beanie - Large.png"
+              ],
+              "price_ro": 189,
+              "price_ro_usd": 42,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             },
             {
               "id": "beanie_xl",
               "name": "Hand-Knitted Beanie — Extra Large",
-              "price": 45,
+              "price": 56,
               "description": "Oversized cozy design.",
-              "images": ["Hand-Knitted Beanie - Extra-Large.png"]
+              "images": [
+                "Hand-Knitted Beanie - Extra-Large.png"
+              ],
+              "price_ro": 199,
+              "price_ro_usd": 44.22,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             }
           ]
         },
@@ -566,9 +1670,41 @@
             {
               "id": "scarf_standard",
               "name": "Hand-Knitted Scarf — One Size",
-              "price": 55,
+              "price": 75,
               "description": "Cozy knitted scarf.",
-              "images": ["Hand-Knitted Scarf - One size (150x25 cm avg.).png"]
+              "images": [
+                "Hand-Knitted Scarf - One size (150x25 cm avg.).png"
+              ],
+              "price_ro": 299,
+              "price_ro_usd": 66.44,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             }
           ]
         },
@@ -579,30 +1715,158 @@
             {
               "id": "mittens_small",
               "name": "Hand-Knitted Mittens — Small",
-              "price": 28,
+              "price": 50,
               "description": "Classic warm mittens.",
-              "images": ["Hand-Knitted Mittens - Small.png"]
+              "images": [
+                "Hand-Knitted Mittens - Small.png"
+              ],
+              "price_ro": 199,
+              "price_ro_usd": 44.22,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             },
             {
               "id": "mittens_medium",
               "name": "Hand-Knitted Mittens — Medium",
-              "price": 32,
+              "price": 55,
               "description": "Medium-sized handcrafted mittens.",
-              "images": ["Hand-Knitted Mittens - Medium.png"]
+              "images": [
+                "Hand-Knitted Mittens - Medium.png"
+              ],
+              "price_ro": 219,
+              "price_ro_usd": 48.67,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             },
             {
               "id": "mittens_large",
               "name": "Hand-Knitted Mittens — Large",
-              "price": 35,
+              "price": 60,
               "description": "Soft and warm.",
-              "images": ["Hand-Knitted Mittens - Large.png"]
+              "images": [
+                "Hand-Knitted Mittens - Large.png"
+              ],
+              "price_ro": 239,
+              "price_ro_usd": 53.11,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             },
             {
               "id": "mittens_xl",
               "name": "Hand-Knitted Mittens — Extra Large",
-              "price": 40,
+              "price": 65,
               "description": "Extra-large cozy mittens.",
-              "images": ["Hand-Knitted Mittens - Extra Large.png"]
+              "images": [
+                "Hand-Knitted Mittens - Extra Large.png"
+              ],
+              "price_ro": 259,
+              "price_ro_usd": 57.56,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             }
           ]
         },
@@ -613,11 +1877,42 @@
             {
               "id": "winter_set",
               "name": "Matching Winter Set — Beanie + Scarf + Mittens",
-              "price": 110,
+              "price": 170,
               "description": "Warm handcrafted winter set.",
               "images": [
-  "matching_winter_set_1.png",
-  "matching_winter_set_2.png"]
+                "matching_winter_set_1.png",
+                "matching_winter_set_2.png"
+              ],
+              "price_ro": 649,
+              "price_ro_usd": 144.22,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             }
           ]
         },
@@ -628,23 +1923,119 @@
             {
               "id": "blanket_small",
               "name": "Braided Blanket — Small (80×100 cm)",
-              "price": 85,
+              "price": 160,
               "description": "Small braided throw.",
-              "images": ["Braided Blanket (Small).png"]
+              "images": [
+                "Braided Blanket (Small).png"
+              ],
+              "price_ro": 699,
+              "price_ro_usd": 155.33,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             },
             {
               "id": "blanket_medium",
               "name": "Braided Blanket — Medium (120×150 cm)",
-              "price": 130,
+              "price": 290,
               "description": "Medium-size braided blanket.",
-              "images": ["Braided Blanket (Medium).png"]
+              "images": [
+                "Braided Blanket (Medium).png"
+              ],
+              "price_ro": 1290,
+              "price_ro_usd": 286.67,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             },
             {
               "id": "blanket_large",
               "name": "Braided Blanket — Large (150×200 cm)",
-              "price": 180,
+              "price": 430,
               "description": "Large cozy chunky-knit blanket.",
-              "images": ["Braided Blanket (Large).png"]
+              "images": [
+                "Braided Blanket (Large).png"
+              ],
+              "price_ro": 1890,
+              "price_ro_usd": 420,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             }
           ]
         },
@@ -657,21 +2048,117 @@
               "name": "Mini Felted Animal — Small (~5 cm)",
               "price": 35,
               "description": "Small hand-felted wool figurine.",
-              "images": ["Mini Felted Animal (Small).png"]
+              "images": [
+                "Mini Felted Animal (Small).png"
+              ],
+              "price_ro": 139,
+              "price_ro_usd": 30.89,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             },
             {
               "id": "felt_medium",
               "name": "Felted Animal — Medium (~10–12 cm)",
-              "price": 50,
+              "price": 60,
               "description": "Medium-sized felted animal.",
-              "images": ["Felted Animal (Medium).png"]
+              "images": [
+                "Felted Animal (Medium).png"
+              ],
+              "price_ro": 249,
+              "price_ro_usd": 55.33,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             },
             {
               "id": "felt_family",
               "name": "Felted Animal Family Set (4 pcs)",
-              "price": 120,
+              "price": 160,
               "description": "Custom animal family felted set.",
-              "images": ["Felted Animal Family Set 4.png"]
+              "images": [
+                "Felted Animal Family Set 4.png"
+              ],
+              "price_ro": 699,
+              "price_ro_usd": 155.33,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             }
           ]
         },
@@ -682,19 +2169,372 @@
             {
               "id": "pet_beanie",
               "name": "Pet Beanie / Shirt / Scarf",
-              "price": 18,
+              "price": 28,
               "description": "Handmade warm accessories for pets.",
               "images": [
                 "Pet Beanie - shirt small.png",
                 "Pet Beanie - shirt small 2.png",
-                "Pet Beanie - shirt small2.png"
-              ]
+                "Pet Beanie - shirt  small2.png"
+              ],
+              "price_ro": 99,
+              "price_ro_usd": 22,
+              "options": {
+                "hidden_message": [
+                  "You deserve kindness.",
+                  "Look how far you've come.",
+                  "Your next ritual awaits.",
+                  "I will write my own in special instructions."
+                ],
+                "ritual_card": [
+                  "Morning Ritual",
+                  "Night Ritual",
+                  "Spa Ritual",
+                  "Self-Love Ritual",
+                  "Travel Ritual"
+                ],
+                "collectible_charm": [
+                  "Surprise me",
+                  "Moon",
+                  "Star",
+                  "Butterfly",
+                  "Key",
+                  "Flower",
+                  "Heart"
+                ],
+                "velvet_passport": [
+                  "Include my first Velvet Passport",
+                  "Add stamps to my existing Passport"
+                ]
+              }
             }
           ]
         }
       ]
     },
-
+    {
+      "id": "refills",
+      "name": "Refill Collection",
+      "products": [
+        {
+          "id": "refill_face_cream",
+          "name": "Natural Face Cream Refill (50ml)",
+          "price": 17,
+          "price_ro": 55,
+          "price_ro_usd": 12.22,
+          "description": "A lower-waste refill for your reusable face cream vessel.",
+          "images": [
+            "Natural Face Cream.png"
+          ],
+          "options": {
+            "scent": [
+              "Lavender",
+              "Vanilla",
+              "Citrus",
+              "Jasmine",
+              "Coconut",
+              "Rose",
+              "Sandalwood",
+              "Unscented"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
+        },
+        {
+          "id": "refill_body_butter",
+          "name": "Body Butter Refill (100ml)",
+          "price": 22,
+          "price_ro": 79,
+          "price_ro_usd": 17.56,
+          "description": "A lower-waste refill for your reusable body butter vessel.",
+          "images": [
+            "Body Butter.png"
+          ],
+          "options": {
+            "scent": [
+              "Lavender",
+              "Vanilla",
+              "Citrus",
+              "Jasmine",
+              "Coconut",
+              "Rose",
+              "Sandalwood",
+              "Unscented"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
+        },
+        {
+          "id": "refill_hand_foot",
+          "name": "Hand & Foot Cream Refill (50ml)",
+          "price": 14,
+          "price_ro": 49,
+          "price_ro_usd": 10.89,
+          "description": "A lower-waste refill for your reusable hand and foot cream vessel.",
+          "images": [
+            "Hand & Foot Cream.png"
+          ],
+          "options": {
+            "scent": [
+              "Lavender",
+              "Vanilla",
+              "Citrus",
+              "Jasmine",
+              "Coconut",
+              "Rose",
+              "Sandalwood",
+              "Unscented"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
+        },
+        {
+          "id": "refill_candle_small",
+          "name": "Candle Refill Insert — Small (150ml)",
+          "price": 14,
+          "price_ro": 59,
+          "price_ro_usd": 13.11,
+          "description": "A ready-to-place wax refill insert for a compatible reusable candle vessel.",
+          "images": [
+            "wax_candle_small.png"
+          ],
+          "options": {
+            "scent": [
+              "Orange",
+              "Lemon",
+              "Lavender",
+              "Vanilla",
+              "Jasmine",
+              "Coconut",
+              "Cinnamon",
+              "Pine",
+              "Sandalwood",
+              "Coffee",
+              "Unscented"
+            ],
+            "intensity": [
+              "Soft",
+              "Medium",
+              "Strong"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
+        },
+        {
+          "id": "refill_candle_medium",
+          "name": "Candle Refill Insert — Medium (250ml)",
+          "price": 19,
+          "price_ro": 79,
+          "price_ro_usd": 17.56,
+          "description": "A ready-to-place wax refill insert for a compatible reusable candle vessel.",
+          "images": [
+            "wax_candle_medium.jpg"
+          ],
+          "options": {
+            "scent": [
+              "Orange",
+              "Lemon",
+              "Lavender",
+              "Vanilla",
+              "Jasmine",
+              "Coconut",
+              "Cinnamon",
+              "Pine",
+              "Sandalwood",
+              "Coffee",
+              "Unscented"
+            ],
+            "intensity": [
+              "Soft",
+              "Medium",
+              "Strong"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
+        },
+        {
+          "id": "refill_candle_large",
+          "name": "Candle Refill Insert — Large (400ml)",
+          "price": 25,
+          "price_ro": 99,
+          "price_ro_usd": 22,
+          "description": "A ready-to-place wax refill insert for a compatible reusable candle vessel.",
+          "images": [
+            "wax_candle_large.png"
+          ],
+          "options": {
+            "scent": [
+              "Orange",
+              "Lemon",
+              "Lavender",
+              "Vanilla",
+              "Jasmine",
+              "Coconut",
+              "Cinnamon",
+              "Pine",
+              "Sandalwood",
+              "Coffee",
+              "Unscented"
+            ],
+            "intensity": [
+              "Soft",
+              "Medium",
+              "Strong"
+            ],
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
+        }
+      ]
+    },
     {
       "id": "bundles",
       "name": "Bundles",
@@ -702,25 +2542,122 @@
         {
           "id": "relax_restore",
           "name": "Relax & Restore Set",
-          "price": 65,
+          "price": 45,
           "description": "Herbal soap + face cream + small wax candle.",
-          "images": ["relax_and_restore_set.png"]
+          "images": [
+            "relax_and_restore_set.png"
+          ],
+          "price_ro": 179,
+          "price_ro_usd": 39.78,
+          "options": {
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
         },
         {
           "id": "cozy_winter",
           "name": "Cozy Winter Set",
-          "price": 140,
+          "price": 165,
           "description": "Beanie + scarf + mittens + small candle bundle.",
-          "images": ["Cozy Winter Set.png"]
+          "images": [
+            "Cozy Winter Set.png"
+          ],
+          "price_ro": 599,
+          "price_ro_usd": 133.11,
+          "options": {
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
         },
         {
           "id": "home_harmony",
           "name": "Home Harmony Box",
-          "price": 100,
+          "price": 85,
           "description": "Epoxy decor + wax candle + seasonal soap.",
-          "images": ["home_harmony_box.png"]
+          "images": [
+            "home_harmony_box.png"
+          ],
+          "price_ro": 299,
+          "price_ro_usd": 66.44,
+          "options": {
+            "hidden_message": [
+              "You deserve kindness.",
+              "Look how far you've come.",
+              "Your next ritual awaits.",
+              "I will write my own in special instructions."
+            ],
+            "ritual_card": [
+              "Morning Ritual",
+              "Night Ritual",
+              "Spa Ritual",
+              "Self-Love Ritual",
+              "Travel Ritual"
+            ],
+            "collectible_charm": [
+              "Surprise me",
+              "Moon",
+              "Star",
+              "Butterfly",
+              "Key",
+              "Flower",
+              "Heart"
+            ],
+            "velvet_passport": [
+              "Include my first Velvet Passport",
+              "Add stamps to my existing Passport"
+            ]
+          }
         }
       ]
     }
   ]
 }
+

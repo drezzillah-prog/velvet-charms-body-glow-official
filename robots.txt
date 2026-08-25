@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://velvet-charms-body-glow-official.vercel.app/sitemap.xml

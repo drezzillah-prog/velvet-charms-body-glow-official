@@ -1,0 +1,32 @@
+/* Prelaunch performance and responsive safeguards. Additive only. */
+.catalogue-category{content-visibility:auto;contain-intrinsic-size:900px 1300px}
+.product-card img{background:rgba(255,255,255,.28)}
+.nav a,.btn,.cart-checkout,.custom-submit{overflow-wrap:anywhere}
+@media(max-width:760px){
+  body{background-attachment:scroll}
+  body::before{position:absolute}
+  body::after{animation:none;opacity:.28;position:absolute}
+  .site-header,.content,.product-card,#catalogue-nav,.cart-drawer,.custom-dialog{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .header-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand language" "nav nav";gap:8px 10px;padding:10px 12px}
+  .brand{grid-area:brand;margin:0;min-width:0}
+  .language-switch{grid-area:language;justify-self:end;margin:0;max-width:100%}
+  .nav{grid-area:nav;width:100%;display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;padding:3px 0 5px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .nav::-webkit-scrollbar{display:none}
+  .nav a{flex:0 0 auto;margin:0;padding:7px 9px;border-radius:999px;white-space:nowrap;font-size:12.5px}
+  .hero{height:auto;min-height:68vh;padding:70px 18px}
+  .hero h2{font-size:clamp(2rem,10vw,2.8rem)}
+  .hero p{font-size:1.05rem}
+  .main{margin:34px auto;padding:0 12px}
+  .products-grid{grid-template-columns:minmax(0,1fr);gap:16px}
+  .product-card:hover{transform:none;box-shadow:none}
+  .product-card:hover img{transform:none}
+  .cart-drawer{width:100%;padding:18px 14px}
+  .cart-item{gap:10px;flex-wrap:wrap}
+  .cart-item-side{width:100%;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
+  .custom-modal{padding:8px}
+  .custom-dialog{padding:24px 16px;max-height:96vh}
+  .custom-actions{display:grid;grid-template-columns:1fr;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
