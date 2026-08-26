@@ -12,6 +12,8 @@ if(!idx.includes('localization.js')||!idx.includes('multilingual.js')) throw new
 if(!cat.includes('localization.js')||!cat.includes('catalogue-language.js')||!cat.includes('catalogue-page-multilingual.js')||!cat.includes('catalogue-root')) throw new Error('observer-free catalogue recovery wiring missing');
 if(cat.includes('multilingual-pages.js')||cat.includes('performance.css')) throw new Error('catalogue reintroduced known freeze/visibility regression');
 if(!bridge.includes('localization-ro.js')||!bridge.includes('.language-switcher')) throw new Error('Romanian bridge or duplicate-selector cleanup missing');
+if(!bridge.includes('data-velvet-selector-guard')||!bridge.includes('__VELVET_CATALOGUE_RO_OBSERVER_GUARD__')) throw new Error('catalogue Romanian selector/observer guard missing');
+if(!bridge.includes("source.includes('translateTree')")||!bridge.includes("source.includes('addedNodes')")) throw new Error('legacy Romanian whole-body observer is not specifically suppressed on catalogue');
 if(mature!==preserved) throw new Error('multilingual.js must remain the preserved mature five-language runtime for non-catalogue pages');
 if(catLang.includes('new MutationObserver')||catPage.includes('new MutationObserver')||catDynamic.includes('new MutationObserver')) throw new Error('catalogue translation path must remain observer-free');
 if(!catDynamic.includes('velvet:catalogue-rendered')) throw new Error('dynamic catalogue translation must listen for explicit render event');
