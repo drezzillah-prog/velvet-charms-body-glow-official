@@ -1,4 +1,4 @@
-/* Completes Body Glow FAQ answer localization for FR/IT/DE without touching catalogue runtime. */
+/* Completes Body Glow FAQ answer localization for FR/IT/DE without touching catalogue runtime or Romanian copy. */
 (() => {
   'use strict';
   const maps = {
@@ -31,6 +31,7 @@
     const root = document.querySelector('.faq-panel');
     if (!root) return;
     const l = lang();
+    if (l === 'ro') return;
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
     while (walker.nextNode()) {
       const node = walker.currentNode;
@@ -38,7 +39,7 @@
       if (!originals.has(node)) originals.set(node, node.nodeValue);
       const source = originals.get(node);
       const clean = norm(source);
-      if (l === 'en' || l === 'ro') { node.nodeValue = source; continue; }
+      if (l === 'en') { node.nodeValue = source; continue; }
       const translated = maps[l]?.[clean];
       if (translated) {
         const lead = source.match(/^\s*/)?.[0] || '';
