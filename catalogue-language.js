@@ -28,7 +28,7 @@
   }
   function makeSwitcher(){
     document.querySelectorAll('.velvet-language-switcher').forEach(n=>n.remove());
-    document.querySelectorAll('[data-language-switcher],.language-switch,.language-switcher').forEach(n=>n.remove());
+    document.querySelectorAll('[data-language-switcher]:not([data-velvet-selector-guard]),.language-switch,.language-switcher').forEach(n=>n.remove());
     const host=document.querySelector('.site-header .nav')||document.querySelector('.site-header .header-inner');
     if(!host)return;
     const wrap=document.createElement('div');
