@@ -16,6 +16,12 @@
     script.src = 'localization-ro.js';
     script.dataset.velvetRoLocalization = 'true';
     document.head.appendChild(script);
+    if (!isCatalogue) {
+      const modern = document.createElement('script');
+      modern.src = 'localization-ro-modern.js';
+      modern.dataset.velvetRoModern = 'true';
+      document.head.appendChild(modern);
+    }
   }
 
   const removeLegacySelector = () => {
