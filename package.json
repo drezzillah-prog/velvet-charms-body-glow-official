@@ -4,8 +4,8 @@
   "private": true,
   "engines": { "node": "24.x" },
   "scripts": {
-    "test": "node tests/checkout-integrity.mjs && node tests/payment-capture.mjs && node tests/contact-integrity.mjs && node tests/order-handoff.mjs && node tests/checkout-return-integrity.mjs && node tests/order-flow-e2e.mjs && node tests/upload-security.mjs && node tests/static-integrity.mjs",
-    "test:checkout": "node tests/checkout-integrity.mjs && node tests/payment-capture.mjs && node tests/contact-integrity.mjs && node tests/order-handoff.mjs && node tests/checkout-return-integrity.mjs && node tests/order-flow-e2e.mjs && node tests/upload-security.mjs && node tests/static-integrity.mjs"
+    "test": "node tests/recovery-language-regression.mjs && node tests/full-site-contract.mjs && node tests/page-contract.mjs && node tests/no-content-regression.mjs && node tests/checkout-integrity.mjs && node tests/payment-capture.mjs && node tests/contact-integrity.mjs && node tests/order-handoff.mjs && node tests/checkout-return-integrity.mjs && node tests/order-flow-e2e.mjs && node tests/upload-security.mjs && node tests/static-integrity.mjs",
+    "test:checkout": "node tests/recovery-language-regression.mjs && node tests/full-site-contract.mjs && node tests/page-contract.mjs && node tests/no-content-regression.mjs && node tests/checkout-integrity.mjs && node tests/payment-capture.mjs && node tests/contact-integrity.mjs && node tests/order-handoff.mjs && node tests/checkout-return-integrity.mjs && node tests/order-flow-e2e.mjs && node tests/upload-security.mjs && node tests/static-integrity.mjs"
   },
   "dependencies": { "@vercel/blob": "^2.0.0", "formidable": "^3.0.0" }
 }
