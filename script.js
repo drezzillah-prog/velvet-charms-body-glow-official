@@ -17,10 +17,10 @@
 
   async function ensureModernLocalization() {
     try {
+      const page = location.pathname.split('/').pop() || 'index.html';
       if (!window.VELVET_GET_LANGUAGE) await ensureScript("multilingual.js");
       if (!document.querySelector('script[src="i18n-runtime.js"]')) await ensureScript("i18n-runtime.js");
-      if (!document.querySelector('script[src="language-polish.js"]')) await ensureScript("language-polish.js");
-      const page = location.pathname.split('/').pop() || 'index.html';
+      if (page !== 'catalogue.html' && !document.querySelector('script[src="language-polish.js"]')) await ensureScript("language-polish.js");
       if (page === 'about.html') {
         await ensureScript("about-multilingual.js");
         await ensureScript("about-specialties-multilingual.js");
@@ -192,6 +192,7 @@
 
     });
 
+    document.dispatchEvent(new CustomEvent('velvet:catalogue-rendered'));
   }
 
   document.addEventListener("DOMContentLoaded", async function() {
