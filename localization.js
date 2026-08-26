@@ -4,6 +4,8 @@
   'use strict';
   const KEY = 'velvet_language';
   const SUPPORTED = new Set(['en','ro','fr','it','de']);
+  const page = location.pathname.split('/').pop() || 'index.html';
+  const isCatalogue = page === 'catalogue.html';
   let current = localStorage.getItem(KEY) || (navigator.language?.toLowerCase().startsWith('ro') ? 'ro' : 'en');
   if (!SUPPORTED.has(current)) current = 'en';
   localStorage.setItem(KEY, current);
@@ -37,5 +39,7 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', removeLegacySelector);
   else removeLegacySelector();
-  new MutationObserver(removeLegacySelector).observe(document.documentElement, { childList:true, subtree:true });
+  if (!isCatalogue) {
+    new MutationObserver(removeLegacySelector).observe(document.documentElement, { childList:true, subtree:true });
+  }
 })();
