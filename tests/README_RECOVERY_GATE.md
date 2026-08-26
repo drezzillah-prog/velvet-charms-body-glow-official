@@ -1,0 +1,1 @@
+Recovery gate: merge only after GitHub Prelaunch Integrity and Vercel preview both pass for the exact PR head. After merge, re-check main CI and production deployment before launch.
