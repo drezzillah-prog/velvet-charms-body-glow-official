@@ -8,6 +8,46 @@ export const config = {
 
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const MAX_FILE_SIZE = 4 * 1024 * 1024;
+const UPLOAD_WINDOW_MS = 60 * 1000;
+const MAX_UPLOADS_PER_WINDOW = 20;
+const uploadBuckets = globalThis.__VELVET_BODY_GLOW_UPLOAD_BUCKETS || new Map();
+globalThis.__VELVET_BODY_GLOW_UPLOAD_BUCKETS = uploadBuckets;
+
+function sameOriginRequest(req) {
+  const origin = String(req.headers?.origin || "").trim();
+  if (!origin) return true;
+  const forwardedHost = String(req.headers?.["x-forwarded-host"] || "").split(",")[0].trim();
+  const host = (forwardedHost || String(req.headers?.host || "")).toLowerCase();
+  if (!host) return false;
+  try {
+    return new URL(origin).host.toLowerCase() === host;
+  } catch {
+    return false;
+  }
+}
+
+function clientKey(req) {
+  const forwarded = String(req.headers?.["x-forwarded-for"] || "").split(",")[0].trim();
+  return forwarded || req.socket?.remoteAddress || "unknown";
+}
+
+function allowUpload(req) {
+  const now = Date.now();
+  const key = clientKey(req);
+  const bucket = uploadBuckets.get(key);
+  if (!bucket || now - bucket.startedAt >= UPLOAD_WINDOW_MS) {
+    uploadBuckets.set(key, { startedAt: now, count: 1 });
+    return true;
+  }
+  if (bucket.count >= MAX_UPLOADS_PER_WINDOW) return false;
+  bucket.count += 1;
+  if (uploadBuckets.size > 1000) {
+    for (const [storedKey, stored] of uploadBuckets) {
+      if (now - stored.startedAt >= UPLOAD_WINDOW_MS) uploadBuckets.delete(storedKey);
+    }
+  }
+  return true;
+}
 
 function parseForm(req) {
   const form = formidable({
@@ -29,6 +69,14 @@ export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  if (!sameOriginRequest(req)) {
+    return res.status(403).json({ error: "Cross-site uploads are not allowed." });
+  }
+  if (!allowUpload(req)) {
+    res.setHeader("Retry-After", "60");
+    return res.status(429).json({ error: "Too many uploads. Please wait a moment and try again." });
   }
 
   try {
