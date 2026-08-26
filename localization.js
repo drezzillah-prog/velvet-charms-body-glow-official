@@ -12,25 +12,33 @@
   document.documentElement.lang = current;
 
   const removeLegacySelector = () => {
-    document.querySelectorAll('[data-language-switcher], .language-switch, .language-switcher').forEach((node) => node.remove());
+    document.querySelectorAll('[data-language-switcher]:not([data-velvet-selector-guard]), .language-switch, .language-switcher').forEach((node) => node.remove());
   };
 
-  /* Catalogue must keep the approved RO dictionary, but the legacy RO runtime must not
-     attach its whole-body translation observer. That observer was rescanning the DOM
-     while product cards were rendered and could also recreate the old EN/RO selector. */
-  if (isCatalogue && current === 'ro' && !window.__VELVET_CATALOGUE_RO_OBSERVER_GUARD__) {
-    window.__VELVET_CATALOGUE_RO_OBSERVER_GUARD__ = true;
-    const NativeMutationObserver = window.MutationObserver;
-    if (typeof NativeMutationObserver === 'function') {
-      const GuardedMutationObserver = function (callback) {
-        const source = Function.prototype.toString.call(callback || (() => {}));
-        if (source.includes('translateTree') && source.includes('addedNodes')) {
-          return { observe() {}, disconnect() {}, takeRecords() { return []; } };
-        }
-        return new NativeMutationObserver(callback);
-      };
-      GuardedMutationObserver.prototype = NativeMutationObserver.prototype;
-      window.MutationObserver = GuardedMutationObserver;
+  /* Catalogue keeps the approved RO dictionary but must never let the legacy runtime
+     create its old EN/RO selector or attach its whole-body translation observer. */
+  if (isCatalogue && current === 'ro') {
+    if (!document.querySelector('[data-velvet-selector-guard]')) {
+      const guard = document.createElement('span');
+      guard.hidden = true;
+      guard.dataset.languageSwitcher = '';
+      guard.dataset.velvetSelectorGuard = 'true';
+      document.head.appendChild(guard);
+    }
+    if (!window.__VELVET_CATALOGUE_RO_OBSERVER_GUARD__) {
+      window.__VELVET_CATALOGUE_RO_OBSERVER_GUARD__ = true;
+      const NativeMutationObserver = window.MutationObserver;
+      if (typeof NativeMutationObserver === 'function') {
+        const GuardedMutationObserver = function (callback) {
+          const source = Function.prototype.toString.call(callback || (() => {}));
+          if (source.includes('translateTree') && source.includes('addedNodes')) {
+            return { observe() {}, disconnect() {}, takeRecords() { return []; } };
+          }
+          return new NativeMutationObserver(callback);
+        };
+        GuardedMutationObserver.prototype = NativeMutationObserver.prototype;
+        window.MutationObserver = GuardedMutationObserver;
+      }
     }
   }
 
@@ -62,17 +70,8 @@
     }
   }, true);
 
-  const cleanupCatalogueSelectors = () => {
-    removeLegacySelector();
-    if (isCatalogue) {
-      setTimeout(removeLegacySelector, 0);
-      setTimeout(removeLegacySelector, 60);
-      setTimeout(removeLegacySelector, 250);
-    }
-  };
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', cleanupCatalogueSelectors);
-  else cleanupCatalogueSelectors();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', removeLegacySelector);
+  else removeLegacySelector();
   if (!isCatalogue) {
     new MutationObserver(removeLegacySelector).observe(document.documentElement, { childList:true, subtree:true });
   }
