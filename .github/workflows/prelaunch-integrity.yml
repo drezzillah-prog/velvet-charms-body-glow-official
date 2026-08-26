@@ -3,6 +3,7 @@ name: Prelaunch Integrity
 on:
   push:
     branches:
+      - main
       - codex/paypal-cart-safe-20260818
   pull_request:
 

@@ -2,7 +2,7 @@
 
 Internal handoff only. This file is not customer-facing.
 
-## Completed on the safe preview branch
+## Completed and now present on `main`
 
 - 52 catalogue products preserved, including 6 refill products.
 - Server-side RO/INTL pricing and visitor-access geolocation logic.
@@ -18,13 +18,13 @@ Internal handoff only. This file is not customer-facing.
 - Mobile/performance safeguards, including reduced-motion support and narrow-screen cart/customizer handling.
 - robots.txt, sitemap.xml and initial page/social metadata.
 - Automated prelaunch suite: catalogue/checkout integrity, capture security, Contact, seller handoff, PayPal return, end-to-end order flow and static page/asset/API-route audit.
-- Current branch is ahead of `main` and not behind it. `main` has intentionally not been changed.
+- The validated prelaunch build was merged to `main` on 25 August 2026. Final launch-safety cleanup is being validated separately before any further production change.
 
 ## Verified negative checkout scenarios
 
 Automated tests reject changed price/PayPal amount, changed customization, changed preferred date and changed reference pathname after PayPal approval. They also cover failed/non-completed capture and already-completed-order recovery without double capture.
 
-## External / owner-gated items before production
+## External / owner-gated items before final launch
 
 1. Confirm the real Formspree environment value in Vercel and perform one real Contact delivery test.
 2. Perform one real low-value PayPal transaction only with explicit owner approval.
@@ -33,7 +33,6 @@ Automated tests reject changed price/PayPal amount, changed customization, chang
 5. Do not sell cosmetic SKUs until their real EU compliance documentation and label data are complete (Responsible Person, CPSR/PIF, CPNP, INCI/Article 19 label data, claims support and related requirements as applicable).
 6. Complete applicable product-safety/traceability checks for non-cosmetic Body Glow goods.
 7. Set final canonical/production-domain metadata after the final domain is confirmed.
-8. Merge to `main` / production only after explicit owner approval.
 
 ## Do not redo
 
