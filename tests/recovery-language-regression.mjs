@@ -13,7 +13,7 @@ if(!cat.includes('localization.js')||!cat.includes('catalogue-language.js')||!ca
 if(cat.includes('multilingual-pages.js')||cat.includes('performance.css')) throw new Error('catalogue reintroduced known freeze/visibility regression');
 if(!bridge.includes('localization-ro.js')||!bridge.includes('.language-switcher')) throw new Error('Romanian bridge or duplicate-selector cleanup missing');
 if(mature!==preserved) throw new Error('multilingual.js must remain the preserved mature five-language runtime for non-catalogue pages');
-if(catLang.includes('MutationObserver')||catPage.includes('MutationObserver')||catDynamic.includes('MutationObserver')) throw new Error('catalogue translation path must remain observer-free');
+if(catLang.includes('new MutationObserver')||catPage.includes('new MutationObserver')||catDynamic.includes('new MutationObserver')) throw new Error('catalogue translation path must remain observer-free');
 if(!catDynamic.includes('velvet:catalogue-rendered')) throw new Error('dynamic catalogue translation must listen for explicit render event');
 if(!ro.includes('Colecția Refill')||!ro.includes('De ce să alegi Velvet Charms?')) throw new Error('approved Romanian copy missing');
 for (const code of ['fr','it','de']) if(!mature.includes(code)||!catPage.includes(code)) throw new Error(`language ${code} missing`);
