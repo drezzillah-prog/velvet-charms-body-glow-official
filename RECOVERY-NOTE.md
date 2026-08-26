@@ -1,0 +1,1 @@
+Full-site recovery branch: preserves approved content and assets, removes competing legacy language UI, keeps the approved Romanian dictionary in localization-ro.js, and leaves EN/FR/IT/DE on the five-language layer. Main remains untouched until preview validation.

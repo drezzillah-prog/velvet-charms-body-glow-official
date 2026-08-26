@@ -1,0 +1,10 @@
+import fs from 'node:fs';
+const idx=fs.readFileSync('index.html','utf8');
+const cat=fs.readFileSync('catalogue.html','utf8');
+const loc=fs.readFileSync('localization.js','utf8');
+const multi=fs.readFileSync('multilingual.js','utf8');
+if(!idx.includes('localization.js')||!idx.includes('multilingual.js')) throw new Error('home localization layers missing');
+if(!cat.includes('localization.js')||!cat.includes('multilingual.js')||!cat.includes('catalogue-root')) throw new Error('catalogue recovery wiring missing');
+if(!loc.includes('localization-ro.js')||!loc.includes('removeLegacySelector')) throw new Error('RO dispatcher missing');
+for (const code of ['en','ro','fr','it','de']) if(!multi.includes(code)) throw new Error(`missing language ${code}`);
+console.log('Recovery language/catalogue regression PASS');
