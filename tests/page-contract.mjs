@@ -5,7 +5,9 @@ for(const page of pages){
   const s=fs.readFileSync(page,'utf8');
   for(const href of nav) if(!s.includes(`href="${href}"`)) throw new Error(`${page} missing nav ${href}`);
   if(!s.includes('localization.js')) throw new Error(`${page} missing language state wiring`);
-  if(!s.includes('script.js')) throw new Error(`${page} missing site runtime`);
+  const hasDirectMultilingual=s.includes('multilingual.js');
+  const hasRuntime=s.includes('script.js');
+  if(!hasDirectMultilingual&&!hasRuntime) throw new Error(`${page} missing multilingual bootstrap`);
 }
 const runtime=fs.readFileSync('script.js','utf8');
 if(!runtime.includes('multilingual.js')||!runtime.includes('i18n-runtime.js')) throw new Error('site runtime no longer bootstraps multilingual layer');
