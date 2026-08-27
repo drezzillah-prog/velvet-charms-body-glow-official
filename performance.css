@@ -2,6 +2,43 @@
 .catalogue-category{content-visibility:auto;contain-intrinsic-size:900px 1300px}
 .product-card img{background:rgba(255,255,255,.28)}
 .nav a,.btn,.cart-checkout,.custom-submit{overflow-wrap:anywhere}
+
+/* Keep the generated EN/RO/FR/IT/DE selector elegant on every Body Glow page. */
+.velvet-language-switcher{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-left:14px;
+  white-space:nowrap;
+}
+.velvet-language-switcher button{
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid rgba(74,63,69,.26);
+  border-radius:999px;
+  background:rgba(255,255,255,.32);
+  color:#5a4e55;
+  min-width:40px;
+  min-height:36px;
+  padding:7px 11px;
+  font:600 13px/1 'Inter',sans-serif;
+  letter-spacing:.03em;
+  cursor:pointer;
+  transition:background .2s ease,border-color .2s ease,color .2s ease,transform .2s ease;
+}
+.velvet-language-switcher button:hover{
+  border-color:rgba(199,164,76,.65);
+  background:rgba(255,255,255,.58);
+  color:#4a3f45;
+  transform:translateY(-1px);
+}
+.velvet-language-switcher button[aria-pressed="true"]{
+  border-color:rgba(199,164,76,.62);
+  background:rgba(255,255,255,.72);
+  color:#4a3f45;
+  box-shadow:0 4px 14px rgba(113,87,96,.10);
+}
+
 @media(max-width:760px){
   body{background-attachment:scroll}
   body::before{position:absolute}
@@ -9,7 +46,9 @@
   .site-header,.content,.product-card,#catalogue-nav,.cart-drawer,.custom-dialog{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
   .header-inner{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand language" "nav nav";gap:8px 10px;padding:10px 12px}
   .brand{grid-area:brand;margin:0;min-width:0}
-  .language-switch{grid-area:language;justify-self:end;margin:0;max-width:100%}
+  .language-switch,.velvet-language-switcher{grid-area:language;justify-self:end;margin:0;max-width:100%}
+  .velvet-language-switcher{gap:4px}
+  .velvet-language-switcher button{min-width:34px;min-height:32px;padding:6px 8px;font-size:11.5px}
   .nav{grid-area:nav;width:100%;display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;padding:3px 0 5px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .nav::-webkit-scrollbar{display:none}
   .nav a{flex:0 0 auto;margin:0;padding:7px 9px;border-radius:999px;white-space:nowrap;font-size:12.5px}
