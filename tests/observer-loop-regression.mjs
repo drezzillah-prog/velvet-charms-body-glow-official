@@ -12,11 +12,14 @@ if (!currency.includes('velvet:catalogue-rendered')) {
 if (!currency.includes('node.textContent !== nextValue')) {
   throw new Error('Body Glow currency price writes must remain idempotent');
 }
-if (!shipping.includes('totalRow.textContent !== c.total')) {
-  throw new Error('Shipping total label writes must remain idempotent');
+if (!shipping.includes('node.textContent !== value')) {
+  throw new Error('Shipping and dynamic copy writes must remain idempotent');
 }
-if (!shipping.includes('note.textContent !== c.shipping')) {
-  throw new Error('Shipping note writes must remain idempotent');
+if (!shipping.includes("setText(document.querySelector('.cart-summary-row.cart-total span'), c.total)")) {
+  throw new Error('Shipping total label must use the idempotent writer');
+}
+if (!shipping.includes("setText(document.querySelector('.cart-shipping-note'), c.shipping)")) {
+  throw new Error('Shipping note must use the idempotent writer');
 }
 if (!shipping.includes('queueMicrotask')) {
   throw new Error('Shipping observer updates must remain coalesced');
