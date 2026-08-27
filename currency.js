@@ -23,7 +23,8 @@
 
   function refreshPriceLabels() {
     document.querySelectorAll("[data-usd-price]").forEach(node => {
-      node.textContent = displayMoney(node.dataset.usdPrice, node.dataset.roPrice);
+      const nextValue = displayMoney(node.dataset.usdPrice, node.dataset.roPrice);
+      if (node.textContent !== nextValue) node.textContent = nextValue;
     });
   }
 
@@ -45,11 +46,6 @@
     }
 
     notifyCurrencyChange();
-
-    const root = document.getElementById("catalogue-root");
-    if (root) {
-      new MutationObserver(refreshPriceLabels).observe(root, { childList: true, subtree: true });
-    }
   }
 
   window.VELVET_CURRENCY = {
@@ -59,5 +55,8 @@
     get isRomania() { return state.country === "RO"; }
   };
 
+  /* Catalogue rendering already emits an explicit completion event. Using that event
+     avoids observing the same DOM subtree that price updates modify. */
+  document.addEventListener("velvet:catalogue-rendered", refreshPriceLabels);
   document.addEventListener("DOMContentLoaded", initialize);
 })();
