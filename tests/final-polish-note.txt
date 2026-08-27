@@ -1,0 +1,1 @@
+Dynamic localization polish validated by tests/dynamic-i18n-polish.mjs and existing prelaunch suites.
