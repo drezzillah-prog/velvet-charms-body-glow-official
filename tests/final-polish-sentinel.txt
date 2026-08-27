@@ -1,0 +1,1 @@
+Final polish scope: dynamic upload, checkout and PayPal return localization only. Catalogue data, products, images, prices, cart mechanics, customization mechanics, payment API logic and layout are intentionally untouched.
