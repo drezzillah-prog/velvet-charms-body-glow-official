@@ -6,7 +6,7 @@
     'FAQ':'Întrebări frecvente',
     'Contact':'Contact',
     'Velvet Universe':'Universul Velvet',
-    'Art & Gifts':'Artă & Cadouri',
+    'Art & Gifts':'Art & Gifts',
     'The story continues':'Povestea continuă',
     'Step inside the Velvet Universe':'Pășește în Universul Velvet',
     'Discover the ritual details already woven into Body Glow — scent stories, reusable vessels, refills, hidden messages, collectible charms, the Velvet Passport and build-your-own Velvet Boxes.':'Descoperă detaliile ritualurilor deja integrate în Body Glow — povești olfactive, recipiente reutilizabile, refill-uri, mesaje ascunse, charmuri de colecție, Pașaportul Velvet și cutii Velvet pe care ți le poți configura.',
