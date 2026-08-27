@@ -29,12 +29,21 @@
   function apply() {
     const c = copy[language()];
     const totalRow = document.querySelector('.cart-summary-row.cart-total span');
-    if (totalRow) totalRow.textContent = c.total;
+    if (totalRow && totalRow.textContent !== c.total) totalRow.textContent = c.total;
     const note = document.querySelector('.cart-shipping-note');
-    if (note) note.textContent = c.shipping;
+    if (note && note.textContent !== c.shipping) note.textContent = c.shipping;
   }
-  document.addEventListener('DOMContentLoaded', () => setTimeout(apply, 0));
-  window.addEventListener('velvet-language-changed', () => setTimeout(apply, 0));
-  document.addEventListener('velvet:language-change', () => setTimeout(apply, 0));
-  new MutationObserver(() => apply()).observe(document.documentElement, { childList: true, subtree: true });
+  let scheduled = false;
+  function scheduleApply() {
+    if (scheduled) return;
+    scheduled = true;
+    queueMicrotask(() => {
+      scheduled = false;
+      apply();
+    });
+  }
+  document.addEventListener('DOMContentLoaded', scheduleApply);
+  window.addEventListener('velvet-language-changed', scheduleApply);
+  document.addEventListener('velvet:language-change', scheduleApply);
+  new MutationObserver(scheduleApply).observe(document.documentElement, { childList: true, subtree: true });
 })();
