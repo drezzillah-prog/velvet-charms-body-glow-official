@@ -1,0 +1,13 @@
+.fragrance-world{margin:3rem 0;padding:2rem;border:1px solid rgba(198,168,74,.35);border-radius:24px;background:rgba(255,255,255,.34)}
+.fragrance-world>h3{margin:.25rem 0 .5rem;font-size:clamp(1.8rem,4vw,2.7rem)}
+.fragrance-world-intro{max-width:760px;margin:0 0 1.5rem;line-height:1.7}
+.fragrance-family-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.fragrance-family{padding:1.25rem;border-radius:18px;background:rgba(255,255,255,.58);box-shadow:0 10px 28px rgba(42,15,31,.07)}
+.fragrance-family h4{margin:0 0 .35rem;font-size:1.2rem}
+.fragrance-tagline{margin:0 0 1rem;font-style:italic;opacity:.78}
+.fragrance-story{border-top:1px solid rgba(42,15,31,.12);padding:.7rem 0}
+.fragrance-story summary{cursor:pointer;list-style:none;display:flex;flex-direction:column;gap:.18rem}
+.fragrance-story summary::-webkit-details-marker{display:none}
+.fragrance-story summary span{font-size:.88rem;opacity:.72}
+.fragrance-story p{margin:.65rem 0 .1rem;line-height:1.55;font-size:.94rem}
+@media(max-width:640px){.fragrance-world{padding:1.25rem}.fragrance-family-grid{grid-template-columns:1fr}}
