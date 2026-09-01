@@ -38,7 +38,15 @@ const COMPLETE_VELVET_FRAGRANCES=[
   'Autumn Rain',
   'Paris Café',
   'Winter Library',
-  'Vanilla'
+  'Vanilla',
+  'Gucci Bloom',
+  'Dior Sauvage',
+  'YSL Libre',
+  'Tom Ford Oud Wood',
+  'Kilian Love',
+  'Don Julio 1942',
+  'Double Espresso Martini',
+  'Mojito'
 ];
 
 function addChoices(){
