@@ -1,4 +1,4 @@
-/* Additive bridge: keeps existing perfume scents and adds the complete approved Velvet fragrance library. */
+/* Additive bridge: keeps existing perfume scents and adds only the approved Velvet fragrance library. */
 (()=>{
 'use strict';
 
@@ -26,27 +26,7 @@ const COMPLETE_VELVET_FRAGRANCES=[
   'THE UBER IS HERE',
   'ONE MORE EPISODE',
   "I CLEANED BECAUSE YOU'RE COMING OVER",
-  'SHINIMARC™',
-  'Midnight Library',
-  'First Snow',
-  'Secret Garden',
-  'Moonlight Letters',
-  'Silent Forest',
-  'Grandma’s Garden',
-  'Sunday Morning',
-  'First Kiss',
-  'Autumn Rain',
-  'Paris Café',
-  'Winter Library',
-  'Vanilla',
-  'Gucci Bloom',
-  'Dior Sauvage',
-  'YSL Libre',
-  'Tom Ford Oud Wood',
-  'Kilian Love',
-  'Don Julio 1942',
-  'Double Espresso Martini',
-  'Mojito'
+  'SHINIMARC™'
 ];
 
 function addChoices(){
