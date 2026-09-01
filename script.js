@@ -54,6 +54,48 @@
     return "Confirmed with your production slot";
   }
 
+  function firstProductImage(category) {
+    const direct = Array.isArray(category.products)
+      ? category.products.find(product => Array.isArray(product.images) && product.images[0])
+      : null;
+    if (direct) return direct.images[0];
+
+    for (const sub of category.subcategories || []) {
+      const product = (sub.products || []).find(item => Array.isArray(item.images) && item.images[0]);
+      if (product) return product.images[0];
+    }
+    return "";
+  }
+
+  function buildCategoryImage(category) {
+    const fallback = firstProductImage(category);
+    const preferred = category.banner || fallback;
+    if (!preferred) return null;
+
+    const img = document.createElement("img");
+    img.className = "catalogue-category-image";
+    img.src = preferred;
+    img.alt = category.name + " category";
+    img.loading = "lazy";
+    Object.assign(img.style, {
+      width: "100%",
+      maxHeight: "360px",
+      objectFit: "cover",
+      display: "block",
+      margin: "0.75rem 0 1.5rem",
+      borderRadius: "18px"
+    });
+
+    if (fallback && fallback !== preferred) {
+      img.addEventListener("error", function useCategoryProductFallback() {
+        img.removeEventListener("error", useCategoryProductFallback);
+        img.src = fallback;
+      });
+    }
+
+    return img;
+  }
+
   function buildProductCard(product, categoryName, subcategoryName = "") {
 
     const card = document.createElement("article");
@@ -153,6 +195,9 @@
       const catTitle = document.createElement("h2");
       catTitle.textContent = category.name;
       section.appendChild(catTitle);
+
+      const categoryImage = buildCategoryImage(category);
+      if (categoryImage) section.appendChild(categoryImage);
 
       if (Array.isArray(category.subcategories)) {
 
