@@ -1,8 +1,23 @@
-/* Additive bridge: keeps existing perfume scents and adds only the approved Velvet fragrance library. */
+/* Additive bridge: preserves the original perfume scent choices and adds the approved Velvet Fragrance World library. */
 (()=>{
 'use strict';
 
-const COMPLETE_VELVET_FRAGRANCES=[
+const ORIGINAL_VELVET_SCENTS=[
+  'Midnight Library',
+  'First Snow',
+  'Secret Garden',
+  'Moonlight Letters',
+  'Silent Forest',
+  'Grandma’s Garden',
+  'Sunday Morning',
+  'First Kiss',
+  'Autumn Rain',
+  'Paris Café',
+  'Winter Library',
+  'Vanilla'
+];
+
+const FRAGRANCE_WORLD_SCENTS=[
   'THE GIFT OF DEATH / CADOUL MORȚII',
   'THE LAST TRAIN HOME',
   'AFTER THE FUNERAL',
@@ -36,7 +51,7 @@ function addChoices(){
   const renderedNames=[...document.querySelectorAll('#fragrance-world .fragrance-story summary strong')]
     .map(node=>node.textContent.trim())
     .filter(Boolean);
-  const names=[...new Set([...COMPLETE_VELVET_FRAGRANCES,...renderedNames])];
+  const names=[...new Set([...ORIGINAL_VELVET_SCENTS,...FRAGRANCE_WORLD_SCENTS,...renderedNames])];
 
   const products=[...(perfumeCategory.products||[])];
   (perfumeCategory.subcategories||[]).forEach(sub=>products.push(...(sub.products||[])));
