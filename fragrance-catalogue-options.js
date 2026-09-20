@@ -2,6 +2,8 @@
 (()=>{
 'use strict';
 
+const VELVET_CLASSICS=['IVORY HOUR','VEILED','BLACK HONEY','SACRED SMOKE'];
+
 const ORIGINAL_VELVET_SCENTS=[
   'Midnight Library',
   'First Snow',
@@ -51,7 +53,7 @@ function addChoices(){
   const renderedNames=[...document.querySelectorAll('#fragrance-world .fragrance-story summary strong')]
     .map(node=>node.textContent.trim())
     .filter(Boolean);
-  const names=[...new Set([...ORIGINAL_VELVET_SCENTS,...FRAGRANCE_WORLD_SCENTS,...renderedNames])];
+  const names=[...new Set([...VELVET_CLASSICS,...ORIGINAL_VELVET_SCENTS,...FRAGRANCE_WORLD_SCENTS,...renderedNames])];
 
   const products=[...(perfumeCategory.products||[])];
   (perfumeCategory.subcategories||[]).forEach(sub=>products.push(...(sub.products||[])));
