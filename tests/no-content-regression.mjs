@@ -8,3 +8,12 @@ const checks={
 'universe.html':['Velvet Universe']};
 for(const [f,terms] of Object.entries(checks)){const s=fs.readFileSync(f,'utf8'); for(const t of terms) if(!s.includes(t)) throw new Error(`${f} lost approved content: ${t}`);}
 console.log('Body Glow approved content regression guard PASS');
+
+
+// Velvet Classics must remain present in Body Glow only.
+const fragranceWorld=fs.readFileSync('fragrance-world.js','utf8');
+const fragranceOptions=fs.readFileSync('fragrance-catalogue-options.js','utf8');
+for(const name of ['IVORY HOUR','VEILED','BLACK HONEY','SACRED SMOKE']){
+  if(!fragranceWorld.includes(name)) throw new Error(`Missing Velvet Classic story: ${name}`);
+  if(!fragranceOptions.includes(name)) throw new Error(`Missing Velvet Classic catalogue choice: ${name}`);
+}
